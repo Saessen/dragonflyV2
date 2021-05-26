@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -93,6 +95,22 @@ class User implements UserInterface
      * @ORM\Column(type="float")
      */
     private $longitude;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Entreprise::class, inversedBy="user")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $entreprise;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="user")
+     */
+    private $events;
+
+    public function __construct()
+    {
+        $this->events = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -310,6 +328,45 @@ class User implements UserInterface
     public function setLongitude(float $longitude): self
     {
         $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getEntreprise(): ?Entreprise
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(?Entreprise $entreprise): self
+    {
+        $this->entreprise = $entreprise;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            $event->removeUser($this);
+        }
 
         return $this;
     }
