@@ -10,13 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/entreprise")
- */
+
 class EntrepriseController extends AbstractController
 {
     /**
-     * @Route("/", name="entreprise_index", methods={"GET"})
+     * @Route("/entreprise", name="entreprise_index", methods={"GET"})
      */
     public function index(EntrepriseRepository $entrepriseRepository): Response
     {
@@ -26,7 +24,7 @@ class EntrepriseController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="entreprise_new", methods={"GET","POST"})
+     * @Route("/entreprise/new", name="entreprise_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -35,21 +33,32 @@ class EntrepriseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //
+            $user = $form->get("admin")->getData();
+            $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
+            $user->setEntreprise($entreprise);
+            // $user->setEntreprise($this->getUser()->getEntreprise())
+            // !!!!!!!!! PASSWORD ENCODING
+
+            // $user->setEmail();
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($entreprise);
+            $entityManager->persist($user);
             $entityManager->flush();
+
 
             return $this->redirectToRoute('entreprise_index');
         }
-
         return $this->render('entreprise/new.html.twig', [
             'entreprise' => $entreprise,
             'form' => $form->createView(),
         ]);
     }
 
+
     /**
-     * @Route("/{id}", name="entreprise_show", methods={"GET"})
+     * @Route("/entreprise/{id}", name="entreprise_show", methods={"GET"})
      */
     public function show(Entreprise $entreprise): Response
     {
@@ -59,7 +68,7 @@ class EntrepriseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="entreprise_edit", methods={"GET","POST"})
+     * @Route("/entreprise/{id}/edit", name="entreprise_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Entreprise $entreprise): Response
     {
@@ -79,7 +88,7 @@ class EntrepriseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="entreprise_delete", methods={"POST"})
+     * @Route("/entreprise/{id}", name="entreprise_delete", methods={"POST"})
      */
     public function delete(Request $request, Entreprise $entreprise): Response
     {

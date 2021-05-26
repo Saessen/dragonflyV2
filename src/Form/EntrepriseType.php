@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Entreprise;
+use App\Form\UserEntrepriseType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,6 +15,7 @@ class EntrepriseType extends AbstractType
         $builder
             ->add('siren')
             ->add('denomination')
+            ->add('admin', UserEntrepriseType::class)
         ;
     }
 

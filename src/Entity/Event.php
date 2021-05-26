@@ -114,6 +114,10 @@ class Event
         $this->user = new ArrayCollection();
     }
 
+    public function __toString(){
+        return $this->username;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -331,7 +335,7 @@ class Event
         return $this->user;
     }
 
-    public function addUser(User $user): self
+    public function addUser(?User $user): self
     {
         if (!$this->user->contains($user)) {
             $this->user[] = $user;
@@ -340,7 +344,7 @@ class Event
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeUser(?User $user): self
     {
         $this->user->removeElement($user);
 

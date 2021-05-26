@@ -112,6 +112,11 @@ class User implements UserInterface
         $this->events = new ArrayCollection();
     }
 
+    public function __toString(){
+        return $this->nom;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,7 +142,7 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): array
+    public function getRoles(): ?array
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
@@ -146,7 +151,7 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(?array $roles): self
     {
         $this->roles = $roles;
 
@@ -352,7 +357,7 @@ class User implements UserInterface
         return $this->events;
     }
 
-    public function addEvent(Event $event): self
+    public function addEvent(?Event $event): self
     {
         if (!$this->events->contains($event)) {
             $this->events[] = $event;
@@ -362,7 +367,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeEvent(Event $event): self
+    public function removeEvent(?Event $event): self
     {
         if ($this->events->removeElement($event)) {
             $event->removeUser($this);

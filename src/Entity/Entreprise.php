@@ -34,10 +34,17 @@ class Entreprise
      */
     private $user;
 
+    private $admin;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
     }
+
+    public function __toString(){
+        return $this->denomination;
+    }
+
 
     public function getId(): ?int
     {
@@ -76,7 +83,7 @@ class Entreprise
         return $this->user;
     }
 
-    public function addUser(User $user): self
+    public function addUser(?User $user): self
     {
         if (!$this->user->contains($user)) {
             $this->user[] = $user;
@@ -86,7 +93,7 @@ class Entreprise
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeUser(?User $user): self
     {
         if ($this->user->removeElement($user)) {
             // set the owning side to null (unless already changed)
@@ -94,6 +101,26 @@ class Entreprise
                 $user->setEntreprise(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of admin
+     */ 
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
+     * Set the value of admin
+     *
+     * @return  self
+     */ 
+    public function setAdmin($admin)
+    {
+        $this->admin = $admin;
 
         return $this;
     }
