@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event{% endblock %}
+
+{% block body %}
+    <h1>Event</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ event.id }}</td>
+            </tr>
+            <tr>
+                <th>Categorie</th>
+                <td>{{ event.categorie }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ event.nom }}</td>
+            </tr>
+            <tr>
+                <th>Date_debut</th>
+                <td>{{ event.dateDebut ? event.dateDebut|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date_fin</th>
+                <td>{{ event.dateFin ? event.dateFin|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Heure_debut</th>
+                <td>{{ event.heureDebut ? event.heureDebut|date('H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Heure_fin</th>
+                <td>{{ event.heureFin ? event.heureFin|date('H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Pers_min</th>
+                <td>{{ event.persMin }}</td>
+            </tr>
+            <tr>
+                <th>Pers_max</th>
+                <td>{{ event.persMax }}</td>
+            </tr>
+            <tr>
+                <th>Numero_rue</th>
+                <td>{{ event.numeroRue }}</td>
+            </tr>
+            <tr>
+                <th>Rue</th>
+                <td>{{ event.rue }}</td>
+            </tr>
+            <tr>
+                <th>Code_postal</th>
+                <td>{{ event.codePostal }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ event.ville }}</td>
+            </tr>
+            <tr>
+                <th>Pays</th>
+                <td>{{ event.pays }}</td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td>{{ event.latitude }}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{ event.longitude }}</td>
+            </tr>
+            <tr>
+                <th>Access</th>
+                <td>{{ event.access ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Message</th>
+                <td>{{ event.message }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('event_index') }}">back to list</a>
+
+    <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
+
+    {{ include('event/_delete_form.html.twig') }}
+{% endblock %}
