@@ -45,6 +45,14 @@ class EventController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    /**
+    * @Route("event/detail/{id}", name="event_detail")
+    */
+    public function detailFront($id,EventRepository $eventRepository):Response{
+        return $this->render("event/detail.html.twig",[
+            'event' => $eventRepository->find($id)
+        ]);
+    }
 
     /**
      * @Route("/event/{id}", name="event_show", methods={"GET"})
