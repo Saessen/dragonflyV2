@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event index{% endblock %}
+
+{% block body %}
+    <h1>Event index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Categorie</th>
+                <th>Nom</th>
+                <th>Date_debut</th>
+                <th>Date_fin</th>
+                <th>Heure_debut</th>
+                <th>Heure_fin</th>
+                <th>Pers_min</th>
+                <th>Pers_max</th>
+                <th>Numero_rue</th>
+                <th>Rue</th>
+                <th>Code_postal</th>
+                <th>Ville</th>
+                <th>Pays</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Access</th>
+                <th>Message</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.categorie }}</td>
+                <td>{{ event.nom }}</td>
+                <td>{{ event.dateDebut ? event.dateDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ event.dateFin ? event.dateFin|date('Y-m-d') : '' }}</td>
+                <td>{{ event.heureDebut ? event.heureDebut|date('H:i:s') : '' }}</td>
+                <td>{{ event.heureFin ? event.heureFin|date('H:i:s') : '' }}</td>
+                <td>{{ event.persMin }}</td>
+                <td>{{ event.persMax }}</td>
+                <td>{{ event.numeroRue }}</td>
+                <td>{{ event.rue }}</td>
+                <td>{{ event.codePostal }}</td>
+                <td>{{ event.ville }}</td>
+                <td>{{ event.pays }}</td>
+                <td>{{ event.latitude }}</td>
+                <td>{{ event.longitude }}</td>
+                <td>{{ event.access ? 'Yes' : 'No' }}</td>
+                <td>{{ event.message }}</td>
+                <td>
+                    <a href="{{ path('event_show', {'id': event.id}) }}">show</a>
+                    <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="19">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('event_new') }}">Create new</a>
+{% endblock %}

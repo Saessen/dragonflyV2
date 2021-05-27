@@ -111,6 +111,8 @@ class User implements UserInterface
     {
         $this->events = new ArrayCollection();
     }
+   
+
 
     public function __toString(){
         return $this->nom;

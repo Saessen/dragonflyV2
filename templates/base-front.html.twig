@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">  
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Dragonfly{% endblock %}</title>
+        {# Run `composer require symfony/webpack-encore-bundle`
+        and uncomment the following Encore helpers to start using Symfony UX #}
+
+        {% block stylesheets %}
+            {#{{ encore_entry_link_tags('app') }}#}
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+            <link rel="stylesheet" href="{{ asset('css/style.min.css') }}">
+        {% endblock %}
+
+
+    </head>
+    <body>
+            <nav class="navbar sticky-top navbar-light mb-5">
+                <div id="nav_div_1" class="container-fluid">
+                    <div id="nav_div_logo">            
+                        <a class="navbar-brand m-0 nav_div_logo_a" href="#">
+                            Dragonfly<img id="logo" src="../images/icons/logo2_libellule.svg" alt="logo dragonfly" width="50">
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#" class="navbar-brand">
+                            <img class="nav_icone" src="../images/icons/inscription.svg" alt="inscription" width="25">
+                        </a>
+                        <a href="#" class="navbar-brand m-0">
+                            <img class="nav_icone" src="../images/icons/connexion.svg" alt="connexion" width="25">
+                        </a>
+                    </div>
+
+                </div>
+            </nav>
+        {% block body %}
+            {# Content of block body templates #}
+        {% endblock %}
+        <footer class="footer">
+            <div class="container">
+                <div id="footer_container_div_1" class="row justify-content-evenly align-items-center text-center">
+                    <div class="footer_column_1 col-4">
+                        <ul class="p-2 text-start">
+                            <li><a href="#">Mentions légales</a></li>
+                            <li><a href="#">Conditions Générales d'utilisation</a></li>
+                            <li><a href="#">Protection des données personnelles</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer_column_2 col-4">
+                        <p>Une question? contactez nous</p>
+                            <a href="#">
+                                <img src="../images/icons/envelope.svg" alt="enveloppe contact" width="40">
+                            </a>
+                    </div>
+                    <div class="footer_column_3 col-4">
+                        <ul class="p-2 text-start">
+                            <li><a href="#">Plan du site</a></li>
+                            <li><a href="#">F.A.Q</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <p class="text-center text-white"><small>©Dragonfly 2021 - Tous droits réservés</small></p>
+        {% block javascripts %}
+            {# cdn pour bibliotheque greensock #}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+            <script>
+                const titreH1 = document.querySelectorAll('h1');
+                const btns = document.querySelectorAll('.btn-first');
+                // const logo = document.querySelector('.logo');
+                // const medias = document.querySelectorAll('.bulle');
+                // const l1 = document.querySelector('.l1');
+                // const l2 = document.querySelector('.l2');
+
+                window.addEventListener('load', () => {
+
+                    const TL = gsap.timeline({paused : true});
+                    TL
+                        .staggerFrom(titreH1, 1, {top: 50, opacity: 0, ease: 'power2.out'}, 0.3)
+                        .staggerFrom(btns, 1, {opacity: 0, ease: 'power2.out'}, 0.3, '-=1')
+                        // .from(logo, 0.4, {transform: "scale(0)", ease: 'power2.out'}, 0.3, '-=2')
+                        // .staggerFrom(medias, 1, {right: -200, ease: 'power2.out'}, 0.3, '-=2')
+
+                    TL.play();
+
+                });
+            </script>
+        {% endblock %}
+    </body>
+</html>
