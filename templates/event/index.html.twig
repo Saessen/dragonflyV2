@@ -82,15 +82,29 @@
         var lng2 = document.getElementById('lng').innerText;
         {# console.log (lat);
         console.log (lng); #}
-        var event = {lat: lat2, lng: lng2};
-        {# console.log(event); #}
+       
+        
 
         // ajout de jeu de tuiles: plusieurs attributs:
         // FCTION TILELAYER
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-        L.marker(event).addTo(map);
+
+
+        ////AFFICHAGE DE TOUS LES MARKERS DE TOUS LES EVENTS ANCHOR
+        let event = [lat2, lng2];
+        console.log(events);
+        {# ANCHOR probleme boucle  #}
+        {# events.forEach((event)=>{
+            console.log(event);
+        }); #}
+        {# for (let i =0; i< this.length; i++){
+            L.marker(events).addTo(map);
+        } #}
+        {# L.marker(events).addTo(map); #}
+        
+        {# DISTANCE #}
         distance.addEventListener("change", function(){
         d = this.value 
 
@@ -101,11 +115,13 @@
         }
     });
 
-        {# RECUPERATION DE L ADRESSE ENTRE DANS LA BARRE DE RECHERCHE #}
-        let geocodebtn = document.getElementById('geocode');
+
+////////////////////////// REMPLIR L'ADRESSE ET AFFICHER LE MARKER CORRESPONDANT///////////////////////////////////////////
+    //ecouteur sur le btn =>récupère l'adresse => service de géocodage
+    let geocodebtn = document.getElementById('geocode');
         geocodebtn.addEventListener('click', function(){
             let adresse = document.getElementById('adresse').value;
-            {# console.log(adresse); #}
+            console.log(adresse);
             geoCode(adresse);
         });
 
@@ -113,17 +129,60 @@
             let url = `https://nominatim.openstreetmap.org/search/?format=json&q=${adresse}`;
             let resp =await fetch(url);
             let datas = await resp.json();
+            console.log(datas);
             let lat =parseFloat(datas[0].lat).toFixed(4);
             let lng =parseFloat(datas[0].lon).toFixed(4); // attention ac ce fournisseur la lng est une lon
-            //////////LAT + LNG DS FORMULAIRE DE CREATION
-            document.getElementById("event_latitude").value = lat;
-            document.getElementById("event_longitude").value = lng;
+            console.log(lat, lng); 
+            let donneesAdresse = document.getElementById("donneesAdresse");
+            donneesAdresse.innerText = "Ici la latitude : "+ lat +" et la longitute: " +lng+" de l'adresse entré dans la barre de recherche";
             //ajout d'un marker
-            L.marker([lat, lng]).addTo(map).flyTo([lat, lng], 18);//ANCHOR mettre un popup sur le maker   
-        } 
-        //FIN RECUP ADRESSE
+            circle = L.circle(datas, {
+                color: '#0000ff',
+                radius: 1000 * d /// en mètre
+                }).addTo(map);
+            map.panTo([lat, lng], 18); //JE VEUX ZOOMER
+            
+        }
+        
 
-        {# GEOLOCALISATION AU BTN #}
+
+////////////////////////////////CLICK SUR MAP => RECUPERER ADRESSE ET L'AFFICHER
+        map.on('click', function(e){
+            
+            let lat = parseFloat(e.latlng.lat).toFixed(4);
+            let lng = parseFloat(e.latlng.lng).toFixed(4);
+            console.log(lat, lng);
+
+            L.marker([lat, lng]).addTo(map);
+            
+
+            geoDecode(lat, lng);
+        });
+        async function geoDecode(lat, lng){
+            let resultat = document.getElementById("resultat");
+            resultat.innerText = "patience ca arrive!!!";
+            //appel nominatim
+            let resp = await fetch (`http://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`); //précise reverse pour avoir l'inverse 
+            let datas =await resp.json();
+            console.log(datas); //display name + adresse
+            if(datas.display_name){
+                resultat.innerText = datas.display_name + " latitude : "+datas.lat +" longitude: "+ datas.lon;
+                console.log(datas.display_name);
+                ///////////////////////////////////////AFFICHAGE CERCLE SUR UN RAYON DE 1KM/////////////////////////////////////
+                circle = L.circle(datas, {
+                color: '#0000ff',
+                radius: 1000 * d /// en mètre
+                }).addTo(map);
+
+            }else{
+                resultat.innerText ='non trouvé';
+
+            }
+        }
+
+
+        
+//////////////////////////GET MY POSITION AU BTN RECUPERE LAT+LNG ET LES AFFICHER//////////////////////////////////////////
         let localisation = document.getElementById('localisation');
         localisation.addEventListener('click', function(){
             // console.log('dis mois que ca marche..')
@@ -135,51 +194,25 @@
         });
 
         function onLocationFound(e){
-            document.getElementById("event_latitude").value = e.latlng.lat;
-            document.getElementById("event_longitude").value = e.latlng.lng;
-            L.marker(e.latlng).addTo(map).bindPopup("vous êtes ici!").openPopup(); //récupérer les données sous forme d'objet pr pouvoir les réutiliser 
             
+            
+            console.log(e.latlng);
+            let ici = document.getElementById("ici");
+            ici.innerText = "Voici vos coordonnées : "+ e.latlng;
+            circle = L.circle(datas, {
+                color: '#0000ff',
+                radius: 1000 * d /// en mètre
+                }).addTo(map).binPopup("Vous êtes ici");
         }
         //fction indiquant erreur dans la localisation et réactivation du btn
         function onLocationError(e){
             localisation.disabled = false;
             alert(e.message);
         }
-        {# FIN GEOLOCALISATION AU BTN #}
 
-        {# LOCALISATION AU CLICK SUR MAP #}
-               map.on('click', function(e){
-            
-            let lat = parseFloat(e.latlng.lat).toFixed(4);
-            let lng = parseFloat(e.latlng.lng).toFixed(4);
-            document.getElementById("event_latitude").value = lat;
-            document.getElementById("event_longitude").value = lng;
-            L.marker([lat, lng]).addTo(map);
-            geoDecode(lat, lng);
-        });
-
-        async function geoDecode(lat, lng){
-            let resultat = document.getElementById("resultat");
-            resultat.innerText = "Chargement...";
-            //appel nominatim
-            let resp = await fetch (`http://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`); //précise reverse pour avoir l'inverse 
-            let datas =await resp.json();
-            if(datas.display_name){
-                console.log(datas.display_name);
-                resultat.innerText = "Vos données sont transmises auformulaire avec succès";
-                ///////////////////////////////////////AFFICHAGE CERCLE SUR UN RAYON DE 1KM/////////////////////////////////////
-                circle = L.circle(datas, {
-                color: '#0000ff',
-                radius: 1000 * d /// en mètre
-                }).addTo(map);
-            }else{
-                resultat.innerText ='non trouvé';
-
-            }
-        }
-
+        </script>
     {% endblock %}
-    </script>
+
 
 {% endblock %}
 
