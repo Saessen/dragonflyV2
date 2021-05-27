@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html>
+
+    {# Page servant pour l'accès au SUPER AMDIN (donc nous), lien accès au dashboard etc... #}
+    {# L'accès des utilisateurs et admins clients se fait par la base-front.html.twig #}
+
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,15 +24,18 @@
         <nav class="navbar sticky-top navbar-light mb-5">
             <div id="nav_div_1" class="container-fluid">
                 <div id="nav_div_logo">            
-                    <a class="navbar-brand m-0 nav_div_logo_a" href="#">
+                    <a class="navbar-brand m-0 nav_div_logo_a" href="{{ path('home_page')}}">
                         Dragonfly<img id="logo" src="../images/icons/logo2_libellule.svg" alt="logo dragonfly" width="50">
                     </a>
                 </div>
                 <div>
                     <a href="#" class="navbar-brand">
+                        <img class="nav_icone" src="../images/icons/clipboard-list-solid.svg" alt="dashboard" width="25">
+                    </a>
+                    <a href="{{ path('entreprise_new')}}" class="navbar-brand">
                         <img class="nav_icone" src="../images/icons/inscription.svg" alt="inscription" width="25">
                     </a>
-                    <a href="#" class="navbar-brand m-0">
+                    <a href="{{ path('app_login')}}" class="navbar-brand m-0">
                         <img class="nav_icone" src="../images/icons/connexion.svg" alt="connexion" width="25">
                     </a>
                 </div>

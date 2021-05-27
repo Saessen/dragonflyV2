@@ -1,11 +1,83 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-front.html.twig' %}
 
 {% block title %}New Entreprise{% endblock %}
 
 {% block body %}
     <h1>Create new Entreprise</h1>
 
-    {{ include('entreprise/_form.html.twig') }}
+    {# {{ include('entreprise/_form.html.twig') }} #}
 
-    <a href="{{ path('entreprise_index') }}">back to list</a>
+    <div class="container">
+
+        <h3>Ajouter un contact</h3>
+        {# Affichage du formulaire d'ajout d'un contact #}
+            {# Le code ci-dessous affiche el formulaire dans son intégralité sans que nous ayons le controle sur les lignes de mises en page #}
+            {# {{ form(formContact) }} #}
+
+            {# Le code ci dessous permet d'appliquer une mise en page custom pour le formulaire #}
+            {{ form_start(form) }}
+                <div class="row bg-white">
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            {{form_row(form.siren)}}
+                        </div>
+                        <div class="form-group">
+                            {{form_label(form.denomination)}}
+                            {{form_widget(form.denomination, {'attr': {'class': 'bg-light'}} ) }}
+                        </div>
+                        <div class="form-group">
+                            {{form_row(form.admin.username)}}
+                        </div>                   
+                        <div class="form-group">
+                            {{form_row(form.admin.password)}}
+                        </div>
+                        <div class="form-group">
+                            {{form_row(form.admin.email)}}
+                        </div>
+                        <div class="form-group">
+                            {{form_row(form.admin.nom)}}
+                        </div>                        
+                        <div class="form-group">
+                            {{form_row(form.admin.prenom)}}
+                        </div>                        
+                        <div class="form-group">
+                            {{form_row(form.admin.sexe)}}
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            {{form_row(form.admin.numero_rue)}}
+                        </div>
+                        <div class="form-group">
+                            {{form_label(form.admin.rue)}}
+                        </div>
+                        <div class="form-group">
+                            {{form_row(form.admin.code_postal)}}
+                        </div>                   
+                        <div class="form-group">
+                            {{form_row(form.admin.ville)}}
+                        </div>
+                        <div class="form-group">
+                            {{form_row(form.admin.pays)}}
+                        </div>
+                        <div class="form-group">
+                            {{form_row(form.admin.latitude)}}
+                        </div>                        
+                        <div class="form-group">
+                            {{form_row(form.admin.longitude)}}
+                        </div>                        
+                        <div class="form-group">
+                            {{form_row(form.admin.poste)}}
+                        </div>
+                    </div> 
+                </div>
+                    {{ form_widget(form, {'show_legend':false}) }}
+                    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+                {# Si on ajoute l'option render_rest à false sur le formulaire seul les champs exprimés dans form_row ou form_widget seront rendus #}
+            {{ form_end(form, {'render_rest':false}) }}
+            {{ form_end(form)}}
+
+    </div>
+
+    <a href="{{ path('home_page') }}">Retour page accueil</a>
 {% endblock %}

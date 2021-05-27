@@ -13,7 +13,7 @@ class UserEntrepriseType extends AbstractType
     {
         $builder
             ->add('username')
-            ->remove('roles')
+            ->remove('roles', ['attr'=>["class"=>"d-none"]])
             ->add('password')
             ->add('nom')
             ->add('prenom')

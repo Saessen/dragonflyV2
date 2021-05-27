@@ -24,7 +24,7 @@ class EntrepriseController extends AbstractController
     }
 
     /**
-     * @Route("/entreprise/new", name="entreprise_new", methods={"GET","POST"})
+     * @Route("/new", name="entreprise_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -48,7 +48,7 @@ class EntrepriseController extends AbstractController
             $entityManager->flush();
 
 
-            return $this->redirectToRoute('entreprise_index');
+            return $this->redirectToRoute('home_page');
         }
         return $this->render('entreprise/new.html.twig', [
             'entreprise' => $entreprise,
