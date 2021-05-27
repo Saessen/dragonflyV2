@@ -51,6 +51,7 @@
                 <p id="resultat" class="text-start">Adresse: </p>
                 <p class="text-start">Accessibilité: {{ event.access }}</p>
                 <p class="text-start">Description: {{ event.message }}</p>
+                {# ANCHOR A AJOUTER : ORGANISER PAR AVEC ID USER #}
 
                 <div class="d-none">
                 <p id="lat".class="text-end">{{event.latitude}}</p>
@@ -106,7 +107,7 @@
             let datas =await resp.json();
             console.log("datas=", datas); //display name + adresse
             if(datas.display_name){
-                resultat.innerHTML = "Adresse: "+datas.display_name;
+                resultat.innerHTML = "Adresse: "+datas.address.road+" "+datas.address.ville+" "+" "+datas.address.village+" "+datas.address.postcode;
                 console.log("resultat 2 :", resultat);
                 console.log("datas.display_name :",datas.display_name);
             }else{
