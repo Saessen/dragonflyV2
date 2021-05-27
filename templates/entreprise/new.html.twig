@@ -49,7 +49,7 @@
                             {{form_row(form.admin.numero_rue)}}
                         </div>
                         <div class="form-group">
-                            {{form_label(form.admin.rue)}}
+                            {{form_row(form.admin.rue)}}
                         </div>
                         <div class="form-group">
                             {{form_row(form.admin.code_postal)}}
@@ -71,10 +71,10 @@
                         </div>
                     </div> 
                 </div>
-                    {{ form_widget(form, {'show_legend':false}) }}
-                    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+                    {# {{ form_widget(form, {'show_legend':false}) }} #}
+
                 {# Si on ajoute l'option render_rest à false sur le formulaire seul les champs exprimés dans form_row ou form_widget seront rendus #}
-            {{ form_end(form, {'render_rest':false}) }}
+            {# {{ form_end(form, {'render_rest':false}) }} #}
             {{ form_end(form)}}
 
     </div>

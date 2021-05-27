@@ -51,7 +51,7 @@ class EntrepriseController extends AbstractController
             $entityManager->flush();
 
 
-            return $this->redirectToRoute('home_page');
+            return $this->redirectToRoute('app_login');
         }
         return $this->render('entreprise/new.html.twig', [
             'entreprise' => $entreprise,

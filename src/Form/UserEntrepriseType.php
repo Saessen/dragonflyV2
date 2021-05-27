@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserEntrepriseType extends AbstractType
 {
@@ -14,7 +15,7 @@ class UserEntrepriseType extends AbstractType
         $builder
             ->add('username')
             ->remove('roles', ['attr'=>["class"=>"d-none"]])
-            ->add('password')
+            ->add('password', PasswordType::class)
             ->add('nom')
             ->add('prenom')
             ->add('sexe')

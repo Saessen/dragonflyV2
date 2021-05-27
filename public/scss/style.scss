@@ -3,13 +3,14 @@
 }
 
 body {
-    background: url('../images/bg_dragonfly_768px.jpg') no-repeat center center fixed;
+    background: url('../public/images/bg_dragonfly-_768.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
 
 }
+/* ANCHOR NAVBAR */
 
 .navbar {
     background: rgba(139, 181, 219, 0.7);
@@ -23,16 +24,20 @@ nav div a {
     font-size: 14px;
 }
 
+/* ANCHOR Premier viewport */
+
 .vh1 {
     min-height: 100vh;
 } 
 
-h1 {
+h1 span {
     text-transform: uppercase;
     font-size: 30px;
     color: rgb(247, 246, 248);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+/* ANCHOR TROIS BOUTONS HOMEPAGE */
 
 
 .btn-first {
@@ -61,6 +66,71 @@ h1 {
     opacity: 1;
 }
 
+/* ANCHOR barre de menu */
+
+/* .container-media {
+    border: 1px solid rgba(139, 181, 219, 0.7);
+    border-radius: 50%;
+    background: rgba(139, 181, 219, 0.7);
+} */
+
+.media {
+    list-style-type: none;
+    position: absolute;
+    right: 0%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 10px;
+}
+
+
+.bulle-fixed img {
+    width: 40px;
+    height: 40px;
+    position: relative
+}
+
+.bulle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+    background: #f1f1f1;
+    position: relative;
+    cursor: pointer;
+}
+
+.bulle1{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+    background: #f1f1f1;
+    position: relative;
+    cursor: pointer;
+    right: -200px;
+}
+
+.logos-media {
+    width: 32px;
+    height: 32px;
+} 
+
+/* ANCHOR Second viewport */
+
 #container-second {
     background: rgba(139, 181, 219, 0.7);
     padding: 10px;
@@ -71,6 +141,8 @@ h1 {
     font-weight: bolder;
     color: #0c0c0c;
 }
+
+/* ANCHOR FOOTER */
 
 .footer {
     padding: 5px;
@@ -88,14 +160,12 @@ h1 {
     color: #f1f1f1;
 
 }
-/////
 
 @media screen and (min-width: 992px){
-    /* .container {
-        background-image: url('dragonfly-bg.jpg');
-    } */
+
     body {
-        background: url('../images/dragonfly-bg.jpg') no-repeat center center fixed;
+        background: url('../public/images/bg_dragonfly_lg.jpg') no-repeat center center fixed;
+        // background: url("{{asset('images/bg_dragonfly_lg.jpg')}}") no-repeat center center fixed;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         background-size: cover;
@@ -133,7 +203,7 @@ h1 {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
     }
 
-    #div_h1_1 {
+    #span_h1_1 {
         margin-top: 4rem;
     }
 
@@ -159,5 +229,52 @@ h1 {
         font-size: 22px;
         font-weight: bolder;
         color: #0c0c0c;
+    }
+
+    .media {
+        list-style-type: none;
+        position: absolute;
+        right: 0%;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 10px;
+    }
+    
+    .bulle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: #f1f1f1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 0;
+        background: #f1f1f1;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .bulle1{
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: #f1f1f1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 0;
+        background: #f1f1f1;
+        position: relative;
+        cursor: pointer;
+        right: -200px;
+    }
+
+    .logos-media {
+        width: 40px;
+        height: 40px;
     }
 }

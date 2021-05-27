@@ -6,6 +6,8 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserType extends AbstractType
 {
@@ -14,7 +16,7 @@ class UserType extends AbstractType
         $builder
             ->add('username')
             ->remove('roles', ['attr'=>["class"=>"d-none"]])
-            ->add('password')
+            ->add('password', PasswordType::class)
             ->add('nom')
             ->add('prenom')
             ->add('sexe')
@@ -29,6 +31,7 @@ class UserType extends AbstractType
             ->add('longitude')
             ->remove('entreprise')
             ->remove('events')
+            ->add('Inscription', SubmitType::class, ['attr'=>["class"=>"mt-3 btn-dark btn_list"]])
         ;
     }
 

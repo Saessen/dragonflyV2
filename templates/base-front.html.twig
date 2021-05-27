@@ -17,6 +17,8 @@
 
     </head>
     <body>
+
+            {# ANCHOR - NAVBAR #}
             <nav class="navbar sticky-top navbar-light mb-5">
                 <div id="nav_div_1" class="container-fluid">
                     <div id="nav_div_logo">            
@@ -35,9 +37,42 @@
 
                 </div>
             </nav>
+
+
+            {# ANCHOR - Menu ADMIN et menu USERS #}
+            {# Mettre dans if et elseif #}
+                {# If user is connected et user is admin on affiche ce menu sinon pas de menu #}
+
+            <div class="container-media">
+                <ul class="media p-2">
+                    <li id="menu_display" class="bulle bulle-fixed" data-open="false"><img  class="menu" src="{{asset('images/icons/ellipsis.svg')}}" alt="icone menu">
+                    </li>
+                    <li class="bulle"><img src="{{asset('images/icons/map-marked-alt-solid.svg')}}" alt="évènements" class="logos-media"></li>
+                    <li class="bulle"><img src="{{asset('images/icons/comments-solid.svg')}}" alt="messagerie" class="logos-media"></li>
+                    <li class="bulle"><img src="{{asset('images/icons/inscription.svg')}}" alt="ajouter utilisateur" class="logos-media"></li>
+                    <li class="bulle"><img src="{{asset('images/icons/user-edit-solid.svg')}}" alt="modifier utilisateur" class="logos-media"></li>
+                    <li class="bulle"><img src="{{asset('images/icons/address-book-solid.svg')}}" alt="annuaire utilisateur" class="logos-media"></li>
+                    <li class="bulle"><img src="{{asset('images/icons/archway-solid.svg')}}" alt="forum" class="logos-media"></li>
+                    <li class="bulle"><img src="{{asset('images/icons/info-circle-solid.svg')}}" alt="aide" class="logos-media"></li>
+                </ul>
+            </div>
+
+            {# elseif user is connected et user is user on affiche l\'autre menu sinon pas de menu #}
+
+                {# <div class="container-media">
+                    <ul class="media p-2">
+                        <li id="menu_display" class="bulle bulle-fixed" data-open="false"><img  class="menu" src="ellipsis.svg" alt="icone menu"></li>
+                        <li class="bulle"><img src="map-marked-alt-solid.svg" alt="évènements" class="logos-media"></li>
+                        <li class="bulle"><img src="message-bulles.svg" alt="messagerie" class="logos-media"></li>
+                        <li class="bulle"><img src="archway-solid.svg" alt="forum" class="logos-media"></li>
+                        <li class="bulle"><img src="info-circle-solid.svg" alt="aide" class="logos-media"></li>
+                    </ul>
+                </div> #}
         {% block body %}
             {# Content of block body templates #}
         {% endblock %}
+
+        {# ANCHOR - FOOTER #}
         <footer class="footer">
             <div class="container">
                 <div id="footer_container_div_1" class="row justify-content-evenly align-items-center text-center">
@@ -69,25 +104,113 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
             <script>
-                const titreH1 = document.querySelectorAll('h1');
+
+            {# On déclare des constantes pour chaque élément à animer #}
+                const titreSpan = document.querySelectorAll('.titre-home');
                 const btns = document.querySelectorAll('.btn-first');
                 // const logo = document.querySelector('.logo');
-                // const medias = document.querySelectorAll('.bulle');
-                // const l1 = document.querySelector('.l1');
-                // const l2 = document.querySelector('.l2');
+                const medias = document.querySelectorAll('.bulle');
+                const eltCloseMenu = document.querySelector('#menu_display');
+                const eltMenu = document.querySelector('.media');
 
+            {# Ici on veut animer les éléments de la page d'accueil au chargement #}
+                {# On crée un écouteur d'évènement qui s'enclenchera au 'load', au chargement de la page et on lui passe la fonction #}
                 window.addEventListener('load', () => {
 
+                    // On déclare la constante TL (timeline) et on lui assigne la propriété timeline qui sera paramétrée pour se mettre en pause après sa création.
                     const TL = gsap.timeline({paused : true});
+                    // On l'instancie
                     TL
-                        .staggerFrom(titreH1, 1, {top: 50, opacity: 0, ease: 'power2.out'}, 0.3)
+                        // On séquencie les animations avec .staggerFrom qui décalera dans le temps l'animation des éléments séléctionners
+                        // On insère les paramètres de positionnement et de séquençage
+                        // https://greensock.com/docs/v3/GSAP/Timeline (pour plus d'explications sur les différents paramétrages)
+                        .staggerFrom(titreSpan, 1, {top: 50, opacity: 0, ease: 'power2.out'}, 0.3)
                         .staggerFrom(btns, 1, {opacity: 0, ease: 'power2.out'}, 0.3, '-=1')
                         // .from(logo, 0.4, {transform: "scale(0)", ease: 'power2.out'}, 0.3, '-=2')
-                        // .staggerFrom(medias, 1, {right: -200, ease: 'power2.out'}, 0.3, '-=2')
+                        .staggerFrom(medias, 1, {right: -200, ease: 'power2.out'}, 0.1, '-=2')
+                        // Ici, on anime les éléments de la constante medias, l'animation durera 1 seconde, elle partira de 200 pixels depuis la droite vers la gauche (donc -200px à droite) pour se positionner à l'endroit prévu par le css (0px) et aura un easing qui ralentira l'animation sur la fin, elle animera les elements a 0.1 seconde les uns des autres, elle commencera 2 secondes avant la fin de l'animation précédente.
 
-                    TL.play();
+                    TL.eventCallback("onComplete", ()=>{
+                        eltCloseMenu.setAttribute("data-open", "true");
+                    }).play();
+                    // On assigne à TL un eventCallBack qui, à la complétion du séquençage de la timeline changera l'attribut de eltCloseMenu de false à true, ce qui permettra une animation de la barre de menu dans un nouvel évènement.
 
                 });
+
+            {# Ici on veut animer la barre de menu latérale qui contient les éléments de la constante medias #}
+                {# On déclare un évènement qui au clic rembobinera l'animation et cachera les boutons de la barre menu #}
+                eltCloseMenu.addEventListener('click', () =>{
+                    // On peut implémenter une troisième phase "neutre" (inProgress) où l'utilisateur ne peut pas cliquer sur le bouton du menu, le temps que l'attribut data-open change entre true et false => evite les petits bugs  
+                    if(eltCloseMenu.getAttribute("data-open")== "inProgress") return;
+
+                    if(eltCloseMenu.getAttribute("data-open")=="false"){
+                        eltCloseMenu.setAttribute("data-open", "inProgress");
+                        
+                        // On déclare la variable bulles qui séléctionne tous les éléments dont la classe est bulle sauf s'il a aussi la classe bulle-fixed
+                        var bulles = document.querySelectorAll('.bulle:not(.bulle-fixed)');
+
+                        // On boucle, sur chaque bulle qui n'a pas la classe bulle-fixed, on enlève l'attribut de style qui règle sa position à 0px/-200px (indispensable pour que l'animation reparte dans le sens inverse)
+                        bulles.forEach(bulle => {
+                            if(!bulle.classList.contains('bulle-fixed')){
+                                bulle.removeAttribute('style');
+                            }
+                        });
+
+                        // On déclare la constante de la seconde animation
+                        const TL2 = gsap.timeline({paused : true});
+                        TL2
+                            // l'animation reste la même puisque l'on a enlevé l'attribut style qui empechait le bon positionnement de l'animation
+                            .staggerFrom(bulles, 1, {right: -200, ease: 'power2.out'}, 0.1, '-=2')
+                    
+                        TL2.eventCallback("onComplete", ()=>{
+                            eltCloseMenu.setAttribute("data-open", "true");
+                        }).play();
+
+                    }else{
+                        eltCloseMenu.setAttribute("data-open", "inProgress");
+                        // eltCloseMenu.setAttribute("data-open", "false");
+                        var bulles = document.querySelectorAll('.bulle');
+
+                        // Ici on règle le problème de positionnement de l'animation
+                        bulles.forEach(bulle => {
+                            if(!bulle.classList.contains('bulle-fixed')){
+                                // Pour chaque bulle qui n'a pas la classe bulle-fixed
+                                bulle.classList.remove('bulle');
+                                // On enlève la classe bulle
+                                bulle.classList.add('bulle1');
+                                // On ajoute la classe bulle1
+                                // Les éléments de la classe bulle1 sont positionnés différemment de lorsqu'ils ont la classe bulle
+                                bulle.removeAttribute('style');
+                                // On enlève l'attribut style pour le positionnement (ne pas oublier que la position visée est celle rentrée dans le css de l'élément)
+                            }
+                        });
+                        // On déclare la variable medias2 que l'on transforme en tableau 
+                        let medias2 = [...document.querySelectorAll('.bulle1')];
+
+                        // On passe la propriété reverse qui inverse le sens de la timeline (animation de haut en bas => de bas en haut)
+                        medias2.reverse();
+
+                        // On déclare la constante MD (menudisplay) 
+                        const MD = gsap.timeline({paused : true});
+                        MD.staggerFrom(medias2, 1, {right: 0, ease: 'power2.out'}, 0.1)
+                        .eventCallback("onComplete", ()=>{
+                        // A la fin de l'animation, eltCloseMenu récupère un attribut false
+                            eltCloseMenu.setAttribute("data-open", "false");
+                            // Et les éléments .bulle1 repasse en .bulle
+                            var bulles = document.querySelectorAll('.bulle1');
+                            bulles.forEach(bulle => {
+                                if(!bulle.classList.contains('bulle-fixed')){
+                                    bulle.classList.remove('bulle1');
+                                    bulle.classList.add('bulle');
+                                    
+                                }
+                            });
+                                
+                        }).play();
+                    }
+
+                });
+
             </script>
         {% endblock %}
     </body>
