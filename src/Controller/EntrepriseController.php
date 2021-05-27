@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Entreprise;
 use App\Form\EntrepriseType;
 use App\Repository\EntrepriseRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 class EntrepriseController extends AbstractController
@@ -26,7 +27,7 @@ class EntrepriseController extends AbstractController
     /**
      * @Route("/new", name="entreprise_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $entreprise = new Entreprise();
         $form = $this->createForm(EntrepriseType::class, $entreprise);
@@ -39,7 +40,9 @@ class EntrepriseController extends AbstractController
             $user->setEntreprise($entreprise);
             // $user->setEntreprise($this->getUser()->getEntreprise())
             // !!!!!!!!! PASSWORD ENCODING
-
+            $originePassword = $user->getPassword();
+            $encodedPassword = $encoder->encodePassword($user, $originePassword);
+            $user->setPassword($encodedPassword);
             // $user->setEmail();
 
             $entityManager = $this->getDoctrine()->getManager();
