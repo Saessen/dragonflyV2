@@ -58,6 +58,10 @@
                 <p class="text-start">Catégorie: {{ event.categorie }}</p>
                 <p class="text-start">Date: {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
                 <p class="text-start">Lieu: {{ event.ville }}</p>
+                <div class="d-none">
+                <p id="lat".class="text-end">{{event.latitude}}</p>
+                <p id="lng".class="text-end">{{event.longitude}}</p>
+                </div>
                 </div>
             {% endfor %}
         </div>
@@ -74,12 +78,19 @@
         {# MES VARIABLES #}
         let centre ={lat: 47.232, lng: 	2.421}; // coordonnées lat lng du centre de la france
         let map = L.map('mapId').setView( centre, 5); // zoom a 5 pr visualiser la carte de france en entière
+        var lat2 = document.getElementById('lat').innerText;
+        var lng2 = document.getElementById('lng').innerText;
+        {# console.log (lat);
+        console.log (lng); #}
+        var event = {lat: lat2, lng: lng2};
+        {# console.log(event); #}
 
         // ajout de jeu de tuiles: plusieurs attributs:
         // FCTION TILELAYER
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+        L.marker(event).addTo(map);
         distance.addEventListener("change", function(){
         d = this.value 
 
@@ -108,7 +119,7 @@
             document.getElementById("event_latitude").value = lat;
             document.getElementById("event_longitude").value = lng;
             //ajout d'un marker
-            L.marker([lat, lng]).addTo(map) //ANCHOR mettre un popup sur le maker   
+            L.marker([lat, lng]).addTo(map).flyTo([lat, lng], 18);//ANCHOR mettre un popup sur le maker   
         } 
         //FIN RECUP ADRESSE
 

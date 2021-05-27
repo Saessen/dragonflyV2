@@ -50,6 +50,7 @@
     {% block javascripts %}
     <!-- FICHIER JS LEAFLET -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
     <script>
         {# MES VARIABLES #}
         let centre ={lat: 47.232, lng: 	2.421}; // coordonnées lat lng du centre de la france
@@ -81,6 +82,7 @@
             let municipality = (datas[0].address.municipality);
             let rue = (datas[0].address.road);
             let cp = (datas[0].address.postcode);
+            
             document.getElementById("event_latitude").value = lat;
             document.getElementById("event_longitude").value = lng;
             document.getElementById("event_rue").value = rue;
@@ -115,12 +117,10 @@
 
         function onLocationFound(e){
             document.getElementById("event_latitude").value = e.latlng.lat;
-            document.getElementById("event_longitude").value = e.latlng.lng;
+            document.getElementById("event_longitude").value = e.latlng.lng;    
+            console.log(e);
             
-            document.getElementById("event_latitude").value = lat;
-            document.getElementById("event_longitude").value = lng;
-            document.getElementById("event_rue").value = rue;
-            document.getElementById("event_code_postal").value = cp;
+           
             L.marker(e.latlng).addTo(map).bindPopup("vous êtes ici!").openPopup(); //récupérer les données sous forme d'objet pr pouvoir les réutiliser 
             
         }
@@ -141,32 +141,61 @@
             L.marker([lat, lng]).addTo(map);
             geoDecode(lat, lng);
         });
+ 
 
         async function geoDecode(lat, lng){
             let resultat = document.getElementById("resultat");
             resultat.innerText = "Chargement...";
             //appel nominatim
-            let resp = await fetch (`http://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`); //précise reverse pour avoir l'inverse 
+            let resp = await fetch (`http://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&q=${adresse}&lat=${lat}&lon=${lng}`); //précise reverse pour avoir l'inverse 
             let datas =await resp.json();
+            
+            let ville = (datas.address.city);
+            let village = (datas.address.village);
+            let municipality = (datas.address.municipality);
+            let rue = (datas.address.road);
+            let cp = (datas.address.postcode);
+            let pays =(datas.address.country);
+            console.log(datas.address);
+            document.getElementById("event_latitude").value = lat;
+            document.getElementById("event_longitude").value = lng;
+            document.getElementById("event_rue").value = rue;
+            document.getElementById("event_code_postal").value = cp;
+            document.getElementById("event_pays").value = pays;
+            {# Attention différents noms de villes/villages/municipality #}
+            if(ville){
+                document.getElementById("event_ville").value = ville;
+            } 
+            else if (village){
+                document.getElementById("event_ville").value = village;
+            }else {
+                document.getElementById("event_ville").value = municipality;
+            }
+            
             if(datas.display_name){
-                console.log(datas.display_name);
+                
                 resultat.innerText = "Vos données sont transmises auformulaire avec succès";
                 ///////////////////////////////////////AFFICHAGE CERCLE SUR UN RAYON DE 1KM/////////////////////////////////////
                 circle = L.circle(datas, {
                 color: '#0000ff',
                 radius: 1000 * d /// en mètre
                 }).addTo(map);
+                    
+                    
+                    
+                    
+            
             }else{
                 resultat.innerText ='non trouvé';
 
             }
         }
-
+    </script>
     {% endblock %}
 
         
 
 
-    </script>
+
 
 {% endblock %}

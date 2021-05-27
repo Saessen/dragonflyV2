@@ -109,9 +109,15 @@ class Event
      */
     private $user;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class)
+     */
+    private $participant;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
+        $this->participant = new ArrayCollection();
     }
 
     public function __toString(){
@@ -347,6 +353,30 @@ class Event
     public function removeUser(?User $user): self
     {
         $this->user->removeElement($user);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getParticipant(): Collection
+    {
+        return $this->participant;
+    }
+
+    public function addParticipant(User $participant): self
+    {
+        if (!$this->participant->contains($participant)) {
+            $this->participant[] = $participant;
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(User $participant): self
+    {
+        $this->participant->removeElement($participant);
 
         return $this;
     }
