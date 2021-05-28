@@ -15,8 +15,7 @@ class MessagerieType extends AbstractType
             ->add('message')
             ->add('createdAt')
             ->add('isRead')
-            ->add('expediteur')
-            ->add('destinataire')
+            
         ;
     }
 

@@ -36,48 +36,22 @@ class Messagerie
     private $isRead;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="messageries")
+     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="messagerieExpediteur")
      */
-    private $expediteur;
+    private $Expediteur;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="messageries")
+     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="messagerieDestinataire")
      */
     private $destinataire;
 
     public function __construct()
     {
-        $this->expediteur = new ArrayCollection();
+        $this->Expediteur = new ArrayCollection();
+        $this->destinataire = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getExpediteur(): ?string
-    {
-        return $this->expediteur;
-    }
-
-    public function setExpediteur(?string $expediteur): self
-    {
-        $this->expediteur = $expediteur;
-
-        return $this;
-    }
-
-    public function getDestinataire(): ?User
-    {
-        return $this->destinataire;
-    }
-
-    public function setDestinataire(?User $destinataire): self
-    {
-        $this->destinataire = $destinataire;
-
-        return $this;
-    }
+    
 
     public function getMessage(): ?string
     {
@@ -115,19 +89,65 @@ class Messagerie
         return $this;
     }
 
-    public function addExpediteur(User $expediteur): self
+    /**
+     * @return Collection|Event[]
+     */
+    public function getExpediteur(): Collection
     {
-        if (!$this->expediteur->contains($expediteur)) {
-            $this->expediteur[] = $expediteur;
+        return $this->Expediteur;
+    }
+
+    public function addExpediteur(Event $expediteur): self
+    {
+        if (!$this->Expediteur->contains($expediteur)) {
+            $this->Expediteur[] = $expediteur;
+            $expediteur->setMessagerieExpediteur($this);
         }
 
         return $this;
     }
 
-    public function removeExpediteur(User $expediteur): self
+    public function removeExpediteur(Event $expediteur): self
     {
-        $this->expediteur->removeElement($expediteur);
+        if ($this->Expediteur->removeElement($expediteur)) {
+            // set the owning side to null (unless already changed)
+            if ($expediteur->getMessagerieExpediteur() === $this) {
+                $expediteur->setMessagerieExpediteur(null);
+            }
+        }
 
         return $this;
     }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getDestinataire(): Collection
+    {
+        return $this->destinataire;
+    }
+
+    public function addDestinataire(Event $destinataire): self
+    {
+        if (!$this->destinataire->contains($destinataire)) {
+            $this->destinataire[] = $destinataire;
+            $destinataire->setMessagerieDestinataire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDestinataire(Event $destinataire): self
+    {
+        if ($this->destinataire->removeElement($destinataire)) {
+            // set the owning side to null (unless already changed)
+            if ($destinataire->getMessagerieDestinataire() === $this) {
+                $destinataire->setMessagerieDestinataire(null);
+            }
+        }
+
+        return $this;
+    }
+
+   
 }

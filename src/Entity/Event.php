@@ -110,15 +110,22 @@ class Event
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Messagerie::class, mappedBy="destinataire")
+     * @ORM\ManyToOne(targetEntity=Messagerie::class, inversedBy="Expediteur")
      */
-    private $messageries;
+    private $messagerieExpediteur;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Messagerie::class, inversedBy="destinataire")
+     */
+    private $messagerieDestinataire;
+    
 
     public function __construct()
     {
         $this->user = new ArrayCollection();
-        $this->messageries = new ArrayCollection();
+
     }
+
 
     public function __toString(){
         return $this->username;
@@ -357,35 +364,27 @@ class Event
         return $this;
     }
 
-    /**
-     * @return Collection|Messagerie[]
-     */
-    public function getMessageries(): Collection
+    public function getMessagerieExpediteur(): ?Messagerie
     {
-        return $this->messageries;
+        return $this->messagerieExpediteur;
     }
 
-    public function addMessagery(Messagerie $messagery): self
+    public function setMessagerieExpediteur(?Messagerie $messagerieExpediteur): self
     {
-        if (!$this->messageries->contains($messagery)) {
-            $this->messageries[] = $messagery;
-            $messagery->setDestinataire($this);
-        }
+        $this->messagerieExpediteur = $messagerieExpediteur;
 
         return $this;
     }
 
-    public function removeMessagery(Messagerie $messagery): self
+    public function getMessagerieDestinataire(): ?Messagerie
     {
-        if ($this->messageries->removeElement($messagery)) {
-            // set the owning side to null (unless already changed)
-            if ($messagery->getDestinataire() === $this) {
-                $messagery->setDestinataire(null);
-            }
-        }
+        return $this->messagerieDestinataire;
+    }
+
+    public function setMessagerieDestinataire(?Messagerie $messagerieDestinataire): self
+    {
+        $this->messagerieDestinataire = $messagerieDestinataire;
 
         return $this;
     }
-
-
 }
