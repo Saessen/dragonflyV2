@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\EventRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,6 +39,7 @@ class UserController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        ////ajout envoi mail
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -57,6 +59,18 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/user/my-event", name="user_showEvent")
+     */
+    public function showEvent(): Response
+    {
+        // $me = $this->getUser();
+        // dd($me);
+        return $this->render('user/showEvent.html.twig', [
+            // "me"=>$me
+        ]);
+    }
+
+    /**
      * @Route("/user/{id}", name="user_show", methods={"GET"})
      */
     public function show(User $user): Response
@@ -65,6 +79,21 @@ class UserController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    /**
+     * @Route("/user/inscription-evenement/{id}", name="event_subscribe")
+     */
+    public function inscriptionEvent($id, EventRepository $eventRepository){
+        $event = $eventRepository->find($id);
+        $user = $this->getUser();
+        $user->addEvent($event);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+        //
+        return new Response("Et hop!!!!");
+    }
+   
 
     /**
      * @Route("/user/{id}/edit", name="user_edit", methods={"GET","POST"})

@@ -19,7 +19,7 @@
                 <a class="nav-link active" aria-current="true" href="#">{{ event.nom | upper}}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Mes event</a>
+                <a class="nav-link " href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes event</a>
             </li>
             </ul>
         </div>
@@ -60,7 +60,7 @@
 
                <div>
                 <a href="{{ path('event_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
-                <a href="{{ path('event_index') }}" class="btn btn-outline-secondary">S'inscrire</a>
+                <a href="{{ path('event_subscribe', {id: event.id}) }}" class="btn btn-outline-secondary">S'inscrire</a>
                 <a href="{{ path('event_index') }}" class="btn btn-outline-secondary">Contacter l'organisateur</a>
                </div>
                 </div>

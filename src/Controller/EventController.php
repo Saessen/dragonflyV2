@@ -63,6 +63,7 @@ class EventController extends AbstractController
             'event' => $event,
         ]);
     }
+    
 
     /**
      * @Route("/event/{id}/edit", name="event_edit", methods={"GET","POST"})

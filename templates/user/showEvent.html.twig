@@ -19,34 +19,14 @@
                 <a class="nav-link " aria-current="true" href="#">Tous les event</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="#" tabindex="-1" aria-disabled="true">Mes event</a>
+                <a class="nav-link active" href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes event</a>
             </li>
             </ul>
         </div>
         <div class="card-body">
             <h5 class="card-title">Mes event</h5>
-        {# fin nav entre les pages #}
-            
-            {# Début recherche localisation des event #}
-                {# AFFICHEGAE MAP #}
-                <div id="mapId" class="4" style="width: 28rem;height : 18rem"></div>
-                
-                {% for event in events %}
-                {# Affichage des évenements #}
-                <div class="border">
-                <div class="d-flex justify-content-between align-item-center">
-                    <h5>{{ event.nom |upper}}</h5>
-                    {# ANCHOR ROUTE A MODIFIER => DETAIL/EVENT #}
-                    <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-outline-secondary "id="geocode">VOIR</button></a>
-                </div>
-                <p class="text-start">Catégorie: {{ event.categorie }}</p>
-                <p class="text-start">Date: {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
-                <p class="text-start">Lieu: {{ event.ville }}</p>
-                <div class="d-none">
-                <p id="lat".class="text-end">{{event.latitude}}</p>
-                <p id="lng".class="text-end">{{event.longitude}}</p>
-                </div>
-                </div>
+            {% for event in app.user.events %}
+            {{ dump(event)}}
             {% endfor %}
         </div>
     </div>

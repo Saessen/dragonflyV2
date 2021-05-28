@@ -117,7 +117,18 @@
 
         function onLocationFound(e){
             document.getElementById("event_latitude").value = e.latlng.lat;
-            document.getElementById("event_longitude").value = e.latlng.lng;    
+            document.getElementById("event_longitude").value = e.latlng.lng;
+            document.getElementById("event_rue").value = rue;
+            document.getElementById("event_code_postal").value = cp;
+            {# Attention différents noms de villes/villages/municipality #}
+            if(ville){
+                document.getElementById("event_ville").value = ville;
+            } 
+            else if (village){
+                document.getElementById("event_ville").value = village;
+            }else {
+                document.getElementById("event_ville").value = municipality;
+            }    
             console.log(e);
             
            
