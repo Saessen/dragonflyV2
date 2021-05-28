@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Event;
 use App\Entity\Messagerie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MessagerieType extends AbstractType
@@ -13,9 +15,9 @@ class MessagerieType extends AbstractType
     {
         $builder
             ->add('message')
-            ->add('createdAt')
-            ->add('isRead')
-            
+            ->remove('createdAt')
+            ->remove('isRead')
+            ->remove('event')
         ;
     }
 

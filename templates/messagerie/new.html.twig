@@ -8,4 +8,10 @@
     {{ include('messagerie/_form.html.twig') }}
 
     <a href="{{ path('messagerie_index') }}">back to list</a>
+
+    {% if messages is defined and messages|length > 0 %}
+    {% for message in messages %}
+    {{ dump(message) }}
+    {% endfor %}
+    {% endif %}
 {% endblock %}

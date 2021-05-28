@@ -4,11 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Messagerie;
 use App\Form\MessagerieType;
+use App\Repository\EventRepository;
 use App\Repository\MessagerieRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/messagerie")
@@ -20,31 +21,56 @@ class MessagerieController extends AbstractController
      */
     public function index(MessagerieRepository $messagerieRepository): Response
     {
+        // return new Response('hop message');
         return $this->render('messagerie/index.html.twig', [
             'messageries' => $messagerieRepository->findAll(),
         ]);
     }
-
+/////////////////////////////////////////////////////////////////////
     /**
      * @Route("/new", name="messagerie_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    // public function newmessage($id, EventRepository $eventRepository){
+    //     $event = $eventRepository->find($id);
+    //     $user = $this->getUser();
+    //     $user->addEvent($event);
+    //     $em = $this->getDoctrine()->getManager();
+    //     $em->persist($user);
+    //     $em->flush();
+    //     //
+    //     return new Response("Et hop!!!!");
+    // }
+
+
+
+    ////////////////////////////////////////////////////////////////
+    /**
+     * @Route("/new/{id}", name="messagerie_new", methods={"GET","POST"})
+     */
+    public function new($id,Request $request, EventRepository $eventRepository, MessagerieRepository $messagerieRepository): Response
     {
+        $event = $eventRepository->find($id);
         $messagerie = new Messagerie();
+        $messagerie->setEvent($event);
         $form = $this->createForm(MessagerieType::class, $messagerie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           
+            $messagerie->setCreatedAt(new \Datetime('now'));
+            // $messagerie->setExpediteur($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($messagerie);
             $entityManager->flush();
+            $this->addFlash("message", "Message envoyé avec succès");
 
-            return $this->redirectToRoute('messagerie_index');
+            // return $this->redirectToRoute('messagerie_index');
         }
-
+        $eventMessages = $messagerieRepository->findBy(["event"=>$id], ["createdAt"=>"DESC"]);
         return $this->render('messagerie/new.html.twig', [
             'messagerie' => $messagerie,
             'form' => $form->createView(),
+            'messages' => $eventMessages
         ]);
     }
 

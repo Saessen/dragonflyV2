@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\Messagerie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -31,8 +33,8 @@ class EventType extends AbstractType
             ->add('longitude')
             ->add('access')
             ->add('message')
-            ->add('user')
-        ;
+            ->add('user');
+            
     }
 
     public function configureOptions(OptionsResolver $resolver)
