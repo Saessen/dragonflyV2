@@ -110,14 +110,14 @@ class Event
     private $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class)
+     * @ORM\OneToMany(targetEntity=Messagerie::class, mappedBy="destinataire")
      */
-    private $participant;
+    private $messageries;
 
     public function __construct()
     {
         $this->user = new ArrayCollection();
-        $this->participant = new ArrayCollection();
+        $this->messageries = new ArrayCollection();
     }
 
     public function __toString(){
@@ -358,26 +358,34 @@ class Event
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|Messagerie[]
      */
-    public function getParticipant(): Collection
+    public function getMessageries(): Collection
     {
-        return $this->participant;
+        return $this->messageries;
     }
 
-    public function addParticipant(User $participant): self
+    public function addMessagery(Messagerie $messagery): self
     {
-        if (!$this->participant->contains($participant)) {
-            $this->participant[] = $participant;
+        if (!$this->messageries->contains($messagery)) {
+            $this->messageries[] = $messagery;
+            $messagery->setDestinataire($this);
         }
 
         return $this;
     }
 
-    public function removeParticipant(User $participant): self
+    public function removeMessagery(Messagerie $messagery): self
     {
-        $this->participant->removeElement($participant);
+        if ($this->messageries->removeElement($messagery)) {
+            // set the owning side to null (unless already changed)
+            if ($messagery->getDestinataire() === $this) {
+                $messagery->setDestinataire(null);
+            }
+        }
 
         return $this;
     }
+
+
 }

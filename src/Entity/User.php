@@ -107,11 +107,20 @@ class User implements UserInterface
      */
     private $events;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Messagerie::class, mappedBy="expediteur")
+     */
+    private $messageries;
+
+
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->messageries = new ArrayCollection();
+
+    
     }
-   
 
 
     public function __toString(){
@@ -377,4 +386,32 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|Messagerie[]
+     */
+    public function getMessageries(): Collection
+    {
+        return $this->messageries;
+    }
+
+    public function addMessagery(Messagerie $messagery): self
+    {
+        if (!$this->messageries->contains($messagery)) {
+            $this->messageries[] = $messagery;
+            $messagery->addExpediteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagery(Messagerie $messagery): self
+    {
+        if ($this->messageries->removeElement($messagery)) {
+            $messagery->removeExpediteur($this);
+        }
+
+        return $this;
+    }
+
 }

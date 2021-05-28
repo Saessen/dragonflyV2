@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie index{% endblock %}
+
+{% block body %}
+    <h1>Messagerie index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Message</th>
+                <th>CreatedAt</th>
+                <th>IsRead</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for messagerie in messageries %}
+            <tr>
+                <td>{{ messagerie.id }}</td>
+                <td>{{ messagerie.message }}</td>
+                <td>{{ messagerie.createdAt ? messagerie.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ messagerie.isRead ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('messagerie_show', {'id': messagerie.id}) }}">show</a>
+                    <a href="{{ path('messagerie_edit', {'id': messagerie.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('messagerie_new') }}">Create new</a>
+{% endblock %}
