@@ -3,15 +3,39 @@
 {% block title %}New Messagerie{% endblock %}
 
 {% block body %}
-    <h1>Create new Messagerie</h1>
+    <h1 class="text-white text-center ">{{ messagerie.event.nom | upper}}</h1>
 
-    {{ include('messagerie/_form.html.twig') }}
+   
 
-    <a href="{{ path('messagerie_index') }}">back to list</a>
 
-    {% if messages is defined and messages|length > 0 %}
-    {% for message in messages %}
-    {{ dump(message) }}
-    {% endfor %}
-    {% endif %}
+   
+    {# {{ dump(message) }} #}
+    {# AFFICHER LE USER, MESSAGE, CREATED AT #}
+    <div class=" row col-6 ">
+        <div class="">
+         {{ include('messagerie/_form.html.twig') }}
+        <table class="table table-dark table-striped m-0 ">
+            <thead>
+                <tr class="text-left">
+                <th scope="col">Expéditeur</th>
+                <th scope="col">Message</th>
+                {% if messages is defined and messages|length > 0 %}
+                {% for message in messages %}
+                 </tr>
+            </thead>
+            <tbody>
+                <tr>
+                {# ANCHOR JE N ARRIVE PAS A RECUPERER LES INFOS DU USER POUR INTEGRER LE USERNAME SUR LE 1ER TD #}
+                <td>{{ message.event.nom}}</td>
+                <td>{{ message.message }}</td>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+            </table>
+                
+        </div>
+
+    </div>
+    
+    <a href="{{ path('event_index') }} " class="btn btn-light mt-2">Retour</a>
 {% endblock %}

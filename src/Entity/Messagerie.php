@@ -55,6 +55,10 @@ class Messagerie
         // $this->Expediteur = new ArrayCollection();
         // $this->destinataire = new ArrayCollection();
     }
+    public function __toString(){
+        return $this->nom;
+    }
+
 
     
     public function getid(): int
