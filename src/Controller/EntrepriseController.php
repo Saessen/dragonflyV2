@@ -4,13 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Entreprise;
 use App\Form\EntrepriseType;
+use Symfony\Component\Mime\Email;
 use App\Repository\EntrepriseRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
+use Symfony\Component\Mailer\MailerInterface;
 
 class EntrepriseController extends AbstractController
 {
@@ -27,9 +28,10 @@ class EntrepriseController extends AbstractController
     /**
      * @Route("/new", name="entreprise_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function new(Request $request, UserPasswordEncoderInterface $encoder, MailerInterface $mailer): Response
     {
         $entreprise = new Entreprise();
+        $notification= "Votre inscription est validée";
         $form = $this->createForm(EntrepriseType::class, $entreprise);
         $form->handleRequest($request);
 
@@ -44,6 +46,16 @@ class EntrepriseController extends AbstractController
             $encodedPassword = $encoder->encodePassword($user, $originePassword);
             $user->setPassword($encodedPassword);
             // $user->setEmail();
+            //envoi mail
+            $email =(new Email())
+            ->from('dragonfly.projet@gmail.com')
+            ->to($user->getEmail())
+            ->subject('Inscription')
+            ->text('Inscription ')
+            ->html('<H1>Bonjour </H1><br><p>L\'inscription de votre entreprise est enregistrée!</p>');
+
+            $mailer->send($email);
+            return new Response($notification);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($entreprise);
