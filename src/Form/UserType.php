@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -20,7 +21,7 @@ class UserType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('sexe')
-            ->add('email')
+            ->add('email', EmailType::class)
             ->add('poste')
             ->add('numero_rue')
             ->add('rue')

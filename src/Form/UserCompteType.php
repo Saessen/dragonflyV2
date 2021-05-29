@@ -6,6 +6,8 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserCompteType extends AbstractType
 {
@@ -14,11 +16,11 @@ class UserCompteType extends AbstractType
         $builder
             ->add('username')
             ->add('roles')
-            ->add('password')
+            ->add('password', PasswordType::class)
             ->add('nom')
             ->add('prenom')
             ->add('sexe')
-            ->add('email')
+            ->add('email', EmailType::class)
             ->add('poste')
             ->add('numero_rue')
             ->add('rue')
