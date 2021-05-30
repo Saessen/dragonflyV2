@@ -24,27 +24,36 @@
         {% endblock %}
     </head>
     <body>
-        <nav class="navbar sticky-top navbar-light mb-5">
-            <div id="nav_div_1" class="container-fluid">
-                <div id="nav_div_logo">            
-                    <a class="navbar-brand m-0 nav_div_logo_a" href="{{ path('home_page')}}">
-                        Dragonfly<img id="logo" src="../images/icons/logo2_libellule.svg" alt="logo dragonfly" width="50">
-                    </a>
-                </div>
-                <div>
-                    <a href="#" class="navbar-brand">
-                        <img class="nav_icone" src="../images/icons/clipboard-list-solid.svg" alt="dashboard" width="25">
-                    </a>
-                    <a href="{{ path('entreprise_new')}}" class="navbar-brand">
-                        <img class="nav_icone" src="../images/icons/inscription.svg" alt="inscription" width="25">
-                    </a>
-                    <a href="{{ path('app_login')}}" class="navbar-brand m-0">
-                        <img class="nav_icone" src="../images/icons/connexion.svg" alt="connexion" width="25">
-                    </a>
-                </div>
+            {# ANCHOR - NAVBAR #}
+            <nav class="navbar sticky-top navbar-light mb-5">
+                <div id="nav_div_1" class="container-fluid">
+                    <div id="nav_div_logo">            
+                        <a class="navbar-brand m-0 nav_div_logo_a" href="{{ path('home_page')}}">
+                            Dragonfly<img id="logo" src="../images/icons/logo2_libellule.svg" alt="logo dragonfly" width="50">
+                        </a>
+                    </div>
+                    <div>
+                    {% if app.user.roles is defined and "ROLE_USER" in app.user.roles %}
+                        <a href="{{ path('user_moncompte')}}" class="navbar-brand">
+                            <img class="nav_icone" src="../images/icons/user-solid.svg" alt="mon compte" width="25">
+                        </a>
+                        <a href="{{ path('app_logout')}}" class="navbar-brand m-0">
+                            <img class="nav_icone" src="../images/icons/sign-out-alt-solid.svg" alt="déconnexion" width="25">
+                        </a>
+                    {% else %}
+                        <a href="{{ path('entreprise_new')}}" class="navbar-brand">
+                            <img class="nav_icone" src="../images/icons/inscription.svg" alt="inscription" width="25">
+                        </a>
+                        <a href="{{ path('app_login')}}" class="navbar-brand m-0">
+                            <img class="nav_icone" src="../images/icons/connexion.svg" alt="connexion" width="25">
+                        </a>
+                    
+                    {% endif %}
+                    </div>
 
-            </div>
-        </nav>
+                </div>
+            </nav>
+
         {% block body %}
             {# Content of block body #}
         {% endblock %}
@@ -81,18 +90,18 @@
             {#{{ encore_entry_script_tags('app') }}#}
                 
                 <script>
-                    const titreH1 = document.querySelectorAll('h1');
-                    const btns = document.querySelectorAll('.btn-first');
-                    // const logo = document.querySelector('.logo');
-                    // const medias = document.querySelectorAll('.bulle');
-                    // const l1 = document.querySelector('.l1');
-                    // const l2 = document.querySelector('.l2');
+                const titreSpan = document.querySelectorAll('.titre-home');
+                const btns = document.querySelectorAll('.btn-first');
+                // const logo = document.querySelector('.logo');
+                const medias = document.querySelectorAll('.bulle');
+                const eltCloseMenu = document.querySelector('#menu_display');
+                const eltMenu = document.querySelector('.media');
 
                     window.addEventListener('load', () => {
 
                         const TL = gsap.timeline({paused : true});
                         TL
-                            .staggerFrom(titreH1, 1, {top: 50, opacity: 0, ease: 'power2.out'}, 0.3)
+                            .staggerFrom(titreSpan, 1, {top: 50, opacity: 0, ease: 'power2.out'}, 0.3)
                             .staggerFrom(btns, 1, {opacity: 0, ease: 'power2.out'}, 0.3, '-=1')
                             // .from(logo, 0.4, {transform: "scale(0)", ease: 'power2.out'}, 0.3, '-=2')
                             // .staggerFrom(medias, 1, {right: -200, ease: 'power2.out'}, 0.3, '-=2')

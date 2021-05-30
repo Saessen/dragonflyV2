@@ -43,11 +43,11 @@ class UserController extends AbstractController
     /**
      * @Route("/user/new", name="user_new", methods={"GET","POST"})
      */
-    public function new(Request $request, MailerInterface $mailer, EntrepriseRepository $entreprise): Response
+    public function new(Request $request, MailerInterface $mailer, EntrepriseRepository $entrepriseRepository, UserPasswordEncoderInterface $encoder): Response
     {
-        //
-        
+
         // 
+        // $entreprise = $entrepriseRepository->find($id);
         $user = new User();
         // $entreprise = $entrepriseRepository->find($id);
         // $user = $form->getData();
@@ -56,6 +56,10 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
+            $originePassword = $user->getPassword();
+            $encodedPassword = $encoder->encodePassword($user, $originePassword);
+            $user->setPassword($encodedPassword);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -177,26 +181,15 @@ class UserController extends AbstractController
     /**
      * @Route("/user/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function editUser(Request $request, User $user, UserPasswordEncoderInterface $encoder): Response
+    public function editUser(Request $request, User $user, $id, UserRepository $userRepository): Response
     {
-
-        // J'ai enlevé $id car ça faisait tout bugger
-        $user =$this->getUser();
+        $user = $userRepository->find($id);
         $form = $this->createForm(UserCompteType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
-            if(is_null($user->getPassword()))
-            {
-                $user->setPassword($user->get('password'));
-
-            } else {
-                $plainPassword = $user->getPassword();
-                $encodedPassword = $encoder->encodePassword($user, $plainPassword);
-                $user->setPassword($encodedPassword);
-            }
-
+            
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_index');
