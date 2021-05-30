@@ -32,7 +32,6 @@ class UserType extends AbstractType
             ->add('longitude')
             ->add('entreprise')
             ->remove('events')
-            ->add('Inscription', SubmitType::class, ['attr'=>["class"=>"mt-3 btn-dark btn_list"]])
         ;
     }
 

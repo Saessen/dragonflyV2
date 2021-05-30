@@ -114,9 +114,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->events = new ArrayCollection();
-      
 
-    
     }
 
 
@@ -135,12 +133,12 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return (string) $this->username;
     }
 
-    public function setUsername(string $username): self
+    public function setUsername(?string $username): self
     {
         $this->username = $username;
 

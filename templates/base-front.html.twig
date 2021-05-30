@@ -29,12 +29,22 @@
                         </a>
                     </div>
                     <div>
+                    {% if app.user.roles is defined and "ROLE_USER" in app.user.roles %}
+                        <a href="{{ path('user_moncompte')}}" class="navbar-brand">
+                            <img class="nav_icone" src="../images/icons/user-solid.svg" alt="mon compte" width="25">
+                        </a>
+                        <a href="{{ path('app_logout')}}" class="navbar-brand m-0">
+                            <img class="nav_icone" src="../images/icons/sign-out-alt-solid.svg" alt="déconnexion" width="25">
+                        </a>
+                    {% else %}
                         <a href="{{ path('entreprise_new')}}" class="navbar-brand">
                             <img class="nav_icone" src="../images/icons/inscription.svg" alt="inscription" width="25">
                         </a>
                         <a href="{{ path('app_login')}}" class="navbar-brand m-0">
                             <img class="nav_icone" src="../images/icons/connexion.svg" alt="connexion" width="25">
                         </a>
+                    
+                    {% endif %}
                     </div>
 
                 </div>
@@ -43,33 +53,38 @@
 
             {# ANCHOR - Menu ADMIN et menu USERS #}
             {# Mettre dans if et elseif #}
+
                 {# If user is connected et user is admin on affiche ce menu sinon pas de menu #}
 
+            {% if is_granted ('ROLE_ADMIN') %}
+            {# {% if app.user.roles is defined and "ROLE_ADMIN" in app.user.roles %} #}
             <div class="container-media">
                 <ul class="media p-2">
                     <li id="menu_display" class="bulle bulle-fixed" data-open="false"><img  class="menu" src="{{asset('images/icons/ellipsis.svg')}}" alt="icone menu">
                     </li>
-                    <li class="bulle"><img src="{{asset('images/icons/map-marked-alt-solid.svg')}}" alt="évènements" class="logos-media"></li>
-                    <li class="bulle"><img src="{{asset('images/icons/comments-solid.svg')}}" alt="messagerie" class="logos-media"></li>
-                    <li class="bulle"><img src="{{asset('images/icons/inscription.svg')}}" alt="ajouter utilisateur" class="logos-media"></li>
-                    <li class="bulle"><img src="{{asset('images/icons/user-edit-solid.svg')}}" alt="modifier utilisateur" class="logos-media"></li>
-                    <li class="bulle"><img src="{{asset('images/icons/address-book-solid.svg')}}" alt="annuaire utilisateur" class="logos-media"></li>
-                    <li class="bulle"><img src="{{asset('images/icons/archway-solid.svg')}}" alt="forum" class="logos-media"></li>
-                    <li class="bulle"><img src="{{asset('images/icons/info-circle-solid.svg')}}" alt="aide" class="logos-media"></li>
+                    <li class="bulle"><a href="{{path('event_index')}}"><img src="{{asset('images/icons/map-marked-alt-solid.svg')}}" alt="évènements" class="logos-media"></a></li>
+                    <li class="bulle"><a href="{{path('messagerie_index')}}"><img src="{{asset('images/icons/comments-solid.svg')}}" alt="messagerie" class="logos-media"></a></li>
+                    <li class="bulle"><a href="{{path('user_new')}}"><img src="{{asset('images/icons/inscription.svg')}}" alt="ajouter utilisateur" class="logos-media"></a></li>
+                    <li class="bulle"><a href="{{path('user_index')}}"><img src="{{asset('images/icons/user-edit-solid.svg')}}" alt="modifier utilisateur" class="logos-media"></a></li>
+                    <li class="bulle"><a href="{{path('user_index')}}"><img src="{{asset('images/icons/address-book-solid.svg')}}" alt="annuaire utilisateur" class="logos-media"></a></li>
+                    {# <li class="bulle"><a href="{{path('')}}"><img src="{{asset('images/icons/archway-solid.svg')}}" alt="forum" class="logos-media"></a></li> #}
+                    {# <li class="bulle"><a href="{{path('')}}"><img src="{{asset('images/icons/info-circle-solid.svg')}}" alt="aide" class="logos-media"></a></li> #}
                 </ul>
             </div>
 
             {# elseif user is connected et user is user on affiche l\'autre menu sinon pas de menu #}
-
-                {# <div class="container-media">
+                {% elseif is_granted ('ROLE_USER') %}
+                {# {% elseif app.user.roles is defined and "ROLE_USER" in app.user.roles %} #}
+                <div class="container-media">
                     <ul class="media p-2">
                         <li id="menu_display" class="bulle bulle-fixed" data-open="false"><img  class="menu" src="ellipsis.svg" alt="icone menu"></li>
-                        <li class="bulle"><img src="map-marked-alt-solid.svg" alt="évènements" class="logos-media"></li>
-                        <li class="bulle"><img src="message-bulles.svg" alt="messagerie" class="logos-media"></li>
-                        <li class="bulle"><img src="archway-solid.svg" alt="forum" class="logos-media"></li>
-                        <li class="bulle"><img src="info-circle-solid.svg" alt="aide" class="logos-media"></li>
+                        <li class="bulle"><a href="{{path('event_index')}}"><img src="map-marked-alt-solid.svg" alt="évènements" class="logos-media"></a></li>
+                        <li class="bulle"><a href="{{path('messagerie_index')}}"><img src="message-bulles.svg" alt="messagerie" class="logos-media"></a></li>
+                        {# <li class="bulle"><a href="{{path('user_index')}}"><img src="archway-solid.svg" alt="forum" class="logos-media"></a></li>
+                        <li class="bulle"><a href="{{path('user_index')}}"><img src="info-circle-solid.svg" alt="aide" class="logos-media"></a></li> #}
                     </ul>
-                </div> #}
+                </div>
+                {% endif %}
         {% block body %}
             {# Content of block body templates #}
         {% endblock %}

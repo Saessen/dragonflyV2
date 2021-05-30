@@ -11,13 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/messagerie")
- */
+
 class MessagerieController extends AbstractController
 {
     /**
-     * @Route("/", name="messagerie_index", methods={"GET"})
+     * @Route("/messagerie", name="messagerie_index", methods={"GET"})
      */
     public function index(MessagerieRepository $messagerieRepository): Response
     {
@@ -28,7 +26,7 @@ class MessagerieController extends AbstractController
     }
 /////////////////////////////////////////////////////////////////////
     /**
-     * @Route("/new", name="messagerie_new", methods={"GET","POST"})
+     * @Route("/messagerie/new", name="messagerie_new", methods={"GET","POST"})
      */
     // public function newmessage($id, EventRepository $eventRepository){
     //     $event = $eventRepository->find($id);
@@ -75,7 +73,7 @@ class MessagerieController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="messagerie_show", methods={"GET"})
+     * @Route("/messagerie/{id}", name="messagerie_show", methods={"GET"})
      */
     public function show(Messagerie $messagerie): Response
     {
@@ -85,7 +83,7 @@ class MessagerieController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="messagerie_edit", methods={"GET","POST"})
+     * @Route("/messagerie/{id}/edit", name="messagerie_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Messagerie $messagerie): Response
     {
@@ -105,7 +103,7 @@ class MessagerieController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="messagerie_delete", methods={"POST"})
+     * @Route("/messagerie/{id}", name="messagerie_delete", methods={"POST"})
      */
     public function delete(Request $request, Messagerie $messagerie): Response
     {

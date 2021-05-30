@@ -4,15 +4,18 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\UserCompteType;
 use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
 use App\Repository\EventRepository;
 use App\Repository\EntrepriseRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 class UserController extends AbstractController
@@ -78,7 +81,7 @@ class UserController extends AbstractController
         }
     
     /**
-     * @Route("/user/my-event", name="user_showEvent")
+     * @Route("/user/mes-events", name="user_showEvent")
      */
     public function showEvent(): Response
     {
@@ -90,14 +93,68 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/user/mon-compte", name="user_moncompte")
+     */
+    public function showCompte(): Response
+    {
+        $user = $this->getUser();
+        return $this->render('user/moncompte.html.twig', [
+            "user" => $user,
+        ]);
+    }
+
+    //ANCHOR - Modification du compte utilisateur personnel
+
+    /**
+     * @Route("/user/edit", name="user_moncompte_edit", methods={"GET","POST"})
+     */
+    public function compte(Request $request, UserPasswordEncoderInterface $encoder, SessionInterface $session) : Response
+    {
+        // Mise en place du formulaire d'après les informations de l'utilisateur connecté
+        $user = $this->getUser();
+        if(empty($session->get('password')))
+        {
+            $session->set('password', $user->getPassword());
+        }
+
+        $form = $this->createForm(UserType::class, $user);
+        // On hydrate le formulaire avec les données de la requete
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            if(is_null($user->getPassword()))
+            {
+                $user->setPassword($session->get('password'));
+
+            } else {
+                $plainPassword = $user->getPassword();
+                $encodedPassword = $encoder->encodePassword($user, $plainPassword);
+                $user->setPassword($encodedPassword);
+            }
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $this->addFlash("success", "Vos informations ont bien été mises à jour.");
+        }
+        return $this->render('user/moncompte_edit.html.twig', [
+            "form"=>$form->createView(),
+        ]);
+    }
+    
+
+    /**
      * @Route("/user/{id}", name="user_show", methods={"GET"})
      */
-    public function show(User $user): Response
+    public function showUser(User $user): Response
     {
-        return $this->render('user/moncompte.html.twig', [
+        return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
     }
+
+
 
     /**
      * @Route("/user/inscription-evenement/{id}", name="event_subscribe")
@@ -113,17 +170,32 @@ class UserController extends AbstractController
         return $this->redirectToRoute('user_showEvent');
         
     }
-   
 
+    
+    // ANCHOR - Modification du user par l'admin (attribution de role etc)
     /**
      * @Route("/user/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, User $user): Response
+    public function editUser(Request $request, User $user, UserPasswordEncoderInterface $encoder): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+
+        // J'ai enlevé $id car ça faisait tout bugger
+        $user =$this->getUser();
+        $form = $this->createForm(UserCompteType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            if(is_null($user->getPassword()))
+            {
+                $user->setPassword($user->get('password'));
+
+            } else {
+                $plainPassword = $user->getPassword();
+                $encodedPassword = $encoder->encodePassword($user, $plainPassword);
+                $user->setPassword($encodedPassword);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_index');
@@ -134,6 +206,8 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    //  ANCHOR - Suppression du compte user par l'administrateur
 
     /**
      * @Route("/user/{id}", name="user_delete", methods={"POST"})
