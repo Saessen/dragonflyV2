@@ -57,7 +57,7 @@
                     <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-outline-secondary "id="geocode">VOIR</button></a>
                 </div>
                 <p class="text-start">Catégorie: {{ event.categorie }}</p>
-                <p class="text-start">Date: {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
+                <p class="text-start"><i class="fas fa-calendar-alt"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
                 <p class="text-start">Lieu: {{ event.ville }}</p>
                 <div class="d-none">
                 <p id="lat".class="text-end">{{event.latitude}}</p>

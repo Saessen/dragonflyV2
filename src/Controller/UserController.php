@@ -7,6 +7,7 @@ use App\Form\UserType;
 use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
 use App\Repository\EventRepository;
+use App\Repository\EntrepriseRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,9 +40,11 @@ class UserController extends AbstractController
     /**
      * @Route("/user/new", name="user_new", methods={"GET","POST"})
      */
-    public function new(Request $request, MailerInterface $mailer): Response
+    public function new(Request $request, MailerInterface $mailer, EntrepriseRepository $entreprise): Response
     {
-        //ajout envoi mail
+        //
+        
+        // 
         $user = new User();
         // $user = $form->getData();
         $form = $this->createForm(UserType::class, $user);

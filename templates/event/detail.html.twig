@@ -32,6 +32,9 @@
                 {# <div id="mapId" class="4" style="width: 28rem;height : 18rem"></div> #}
                 
                 <div id="mapId" class="4" style="width: 28rem;height : 18rem"></div>
+                <div>
+                <p id="resultat" class="text-start">Adresse: </p>
+                </div>
                 
                 {# Affichage de l'évenement #}
                 <div class="border">
@@ -41,16 +44,16 @@
                     
                 </div>
                 <p class="text-start">Catégorie: {{ event.categorie }}</p>
-                <p class="text-start">Date: {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
-                <p class="text-start">Participants minimum: {{ event.persMin}}
+                <p class="text-start"><i class="fas fa-calendar-alt text-warning"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
+                <p class="text-start"><i class="fas fa-user-friends text-warning"></i>: {{ event.persMin ~ "minimum"}}
                 {% if event.persMax is defined and event.persMax is not null %}
-                 <p class="text-start"> {{"Participants maximum : " ~ event.persMax }} </p>
+                 <p class="text-start"><i class="fas fa-users text-warning"></i> {{ event.persMax ~ "maximum"}} </p>
                 {% endif %}
                 
                 {# <p id="resultat" class="text-start">Adresse: {{ event.rue }}{{ event.codePostal }}{{ event.ville }}</p> #}
-                <p id="resultat" class="text-start">Adresse: </p>
-                <p class="text-start">Accessibilité: {{ event.access }}</p>
-                <p class="text-start">Description: {{ event.message }}</p>
+                
+                <p class="text-start"><i class="fas fa-wheelchair text-warning"></i> {{ event.access }}</p>
+                <p class="text-start"><i class="fas fa-quote-left text-warning"></i> {{ event.message }} <i class="fas fa-quote-right text-warning"></i></p>
                 {# ANCHOR A AJOUTER : ORGANISER PAR AVEC ID USER #}
 
                 <div class="d-none">
@@ -60,8 +63,8 @@
 
                <div>
                 <a href="{{ path('event_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
-                <a href="{{ path('event_subscribe', {id: event.id}) }}" class="btn btn-outline-secondary">S'inscrire</a>
-                <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-outline-secondary">Message</a>
+                <a href="{{ path('event_subscribe', {id: event.id}) }}" class="btn btn-outline-secondary"><i class="fas fa-calendar-plus"></i></a>
+                <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-outline-secondary"><i class="far fa-comments"></i></a>
                </div>
                 </div>
             
