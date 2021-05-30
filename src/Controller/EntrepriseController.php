@@ -47,15 +47,15 @@ class EntrepriseController extends AbstractController
             $user->setPassword($encodedPassword);
             // $user->setEmail();
             //envoi mail
+            
             $email =(new Email())
             ->from('dragonfly.projet@gmail.com')
             ->to($user->getEmail())
             ->subject('Inscription')
             ->text('Inscription ')
             ->html('<H1>Bonjour </H1><br><p>L\'inscription de votre entreprise est enregistrée!</p>');
-
+    
             $mailer->send($email);
-            return new Response($notification);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($entreprise);
