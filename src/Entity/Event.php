@@ -97,7 +97,7 @@ class Event
     /**
      * @ORM\Column(type="boolean")
      */
-    private $access;
+    private $access = 0;
 
     /**
      * @ORM\Column(type="text", nullable=true)

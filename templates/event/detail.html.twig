@@ -45,15 +45,23 @@
                 </div>
                 <p class="text-start">Catégorie: {{ event.categorie }}</p>
                 <p class="text-start"><i class="fas fa-calendar-alt text-warning"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
+                {% if event.dateFin is defined and event.dateFin is not null %}
+                <p class="text-start"><i class="fas fa-calendar-alt text-warning"></i> {{ event.dateFin ? event.dateFin|date('d-m-Y') : '' }}</p>
+                {% endif %}
                 <p class="text-start"><i class="fas fa-user-friends text-warning"></i>: {{ event.persMin ~ "minimum"}}
                 {% if event.persMax is defined and event.persMax is not null %}
                  <p class="text-start"><i class="fas fa-users text-warning"></i> {{ event.persMax ~ "maximum"}} </p>
                 {% endif %}
                 
                 {# <p id="resultat" class="text-start">Adresse: {{ event.rue }}{{ event.codePostal }}{{ event.ville }}</p> #}
-                
-                <p class="text-start"><i class="fas fa-wheelchair text-warning"></i> {{ event.access }}</p>
+                {% if event.access == 0 %}
+                    <p class="text-start"><i class="fas fa-wheelchair text-warning"></i> {{ event.access ~ "accessible facilement" }}</p>
+                {% else %}
+                    <p class="text-start"><i class="fas fa-wheelchair text-warning"></i> {{ event.access ~ "accessibilité difficile"}}</p>
+                {% endif %}
+                {% if event.message is defined and event.message is not null %}
                 <p class="text-start"><i class="fas fa-quote-left text-warning"></i> {{ event.message }} <i class="fas fa-quote-right text-warning"></i></p>
+                {% endif %}
                 {# ANCHOR A AJOUTER : ORGANISER PAR AVEC ID USER #}
 
                 <div class="d-none">
