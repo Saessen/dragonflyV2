@@ -43,23 +43,26 @@ class UserController extends AbstractController
     /**
      * @Route("/user/new", name="user_new", methods={"GET","POST"})
      */
-    public function new(Request $request, MailerInterface $mailer, EntrepriseRepository $entrepriseRepository, UserPasswordEncoderInterface $encoder): Response
+    public function new(Request $request, MailerInterface $mailer, EntrepriseRepository $entrepriseRepository, UserPasswordEncoderInterface $encoder, SessionInterface $session): Response
     {
-
-        // 
-        // $entreprise = $entrepriseRepository->find($id);
+        
         $user = new User();
-        // $entreprise = $entrepriseRepository->find($id);
-        // $user = $form->getData();
+
+        $admin = $this->getUser();
+        $entreprise = $admin->getEntreprise();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
+            
+            $user->setEntreprise($entreprise);
+            $user->setRoles(['ROLE_USER']);
             $originePassword = $user->getPassword();
             $encodedPassword = $encoder->encodePassword($user, $originePassword);
             $user->setPassword($encodedPassword);
-
+            $user = $form->getData();
+  
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -71,19 +74,20 @@ class UserController extends AbstractController
             // ->subject('new mail')
             // ->text('Connectez vous ')
             // ->html('<H1>Bonjour</H1><br><p>Vous êtes invité à confirmer votre inscription  à DragonFly et mofifier vos accès</p>
-            // <br>Voici vos informations de connexions: Username:  '$user->getUsername, 'Password : ' $user->getPassword.);
+            // <br>Voici vos informations de connexions: Username:  '$user->getUsername, 'Password : ' $user->getPassword($originePassword).);
 
             // $mailer->send($email);
             // return new Response("Création réussi! Votre collaborateur à recu son mail de connexion");
 
-            return $this->redirectToRoute('event_index');
+            return $this->redirectToRoute('user_index');
         }
 
         return $this->render('user/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
-        }
+        
+    }
     
     /**
      * @Route("/user/mes-events", name="user_showEvent")

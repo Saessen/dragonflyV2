@@ -41,11 +41,15 @@
                         <div class="form-group">
                             {{form_row(form.admin.prenom)}}
                         </div>                        
+
+                    </div>
+                    <div class="col-12 col-md-6">
                         <div class="form-group">
                             {{form_row(form.admin.sexe)}}
                         </div>
-                    </div>
-                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            {{form_row(form.admin.poste)}}
+                        </div>
                         <div class="form-group">
                             {{form_row(form.admin.numero_rue)}}
                         </div>
@@ -61,15 +65,13 @@
                         <div class="form-group">
                             {{form_row(form.admin.pays)}}
                         </div>
-                        <div class="form-group">
+                        {# <div class="form-group">
                             {{form_row(form.admin.latitude)}}
                         </div>                        
                         <div class="form-group">
                             {{form_row(form.admin.longitude)}}
-                        </div>                        
-                        <div class="form-group">
-                            {{form_row(form.admin.poste)}}
-                        </div>
+                        </div>                         #}
+
                     </div> 
                 </div>
                     {# {{ form_widget(form, {'show_legend':false}) }} #}

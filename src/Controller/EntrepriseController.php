@@ -31,12 +31,13 @@ class EntrepriseController extends AbstractController
     public function new(Request $request, UserPasswordEncoderInterface $encoder, MailerInterface $mailer): Response
     {
         $entreprise = new Entreprise();
-        $notification= "Votre inscription est validée";
+
         $form = $this->createForm(EntrepriseType::class, $entreprise);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             //
+            
             $user = $form->get("admin")->getData();
             $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
             $user->setEntreprise($entreprise);

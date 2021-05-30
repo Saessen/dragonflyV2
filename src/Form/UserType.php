@@ -30,7 +30,7 @@ class UserType extends AbstractType
             ->add('pays')
             ->remove('latitude')
             ->remove('longitude')
-            ->add('entreprise')
+            ->remove('entreprise')
             ->remove('events')
         ;
     }
