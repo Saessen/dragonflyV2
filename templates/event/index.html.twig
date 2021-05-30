@@ -72,118 +72,59 @@
     </div>
     </div>
     {% block javascripts %}
-     
-    <!-- FICHIER JS LEAFLET -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script>
-        {# MES VARIABLES #}
-        let centre ={lat: 47.232, lng: 	2.421}; // coordonnées lat lng du centre de la france
-        let map = L.map('mapId').setView( centre, 5); // zoom a 5 pr visualiser la carte de france en entière
-        var lat2 = document.getElementById('lat').innerText;
-        var lng2 = document.getElementById('lng').innerText;
-        {# console.log (lat);
-        console.log (lng); #}
-       
+       <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+        <script>
         
+        let centre ={lat: 45.77668, lng: 3.07722}; // Lat, Lng
 
-        // ajout de jeu de tuiles: plusieurs attributs:
-        // FCTION TILELAYER
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        let map = L.map('mapId').setView( centre, 4.5); // 13 correspond au zoom de base sur la carte
+        L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        maxZoom: 17,
+        attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
         }).addTo(map);
 
-
-        ////AFFICHAGE DE TOUS LES MARKERS DE TOUS LES EVENTS ANCHOR
-        let event = [lat2, lng2];
-        console.log(events);
-        {# ANCHOR probleme boucle  #}
-        {# events.forEach((event)=>{
-            console.log(event);
-        }); #}
-        {# for (let i =0; i< this.length; i++){
-            L.marker(events).addTo(map);
-        } #}
-        {# L.marker(events).addTo(map); #}
-        
         {# DISTANCE #}
         distance.addEventListener("change", function(){
         d = this.value 
-
         valeurDistance.innerText = d + " km"
         if(circle!=null){
             console.log("redraw circle");
             circle.setRadius(d*1000);
         }
-    });
+        });
 
-
-////////////////////////// REMPLIR L'ADRESSE ET AFFICHER LE MARKER CORRESPONDANT///////////////////////////////////////////
+        ////////////////////////// REMPLIR L'ADRESSE ET AFFICHER LE MARKER CORRESPONDANT///////////////////////////////////////////
     //ecouteur sur le btn =>récupère l'adresse => service de géocodage
     let geocodebtn = document.getElementById('geocode');
         geocodebtn.addEventListener('click', function(){
             let adresse = document.getElementById('adresse').value;
-            console.log(adresse);
+            // console.log(adresse);
             geoCode(adresse);
         });
 
         async function geoCode(adresse, e){
-            let url = `https://nominatim.openstreetmap.org/search/?format=json&q=${adresse}`;
+            let url = `https://nominatim.openstreetmap.org/search/?format=json&addressdetails=1&q=${adresse}`;
             let resp =await fetch(url);
             let datas = await resp.json();
             console.log(datas);
             let lat =parseFloat(datas[0].lat).toFixed(4);
             let lng =parseFloat(datas[0].lon).toFixed(4); // attention ac ce fournisseur la lng est une lon
-            console.log(lat, lng); 
-            let donneesAdresse = document.getElementById("donneesAdresse");
-            donneesAdresse.innerText = "Ici la latitude : "+ lat +" et la longitute: " +lng+" de l'adresse entré dans la barre de recherche";
+            console.log(lat, lng);            
+
+            ///ANCHOR PROBLEME: MAP.PANTO ESSAI FLYTO ECHEC AUSSI😤
+            {# lien doc: https://leafletjs.com/reference-1.7.1.html#map-option #}
             //ajout d'un marker
-            circle = L.circle(datas, {
+            L.marker([lat, lng]).addTo(map); ///////////////////////////////PROBLEME ANCHOR le point s'affiche que si il est dans la vue de la carte obliger de dézoomer pour le voir
+            map.panTo([lat, lng], 10);/////////////////YOUPI règle le problème précédent #}
+            {# ANCHOR d is not defined #}
+            {# circle = L.circle(datas {
                 color: '#0000ff',
                 radius: 1000 * d /// en mètre
-                }).addTo(map);
-            map.panTo([lat, lng], 18); //JE VEUX ZOOMER
+                }).addTo(map); #}
             
         }
-        
 
-
-////////////////////////////////CLICK SUR MAP => RECUPERER ADRESSE ET L'AFFICHER
-        map.on('click', function(e){
-            
-            let lat = parseFloat(e.latlng.lat).toFixed(4);
-            let lng = parseFloat(e.latlng.lng).toFixed(4);
-            console.log(lat, lng);
-
-            L.marker([lat, lng]).addTo(map);
-            
-
-            geoDecode(lat, lng);
-        });
-        async function geoDecode(lat, lng){
-            let resultat = document.getElementById("resultat");
-            resultat.innerText = "patience ca arrive!!!";
-            //appel nominatim
-            let resp = await fetch (`http://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`); //précise reverse pour avoir l'inverse 
-            let datas =await resp.json();
-            console.log(datas); //display name + adresse
-            if(datas.display_name){
-                resultat.innerText = datas.display_name + " latitude : "+datas.lat +" longitude: "+ datas.lon;
-                console.log(datas.display_name);
-                ///////////////////////////////////////AFFICHAGE CERCLE SUR UN RAYON DE 1KM/////////////////////////////////////
-                circle = L.circle(datas, {
-                color: '#0000ff',
-                radius: 1000 * d /// en mètre
-                }).addTo(map);
-
-            }else{
-                resultat.innerText ='non trouvé';
-
-            }
-        }
-
-
-        
-//////////////////////////GET MY POSITION AU BTN RECUPERE LAT+LNG ET LES AFFICHER//////////////////////////////////////////
+        {# GEOLOCALISATION AU BTN #}
         let localisation = document.getElementById('localisation');
         localisation.addEventListener('click', function(){
             // console.log('dis mois que ca marche..')
@@ -191,26 +132,51 @@
             map.on('locationfound', onLocationFound);
             map.on('locationerror', onLocationError);
 
-            map.locate({setView:true, maxZoom: 18}) //fction de leaflet qui lance la localisation et appelera nos fctions/ setView:true pr recentrer sur cette localisation
+            map.locate({setView:true, maxZoom: 11}) //fction de leaflet qui lance la localisation et appelera nos fctions/ setView:true pr recentrer sur cette localisation
         });
-
+{# ANCHOR LE popup NE S OUVRE PAS POURQUOI???????????? #}
         function onLocationFound(e){
-            
-            
-            console.log(e.latlng);
-            let ici = document.getElementById("ici");
-            ici.innerText = "Voici vos coordonnées : "+ e.latlng;
-            circle = L.circle(datas, {
+            console.log(e);
+            //ANCHOR  a commenter une fois le cercle fonctionnel
+            L.marker(e.latlng).addTo(map).bindPopup("vous êtes ici!").openPopup(); //récupérer les données sous forme d'objet pr pouvoir les réutiliser  #}
+            {# ANCHOR d is not defined #}
+            circle = L.circle(e, {
                 color: '#0000ff',
                 radius: 1000 * d /// en mètre
-                }).addTo(map).binPopup("Vous êtes ici");
+                }).addTo(map);
         }
         //fction indiquant erreur dans la localisation et réactivation du btn
         function onLocationError(e){
             localisation.disabled = false;
             alert(e.message);
         }
+        {# FIN GEOLOCALISATION AU BTN #}
 
+        ///////CLICK SUR MAP///////
+        map.on('click', function(e){
+            
+            let lat = parseFloat(e.latlng.lat).toFixed(4);
+            let lng = parseFloat(e.latlng.lng).toFixed(4);
+            console.log(lat, lng);
+            
+            L.marker([lat, lng]).addTo(map); //ANCHOR  a commenter une fois la solution du cercle trouvée
+            geoDecode(lat, lng);
+        });
+
+        async function geoDecode(lat, lng){
+            //appel nominatim
+            let resp = await fetch (`http://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`); //précise reverse pour avoir l'inverse 
+            let datas =await resp.json();
+            {# ANCHOR LE CERCLE NE FCTIONNE PAS #}
+            console.log(datas); 
+            circle = L.circle(datas, {
+                color: '#0000ff',
+                radius: 1000 * d /// en mètre
+                }).addTo(map); 
+            
+
+        }
+    
         </script>
     {% endblock %}
 

@@ -48,9 +48,10 @@
                 {% if event.dateFin is defined and event.dateFin is not null %}
                 <p class="text-start"><i class="fas fa-calendar-alt text-warning"></i> {{ event.dateFin ? event.dateFin|date('d-m-Y') : '' }}</p>
                 {% endif %}
-                <p class="text-start"><i class="fas fa-user-friends text-warning"></i>: {{ event.persMin ~ "minimum"}}
+                <p class="text-start"><i class="fas fa-user-friends text-warning"></i> {{ event.persMin ~ "minimum"}}
                 {% if event.persMax is defined and event.persMax is not null %}
                  <p class="text-start"><i class="fas fa-users text-warning"></i> {{ event.persMax ~ "maximum"}} </p>
+                 <p class="text-start"><i class="fas fa-users text-warning"></i> {{ (event.persMax - event.persMin) ~ " places disponibles"}} </p>
                 {% endif %}
                 
                 {# <p id="resultat" class="text-start">Adresse: {{ event.rue }}{{ event.codePostal }}{{ event.ville }}</p> #}
