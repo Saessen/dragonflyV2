@@ -116,6 +116,7 @@
         });
 
         function onLocationFound(e){
+            console.log(e);
             document.getElementById("event_latitude").value = e.latlng.lat;
             document.getElementById("event_longitude").value = e.latlng.lng;
             document.getElementById("event_rue").value = rue;

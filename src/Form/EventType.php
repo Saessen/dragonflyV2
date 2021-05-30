@@ -33,7 +33,7 @@ class EventType extends AbstractType
             ->add('longitude')
             ->add('access')
             ->add('message')
-            ->add('user');
+            ->remove('user');
             
     }
 
