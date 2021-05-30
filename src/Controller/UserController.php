@@ -76,7 +76,7 @@ class UserController extends AbstractController
             // $mailer->send($email);
             // return new Response("Création réussi! Votre collaborateur à recu son mail de connexion");
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('event_index');
         }
 
         return $this->render('user/new.html.twig', [

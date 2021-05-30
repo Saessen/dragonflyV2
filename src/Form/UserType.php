@@ -28,8 +28,8 @@ class UserType extends AbstractType
             ->add('code_postal')
             ->add('ville')
             ->add('pays')
-            ->add('latitude')
-            ->add('longitude')
+            ->remove('latitude')
+            ->remove('longitude')
             ->add('entreprise')
             ->remove('events')
         ;
