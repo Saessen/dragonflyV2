@@ -22,8 +22,7 @@
                 <th>Code_postal</th>
                 <th>Ville</th>
                 <th>Pays</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
+                
                 <th>actions</th>
             </tr>
         </thead>
@@ -44,8 +43,7 @@
                 <td>{{ user.codePostal }}</td>
                 <td>{{ user.ville }}</td>
                 <td>{{ user.pays }}</td>
-                <td>{{ user.latitude }}</td>
-                <td>{{ user.longitude }}</td>
+                
                 <td>
                     <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
