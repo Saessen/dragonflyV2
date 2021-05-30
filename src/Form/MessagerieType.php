@@ -8,13 +8,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MessagerieType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('message')
+            ->add('message',TextType::class, array('label'=>'Message', 'attr'=>array('placeholder'=>'Vous pouvez écrire votre message ICI! Celui-ci sera vu par l\'ensemble des participants à l\'évènement')))
             ->remove('createdAt')
             ->remove('isRead')
             ->remove('event')

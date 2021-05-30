@@ -72,7 +72,34 @@
 
                <div>
                 <a href="{{ path('event_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
-                <a href="{{ path('event_subscribe', {id: event.id}) }}" class="btn btn-outline-secondary"><i class="fas fa-calendar-plus"></i></a>
+                
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Je m'inscris!
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Inscription {{ event.nom }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Je confirme mon inscription pour l'évenement du {{event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success "><a href="{{ path('event_subscribe', {id: event.id}) }}" class="text-decoration-none text-white">Confirmation</a></button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+
+
+                
                 <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-outline-secondary"><i class="far fa-comments"></i></a>
                </div>
                 </div>
@@ -88,6 +115,10 @@
     <!-- FICHIER JS LEAFLET -->
     
     <script>
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+  return new bootstrap.Popover(popoverTriggerEl)
+})
    document.addEventListener("DOMContentLoaded", initMap, false);
     function initMap(){
         {# MES VARIABLES #}
