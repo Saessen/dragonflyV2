@@ -24,26 +24,36 @@
             {# ANCHOR - NAVBAR #}
             <nav class="navbar sticky-top navbar-light mb-5">
                 <div id="nav_div_1" class="container-fluid">
-                    <div id="nav_div_logo">            
-                        <a class="navbar-brand m-0 nav_div_logo_a" href="{{ path('home_page')}}">
+                    <div id="nav_div_logo">    
+                    <button type="button" class="btn " data-bs-toggle="tooltip" data-bs-placement="top" title="Accueil DragonFLy">
+                    <a class="navbar-brand m-0 nav_div_logo_a" href="{{ path('home_page')}}">
                             Dragonfly<img id="logo" src="../images/icons/logo2_libellule.svg" alt="logo dragonfly" width="50">
                         </a>
+</button>        
+                        
                     </div>
                     <div>
                     {% if app.user.roles is defined and "ROLE_USER" in app.user.roles %}
-                        <a href="{{ path('user_moncompte')}}" class="navbar-brand">
+                    <button type="button" class="btn " data-bs-toggle="tooltip" data-bs-placement="bottom" title="Mon compte">
+                    <a href="{{ path('user_moncompte')}}" class="navbar-brand">
                             <img class="nav_icone" src="../images/icons/user-solid.svg" alt="mon compte" width="25">
                         </a>
-                        <a href="{{ path('app_logout')}}" class="navbar-brand m-0">
+                    </button>
+                        <button type="button" class="btn " data-bs-toggle="tooltip" data-bs-placement="bottom" title="Déconnexion">
+                   <a href="{{ path('app_logout')}}" class="navbar-brand m-0">
                             <img class="nav_icone" src="../images/icons/sign-out-alt-solid.svg" alt="déconnexion" width="25">
                         </a>
+                        
                     {% else %}
+                    <button type="button" class="btn " data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inscription">
                         <a href="{{ path('entreprise_new')}}" class="navbar-brand">
                             <img class="nav_icone" src="../images/icons/inscription.svg" alt="inscription" width="25">
                         </a>
+                        <button type="button" class="btn " data-bs-toggle="tooltip" data-bs-placement="bottom" title="Connexion">
                         <a href="{{ path('app_login')}}" class="navbar-brand m-0">
                             <img class="nav_icone" src="../images/icons/connexion.svg" alt="connexion" width="25">
                         </a>
+                        
                     
                     {% endif %}
                     </div>
@@ -122,6 +132,10 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
             <script>
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
 
             {# On déclare des constantes pour chaque élément à animer #}
                 const titreSpan = document.querySelectorAll('.titre-home');
