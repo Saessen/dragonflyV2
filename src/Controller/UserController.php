@@ -55,29 +55,29 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
-            
+
             $user->setEntreprise($entreprise);
             $user->setRoles(['ROLE_USER']);
             $originePassword = $user->getPassword();
             $encodedPassword = $encoder->encodePassword($user, $originePassword);
             $user->setPassword($encodedPassword);
             $user = $form->getData();
-  
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-            //envoi mail
-            // $email =(new Email())
-            // ->from('dragonfly.projet@gmail.com')
-            // ->to($user->getEmail())
-            // ->subject('new mail')
-            // ->text('Connectez vous ')
-            // ->html('<H1>Bonjour</H1><br><p>Vous êtes invité à confirmer votre inscription  à DragonFly et mofifier vos accès</p>
-            // <br>Voici vos informations de connexions: Username:  '$user->getUsername, 'Password : ' $user->getPassword($originePassword).);
+            // envoi mail
+            $email =(new Email())
+            ->from('dragonfly.projet@gmail.com')
+            ->to($user->getEmail())
+            ->subject('new mail')
+            ->text('Connectez vous ')
+            ->html("<H1>Bonjour</H1><br><p>Vous êtes invité à confirmer votre inscription  à DragonFly et mofifier vos accès</p>
+            <br>Voici vos informations de connexions: Username:  " . $user->getUsername() . ", Password : " .  $user->getPassword() );
 
-            // $mailer->send($email);
-            // return new Response("Création réussi! Votre collaborateur à recu son mail de connexion");
+            $mailer->send($email);
+            return new Response("Création réussi! Votre collaborateur à recu son mail de connexion");
 
             return $this->redirectToRoute('user_index');
         }
