@@ -9,9 +9,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
 class EventType extends AbstractType
 {
@@ -19,14 +21,14 @@ class EventType extends AbstractType
     {
         $builder
         
-            ->add('categorie', TextType::class, ['attr'=>['autofocus'=>true]])
-            ->add('nom',TextType::class, array('label'=>'Nom', 'attr'=>array('placeholder'=>'Entrez le nom de votre évènement')))
-            ->add('date_debut')
-            ->add('date_fin')
-            ->add('heure_debut')
-            ->add('heure_fin')
-            ->add('pers_min',TextType::class, array('label'=>'participants', 'attr'=>array('placeholder'=>'Combien de participants minimum pour votre évènement?')))
-            ->add('pers_max',TextType::class, array('label'=>'participants', 'attr'=>array('placeholder'=>'Combien de participants maximum pour votre évènement?')))
+            ->add('categorie', ChoiceType::class, ['choices'=> ['Festif'=>1, 'Entraide'=>2, 'Familial'=>3, 'Loisirs/Détente'=>4, 'Sportif'=>5, 'Entreprise'=>6]])
+            ->add('nom',TextType::class, ['label'=>'Nom', 'attr'=>['placeholder'=>'Entrez le nom de votre évènement']])
+            ->add('date_debut', DateType::class, ['widget'=> 'single_text'], ['label'=>'Début de l\'évènement'])
+            ->add('heure_debut', TimeType::class, ['widget'=>'single_text', 'label'=>'Heure du début'])
+            ->add('date_fin', DateType::class, ['widget'=> 'single_text'], ['label'=>'Fin de l\'évènement'])
+            ->add('heure_fin', TimeType::class, ['widget'=>'single_text', 'label'=>'Heure de fin'])
+            ->add('pers_min',TextType::class, ['label'=>'Participants', 'attr'=>['placeholder'=>'Combien de participants minimum pour votre évènement?']])
+            ->add('pers_max',TextType::class, ['label'=>'Participants', 'attr'=>['placeholder'=>'Combien de participants maximum pour votre évènement?', 'required'=>false]])
             ->add('numero_rue', HiddenType::class, ['data'=>'essai'])
             ->add('rue', HiddenType::class, ['data'=>'essai'])
             ->add('code_postal', HiddenType::class, ['data'=>'essai'])
@@ -34,8 +36,8 @@ class EventType extends AbstractType
             ->add('pays', HiddenType::class, ['data'=>'essai'])
             ->add('latitude', HiddenType::class, ['data'=>'essai'])
             ->add('longitude', HiddenType::class, ['data'=>'essai'])
-            ->add('access',TextType::class, array('label'=>'Accessibilité', 'attr'=>array('placeholder'=>'Votre évènement est-il facilement accessible pour les personnes à mobilité réduite?')))
-            ->add('message', TextareaType::class, array('label'=>'message', 'attr'=>array('placeholder'=>'Décrivez brievement l\'évènement')))
+            ->add('access', ChoiceType::class, ['placeholder'=>'Accessible facilement aux personnes à mobilité réduite?', 'choices'=>['Oui'=>1, 'Non'=>2]])
+            ->add('message', TextareaType::class, ['label'=>'message', 'attr'=>['placeholder'=>'Informations complémentaires, conseils,... ', 'required'=>false]])
             ->remove('user')
             ->remove('entreprise')
             ;

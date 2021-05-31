@@ -7,110 +7,55 @@
         <div class="row">
             <div class="col-12">
                 <h1>
-                    <span class="col-7 text-end">Information</span>
+                    <span class="d-block titre-home col-6 text-end"> Utilisateur :  </span>
                     <br>
-                    <span class="col-9 text-end">{{ user.username }}</span>
+                    <span class="d-block titre-home col-7 text-end">{{ user.username }}</span>
                 </h1>
             </div>
         </div>
     </div>
 
-    <div class="container">
-        <div class="row">
+    <div class="container bg-under-text">
+        <div class="row p-3">
             <div class="col-12">
-                <h2 class="text-center">Pour profiter pleinement des fonctionnalités du site, complétez votre profil! </h2>
-                <div class="col-lg-6">
-                    <div>{{ user.username }}</div>
-                    <div>{{ user.password }}</div>
-                    <div>{{ user.nom }}</div>
-                    <div>{{ user.prenom }}</div>
-                    <div>{{ user.sexe }}</div>
-                    <div>{{ user.email }}</div>
-                    <div>{{ user.poste }}</div>
-                </div>
-                <div class="col-lg-6">
-                    <div>{{ user.numeroRue }}</div>
-                    <div>{{ user.rue }}</div>
-                    <div>{{ user.codePostal }}</div>
-                    <div>{{ user.ville }}</div>
-                    <div>{{ user.pays }}</div>
-                    
+                <div class="card">
+                    <div class="card-title">
+                        <h2 class="p-5 text-center"> Modifier un utilisateur pour lui attribuer de nouveaux rôles et mots de passe ou supprimer un compte utilisateur.</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-12 text-end p-3">
+                            <a class="btn btn-warning" href="{{ path('user_edit', {'id': user.id}) }}">Modifier l'utilisateur</a>
+                        </div>
+                        <div class="d-flex flex-wrap">
+                            <div class="col-12 col-md-6">
+                                <h3 class="p-2 text-center">Informations personnelles</h3>
+                                <div class="p-1 m-2 shadow rounded list-group-item">Nom : {{ user.nom }}</div>
+                                <div class="p-1 m-2 shadow rounded list-group-item">Prénom : {{ user.prenom }}</div>
+                                <div class="p-1 m-2 shadow rounded list-group-item">Sexe : {{ user.sexe }}</div>
+                                <div class="p-1 m-2 shadow rounded list-group-item">N° de rue : {{ user.numeroRue }}</div>
+                                <div class="p-1 m-2 shadow rounded list-group-item">Rue : {{ user.rue }}</div>
+                                <div class="p-1 m-2 shadow rounded list-group-item">Code postal : {{ user.codePostal }}</div>
+                                <div class="p-1 m-2 shadow rounded list-group-item">Ville : {{ user.ville }}</div>
+                                <div class="p-1 m-2 shadow rounded list-group-item">Pays : {{ user.pays }}</div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <h3 class="p-2 text-center">Informations professionnelles</h3>
+                                <div class="p-1 m-2 shadow rounded list-group-item">Username : {{ user.username }}</div>
+                                <div class="p-1 m-2 shadow rounded list-group-item">Email : {{ user.email }}</div>
+                                <div class="p-1 m-2 shadow rounded list-group-item">Poste occupé : {{ user.poste }}</div>          
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 p-3">
+                        <a class="btn btn-outline-info" href="{{ path('user_index') }}">Retour</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    {# <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ user.username }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ user.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ user.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Sexe</th>
-                <td>{{ user.sexe }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Poste</th>
-                <td>{{ user.poste }}</td>
-            </tr>
-            <tr>
-                <th>Numero_rue</th>
-                <td>{{ user.numeroRue }}</td>
-            </tr>
-            <tr>
-                <th>Rue</th>
-                <td>{{ user.rue }}</td>
-            </tr>
-            <tr>
-                <th>Code_postal</th>
-                <td>{{ user.codePostal }}</td>
-            </tr>
-            <tr>
-                <th>Ville</th>
-                <td>{{ user.ville }}</td>
-            </tr>
-            <tr>
-                <th>Pays</th>
-                <td>{{ user.pays }}</td>
-            </tr>
-            <tr>
-                <th>Latitude</th>
-                <td>{{ user.latitude }}</td>
-            </tr>
-            <tr>
-                
-            </tr>
-        </tbody>
-    </table> #}
+    
 
-    <a href="{{ path('user_index') }}">Retour</a>
 
-    <a href="{{ path('user_edit', {'id': user.id}) }}">Modifier mes informations</a>
 
-    {{ include('user/_delete_form.html.twig') }}
 {% endblock %}

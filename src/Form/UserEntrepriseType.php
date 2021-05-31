@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserEntrepriseType extends AbstractType
@@ -15,19 +16,19 @@ class UserEntrepriseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username',TextType::class, array('label'=>'Username', 'attr'=>array('placeholder'=>'Entrez votre username')))
-            ->remove('roles', ['attr'=>["class"=>"d-none"]])
+            ->add('username',TextType::class, ['label'=>'Username', 'attr'=>['placeholder'=>'Entrez votre username']])
+            ->remove('roles')
             ->add('password', PasswordType::class)
-            ->add('nom',TextType::class, array('label'=>'Nom', 'attr'=>array('placeholder'=>'Entrez votre nom')))
-            ->add('prenom',TextType::class, array('label'=>'Prénom', 'attr'=>array('placeholder'=>'Entrez votre prénom')))
-            ->add('sexe')
+            ->add('nom',TextType::class, ['label'=>'Nom', 'attr'=>['placeholder'=>'Entrez votre nom']])
+            ->add('prenom',TextType::class, ['label'=>'Prénom', 'attr'=>['placeholder'=>'Entrez votre prénom']])
+            ->add('sexe', ChoiceType::class, ['placeholder'=>'Vous êtes de sexe : ', 'choices'=>['Féminin'=>1, 'Masculin'=>2]])
             ->add('email', EmailType::class)
-            ->add('poste',TextType::class, array('label'=>'Poste', 'attr'=>array('placeholder'=>'Quel poste occupez-vous?')))
-            ->add('numero_rue',TextType::class, array('label'=>'Numéro de rue ', 'attr'=>array('placeholder'=>'Entrez votre numéro de rue')))
-            ->add('rue',TextType::class, array('label'=>'Rue', 'attr'=>array('placeholder'=>'Entrez votre rue')))
-            ->add('code_postal',TextType::class, array('label'=>'Code postal', 'attr'=>array('placeholder'=>'Entrez votre code postal')))
-            ->add('ville',TextType::class, array('label'=>'Ville', 'attr'=>array('placeholder'=>'Entrez votre ville')))
-            ->add('pays',TextType::class, array('label'=>'Pays', 'attr'=>array('placeholder'=>'France')))
+            ->add('poste',TextType::class, ['label'=>'Poste', 'attr'=>['placeholder'=>'Quel poste occupez-vous?']])
+            ->add('numero_rue',TextType::class, ['label'=>'Numéro de rue ', 'attr'=>['placeholder'=>'Entrez votre numéro de rue']])
+            ->add('rue',TextType::class, ['label'=>'Rue', 'attr'=>['placeholder'=>'Entrez votre rue']])
+            ->add('code_postal',TextType::class, ['label'=>'Code postal', 'attr'=>['placeholder'=>'Entrez votre code postal']])
+            ->add('ville',TextType::class, ['label'=>'Ville', 'attr'=>['placeholder'=>'Entrez votre ville']])
+            ->add('pays',TextType::class, ['label'=>'Pays', 'attr'=>['placeholder'=>'France']])
             ->remove('latitude')
             ->remove('longitude')
             ->remove('entreprise')
