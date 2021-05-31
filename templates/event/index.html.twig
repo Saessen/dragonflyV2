@@ -104,28 +104,33 @@
     {% block javascripts %}
        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <script>
-
-        let centre ={lat: 45.77668, lng: 3.07722}; // Lat, Lng
-
-        let map = L.map('mapId').setView( centre, 4.5); // 13 correspond au zoom de base sur la carte
+        var d = 0;
+        var circle;
+        var centre ={lat: 45.77668, lng: 3.07722}; // Lat, Lng
+        var distance = document.querySelector("#distance");
+        var map = L.map('mapId').setView( centre, 4.5); // 13 correspond au zoom de base sur la carte
         L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
         maxZoom: 17,
-        attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+        //attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
         }).addTo(map);
-
+        circle = L.circle([45.3870, 3.3084], {
+            color: '#ff000000',
+            radius: 1000 * d /// en mètre
+        });
+        circle.addTo(map); 
         {# DISTANCE #}
         distance.addEventListener("change", function(){
-        d = this.value 
-        valeurDistance.innerText = d + " km"
-        if(circle!=null){
-            console.log("redraw circle");
-            circle.setRadius(d*1000);
-        }
+            d = this.value 
+            valeurDistance.innerText = d + " km"
+            if(circle!=null){
+                console.log("redraw circle");
+                circle.setRadius(d*1000);
+            }
         });
 
         ////////////////////////// REMPLIR L'ADRESSE ET AFFICHER LE MARKER CORRESPONDANT///////////////////////////////////////////
     //ecouteur sur le btn =>récupère l'adresse => service de géocodage
-    let geocodebtn = document.getElementById('geocode');
+    var geocodebtn = document.getElementById('geocode');
         geocodebtn.addEventListener('click', function(){
             let adresse = document.getElementById('adresse').value;
             // console.log(adresse);
@@ -137,25 +142,24 @@
             let resp =await fetch(url);
             let datas = await resp.json();
             console.log(datas);
-            let lat =parseFloat(datas[0].lat).toFixed(4);
-            let lng =parseFloat(datas[0].lon).toFixed(4); // attention ac ce fournisseur la lng est une lon
+            var lat =parseFloat(datas[0].lat).toFixed(4);
+            var lng =parseFloat(datas[0].lon).toFixed(4); // attention ac ce fournisseur la lng est une lon
             console.log(lat, lng);            
 
             ///ANCHOR PROBLEME: MAP.PANTO ESSAI FLYTO ECHEC AUSSI😤
             {# lien doc: https://leafletjs.com/reference-1.7.1.html#map-option #}
             //ajout d'un marker
             L.marker([lat, lng]).addTo(map); ///////////////////////////////PROBLEME ANCHOR le point s'affiche que si il est dans la vue de la carte obliger de dézoomer pour le voir
-            map.panTo([lat, lng], 10);/////////////////YOUPI règle le problème précédent #}
+            {# map.panTo([lat, lng], 10);/////////////////YOUPI règle le problème précédent #}
+          
             {# ANCHOR d is not defined #}
-            {# circle = L.circle(datas {
-                color: '#0000ff',
-                radius: 1000 * d /// en mètre
-                }).addTo(map); #}
-            
+            circle.setLatLng([lat, lng]);
+            circle.setRadius(distance.value*1000);
+            circle.setStyle({'color': '#0000FFFF'});
         }
 
         {# GEOLOCALISATION AU BTN #}
-        let localisation = document.getElementById('localisation');
+        var localisation = document.getElementById('localisation');
         localisation.addEventListener('click', function(){
             // console.log('dis mois que ca marche..')
             localisation.disabled = true ; //désactiver le bouton une fois cliquer pr éviter que le user click 50fois si le chargement prend du tps
@@ -168,12 +172,13 @@
         function onLocationFound(e){
             console.log(e);
             //ANCHOR  a commenter une fois le cercle fonctionnel
-            L.marker(e.latlng).addTo(map).bindPopup("vous êtes ici!").openPopup(); //récupérer les données sous forme d'objet pr pouvoir les réutiliser  #}
-            {# ANCHOR d is not defined #}
-            circle = L.circle(e, {
-                color: '#0000ff',
-                radius: 1000 * d /// en mètre
-                }).addTo(map);
+            var m = L.marker(e.latlng).addTo(map); //récupérer les données sous forme d'objet pr pouvoir les réutiliser   
+            var popUp = L.popup().setLatLng(e.latlng).setContent('Test').openOn(map);
+            m.bindPopup(popUp).openPopup();
+            circle.setLatLng([e.latlng]);
+            circle.setRadius(distance.value*1000);
+            circle.setStyle({'color': '#0000FFFF'});
+            
         }
         //fction indiquant erreur dans la localisation et réactivation du btn
         function onLocationError(e){
@@ -199,10 +204,9 @@
             let datas =await resp.json();
             {# ANCHOR LE CERCLE NE FCTIONNE PAS #}
             console.log(datas); 
-            circle = L.circle(datas, {
-                color: '#0000ff',
-                radius: 1000 * d /// en mètre
-                }).addTo(map); 
+            circle.setLatLng([lat, lng]);
+            circle.setRadius(distance.value*1000);
+            circle.setStyle({'color': '#0000FFFF'});
             
 
         }

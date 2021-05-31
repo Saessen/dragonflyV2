@@ -176,6 +176,7 @@ class UserController extends AbstractController
         $em->persist($user);
         $em->flush();
         //
+        // return new Response("inscription event");
         return $this->redirectToRoute('user_showEvent');
         
     }
