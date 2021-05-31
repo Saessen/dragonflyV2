@@ -87,8 +87,8 @@
 
                 </div>
                 <p class="text-start">Catégorie: {{ event.categorie }}</p>
-                <p class="text-start"><i class="fas fa-calendar-alt"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
-                <p class="text-start">Lieu: {{ event.ville }}</p>
+                <p class="text-start"><i class="text-warning fas fa-calendar-alt"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
+                <p class="text-start"><i class=" text-warning fas fa-map-pin"></i> {{ event.ville }}</p>
                 <div class="d-none">
                 <p id="lat".class="text-end">{{event.latitude}}</p>
                 <p id="lng".class="text-end">{{event.longitude}}</p>

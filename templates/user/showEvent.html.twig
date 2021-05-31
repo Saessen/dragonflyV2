@@ -34,7 +34,8 @@
                 <div class="d-flex justify-content-between align-item-center">
                     <h5>{{ event.nom |upper}}</h5>
                     {# ANCHOR ROUTE A MODIFIER => DETAIL/EVENT #}
-                    <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-outline-secondary "id="geocode">VOIR</button></a>
+                    <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-warning "id="geocode">VOIR</button></a>
+                    <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-warning"><i class="far fa-comments"></i></a>
                 </div>
                 <p class="text-start">Catégorie: {{ event.categorie }}</p>
                 <p class="text-start">Date: {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
