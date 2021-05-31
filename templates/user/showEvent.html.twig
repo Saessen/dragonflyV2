@@ -9,7 +9,7 @@
     <div class="col-12 col-lg-4">
     {# STRUCTURE CARD #}
     {# Début nav entre les pages #}
-    <div class="card text-center " style="width: 1200px;">
+    <div class="card text-start " style="width: 1200px;">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
@@ -26,24 +26,46 @@
             </ul>
         </div>
         <div class="card-body">
-            <h5 class="card-title">Mes events</h5>
+            <h5 class="card-title text-center">Mes events</h5>
             {% for event in app.user.events %}
             {# {{ dump(event)}} #}
             {# Affichage des évenements #}
                 <div class="border">
-                <div class="d-flex justify-content-between align-item-center">
+                
                     <h5>{{ event.nom |upper}}</h5>
-                    {# ANCHOR ROUTE A MODIFIER => DETAIL/EVENT #}
-                    <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-warning "id="geocode">VOIR</button></a>
-                    <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-warning"><i class="far fa-comments"></i></a>
-                </div>
-                <p class="text-start">Catégorie: {{ event.categorie }}</p>
-                <p class="text-start">Date: {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
-                <p class="text-start">Lieu: {{ event.ville }}</p>
+                   
+                    
+                {# </div> #}
+                
+                   <p class="">Catégorie :
+                 {% if event.categorie == 1 %}
+                 Festif <i class="text-warning fas fa-glass-cheers"></i></p>
+                 {% endif %}
+                  {% if event.categorie == 2 %}
+                 Entraide <i class="text-warning fas fa-hands-helping"></i></p>
+                 {% endif %}
+                  {% if event.categorie == 3 %}
+                 Familial <i class="text-warning fas fa-glass-cheers"></i></p>
+                 {% endif %}
+                  {% if event.categorie == 4 %}
+                 Loisirs/détente <i class="text-warning fas fa-palette"></i></i></p>
+                 {% endif %}
+                  {% if event.categorie == 5 %}
+                 Sportif <i class="text-warning fas fa-volleyball-ball"></i></p>
+                 {% endif %}
+                  {% if event.categorie == 6 %}
+                 Entreprise <i class="text-warning fas fa-briefcase"></i></p>
+                 {% endif %}
+                <p class=""><i class="fas fa-calendar-alt text-warning"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
+                <p class=""><i class=" text-warning fas fa-map-pin"></i> {{ event.ville }}</p>
                 <div class="d-none">
                 <p id="lat".class="text-end">{{event.latitude}}</p>
                 <p id="lng".class="text-end">{{event.longitude}}</p>
                 </div>
+                <div class="text-end">
+                    <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-warning "id="geocode">VOIR</button></a>
+                    <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-warning"><i class="far fa-comments"></i></a>
+                    </div>
                 </div>
             {% endfor %}
             

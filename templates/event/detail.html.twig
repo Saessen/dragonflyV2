@@ -43,7 +43,25 @@
                     
                     
                 </div>
-                <p class="text-start">Catégorie: {{ event.categorie }}</p>
+                <p class="text-start">Catégorie :
+                 {% if event.categorie == 1 %}
+                 Festif <i class="text-warning fas fa-glass-cheers"></i></p>
+                 {% endif %}
+                  {% if event.categorie == 2 %}
+                 Entraide <i class="text-warning fas fa-hands-helping"></i></p>
+                 {% endif %}
+                  {% if event.categorie == 3 %}
+                 Familial <i class="text-warning fas fa-glass-cheers"></i></p>
+                 {% endif %}
+                  {% if event.categorie == 4 %}
+                 Loisirs/détente <i class="text-warning fas fa-palette"></i></i></p>
+                 {% endif %}
+                  {% if event.categorie == 5 %}
+                 Sportif <i class="text-warning fas fa-volleyball-ball"></i></p>
+                 {% endif %}
+                  {% if event.categorie == 6 %}
+                 Entreprise <i class="text-warning fas fa-briefcase"></i></p>
+                 {% endif %}
                 <p class="text-start"><i class="fas fa-calendar-alt text-warning"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
                 {% if event.dateFin is defined and event.dateFin is not null %}
                 <p class="text-start"><i class="fas fa-calendar-alt text-warning"></i> {{ event.dateFin ? event.dateFin|date('d-m-Y') : '' }}</p>

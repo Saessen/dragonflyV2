@@ -21,7 +21,7 @@
             </ul>
         </div>
         <div class="card-body">
-            <h5 class="card-title">Créer mon évenement</h5>
+            <h5 class="card-title">CREER UN EVENEMENT</h5>
             {# AFFICHEGAE MAP #}
             <div id="mapId" class="" style="width: 28rem;height : 18rem"></div>
             {# AFFICHAGE BARRE DE RECHERCHE ADRESSE #}
@@ -30,9 +30,11 @@
                 <button type="button" class="btn btn-warning "id="geocode">RECHERCHER</button>
             </p>
             {# AFFICHAGE BOUTON GEOLOCALISATION #}
-            <p class="text-start">
+            {# <p class="text-start">
             <button type="button" class="btn btn-outline-secondary mt-2"id="localisation">JE VEUX ETRE GEOLOCALISE</button>
-            </p>
+            </p> #}
+            <p class="d-none" id="localisation"></p>
+            <p class="text-danger fw-bold" >Entrez votre adresse dans la barre de recherche ou cliquez sur la map</p>
             <p id="resultat"></p>
             
             {# FORM #}
