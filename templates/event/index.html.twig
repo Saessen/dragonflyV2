@@ -55,6 +55,30 @@
                     <h5>{{ event.nom |upper}}</h5>
                     {# ANCHOR ROUTE A MODIFIER => DETAIL/EVENT #}
                     <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-outline-secondary "id="geocode">VOIR</button></a>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Je m'inscris!
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Inscription {{ event.nom }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Je confirme mon inscription pour l'évenement du {{event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success "><a href="{{ path('event_subscribe', {id: event.id}) }}" class="text-decoration-none text-white">Confirmation</a></button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
                 </div>
                 <p class="text-start">Catégorie: {{ event.categorie }}</p>
                 <p class="text-start"><i class="fas fa-calendar-alt"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
