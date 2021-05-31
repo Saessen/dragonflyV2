@@ -8,8 +8,24 @@ body {
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
-
 }
+
+/* ANCHOR CUSTOM CLASSES */
+
+.c-one {
+    color: #F8BE00;
+}
+
+.c-two {
+    color: #707070;
+}
+
+.bg-under-text {
+    background: rgba(139, 181, 219, 0.7);
+}
+
+
+
 /* ANCHOR NAVBAR */
 
 .navbar {
@@ -134,10 +150,6 @@ nav div a {
 
 #container-second {
     padding: 10px;
-}
-
-.bg-under-text {
-    background: rgba(139, 181, 219, 0.7);
 }
 
 #container-second p {
