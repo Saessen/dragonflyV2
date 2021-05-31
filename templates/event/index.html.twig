@@ -53,8 +53,12 @@
                 <div class="border">
                 <div class="d-flex justify-content-between align-item-center">
                     <h5>{{ event.nom |upper}}</h5>
-                    {# ANCHOR ROUTE A MODIFIER => DETAIL/EVENT #}
-                    <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-outline-secondary "id="geocode">VOIR</button></a>
+                    {# ANCHOR ROUTE BTN #}
+                    
+
+
+                    <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-warning "id="geocode">VOIR</button></a>
+                    <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-warning"><i class="far fa-comments"></i></a>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Je m'inscris!
@@ -69,11 +73,13 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            Je confirme mon inscription pour l'évenement du {{event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}
+                            Je confirme mon inscription pour l'évenement {{ event.nom}} le {{event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }} à {{event.ville}}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                           
+                             <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-warning "id="geocode">Voir</button></a>
                             <button type="button" class="btn btn-success "><a href="{{ path('event_subscribe', {id: event.id}) }}" class="text-decoration-none text-white">Confirmation</a></button>
+                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         </div>
                         </div>
                     </div>
@@ -98,7 +104,7 @@
     {% block javascripts %}
        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <script>
-        
+
         let centre ={lat: 45.77668, lng: 3.07722}; // Lat, Lng
 
         let map = L.map('mapId').setView( centre, 4.5); // 13 correspond au zoom de base sur la carte
@@ -200,7 +206,7 @@
             
 
         }
-    
+
         </script>
     {% endblock %}
 
