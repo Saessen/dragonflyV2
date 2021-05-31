@@ -36,9 +36,15 @@ class Entreprise
 
     private $admin;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="entreprise")
+     */
+    private $events;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function __toString(){
@@ -121,6 +127,36 @@ class Entreprise
     public function setAdmin($admin)
     {
         $this->admin = $admin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getEntreprise() === $this) {
+                $event->setEntreprise(null);
+            }
+        }
 
         return $this;
     }

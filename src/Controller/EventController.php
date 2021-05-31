@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Event;
 use App\Form\EventType;
-use App\Repository\EventRepository;
 use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\EventRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class EventController extends AbstractController
@@ -17,8 +18,11 @@ class EventController extends AbstractController
     /**
      * @Route("/event", name="event_index", methods={"GET"})
      */
-    public function index(EventRepository $eventRepository): Response
+    public function index(EventRepository $eventRepository, UserRepository $userRepository): Response
     {
+        // $user = $this->getUser();
+        // $events = $user->getEvents();
+        // $events = $eventRepository->findOneBy($user);
         return $this->render('event/index.html.twig', [
             'events' => $eventRepository->findAll(),
         ]);

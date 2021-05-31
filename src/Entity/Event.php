@@ -114,6 +114,11 @@ class Event
      */
     private $messages;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Entreprise::class, inversedBy="events")
+     */
+    private $entreprise;
+
     // /**
     //  * @ORM\ManyToOne(targetEntity=Messagerie::class, inversedBy="Expediteur")
     //  */
@@ -420,6 +425,18 @@ class Event
                 $message->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEntreprise(): ?Entreprise
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(?Entreprise $entreprise): self
+    {
+        $this->entreprise = $entreprise;
 
         return $this;
     }
