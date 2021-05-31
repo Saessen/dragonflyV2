@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Entreprise;
 use App\Entity\User;
 use App\Entity\Event;
 use App\Form\EventType;
@@ -18,13 +19,15 @@ class EventController extends AbstractController
     /**
      * @Route("/event", name="event_index", methods={"GET"})
      */
-    public function index(EventRepository $eventRepository, UserRepository $userRepository): Response
+    public function index(EventRepository $eventRepository): Response
     {
-        // $user = $this->getUser();
+        $user = $this->getUser();
+
         // $events = $user->getEvents();
-        // $events = $eventRepository->findOneBy($user);
+        // $entreprise = $events->getEntreprise();
         return $this->render('event/index.html.twig', [
-            'events' => $eventRepository->findAll(),
+            'events' => $eventRepository->findBy(["entreprise" => $user->getEntreprise()]),
+            // 'events' => $eventRepository->findAll(),
         ]);
     }
 
@@ -34,13 +37,19 @@ class EventController extends AbstractController
     public function new(Request $request, UserRepository $userRepository): Response
     {
         $user = $this->getUser();
+        // dd($user);
+        // 
+        $entreprise = $user->getEntreprise();
+        // 
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setUsername($user);
-            $user = $form->getData();
+            // $user->setUsername($user);
+            // 
+            $event->setEntreprise($entreprise);
+            // 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
             $entityManager->flush();
