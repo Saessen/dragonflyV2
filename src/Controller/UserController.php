@@ -74,10 +74,9 @@ class UserController extends AbstractController
             ->subject('new mail')
             ->text('Connectez vous ')
             ->html("<H1>Bonjour</H1><br><p>Vous êtes invité à confirmer votre inscription  à DragonFly et mofifier vos accès</p>
-            <br>Voici vos informations de connexions: Username:  " . $user->getUsername() . ", Password : " .  $user->getPassword() );
+            <br>Voici vos informations de connexions: Username:  " . $user->getUsername() . ", Password : " .  $user->setPassword($originePassword)->getPassword() );
 
             $mailer->send($email);
-            return new Response("Création réussi! Votre collaborateur à recu son mail de connexion");
 
             return $this->redirectToRoute('user_index');
         }

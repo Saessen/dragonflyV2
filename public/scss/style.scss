@@ -10,6 +10,8 @@ body {
     -o-background-size: cover;
 }
 
+
+
 /* ANCHOR CUSTOM CLASSES */
 
 .c-one {
@@ -96,6 +98,8 @@ nav div a {
     position: absolute;
     right: 0%;
     top: 50%;
+    // z-index: 9999; pousse l'element au premier plan
+    z-index: 9999;
     transform: translateY(-50%);
     display: flex;
     justify-content: center;
@@ -253,6 +257,7 @@ nav div a {
         position: absolute;
         right: 0%;
         top: 50%;
+        z-index: 9999;
         transform: translateY(-50%);
         display: flex;
         justify-content: center;

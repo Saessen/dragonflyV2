@@ -1,11 +1,92 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-front.html.twig' %}
 
-{% block title %}New User{% endblock %}
+{% block title %}Ajouter utilisateur{% endblock %}
 
 {% block body %}
-    <h1>Ajouter un utilisateur</h1>
 
-    {{ include('user/_form.html.twig') }}
+     {# {{ include('user/_form.html.twig') }}  #}
 
-    <a href="{{ path('user_index') }}">back to list</a>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mb-5">
+                    <h1>
+                        <span class="d-block titre-home col-7 text-end"> Inscription</span>
+                        <br>
+                        <span class="d-block titre-home col-8 text-end">Utilisateur</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="container bg-under-text">
+
+        {# Affichage du formulaire d'ajout d'un admin entreprise #}
+            {# Le code ci dessous permet d'appliquer une mise en page custom pour le formulaire #}
+
+            {{ form_start(form) }}
+                <div class="row p-3">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-title text-center p-3">
+                                <h3>Créez des utilisateurs pour peupler votre communauté</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.username)}}
+                                        </div>                   
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.password)}}
+                                        </div>
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.email)}}
+                                        </div>
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.poste)}}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.nom)}}
+                                        </div>                        
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.prenom)}}
+                                        </div>                        
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.sexe)}}
+                                        </div>
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.numero_rue)}}
+                                        </div>
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.rue)}}
+                                        </div>
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.code_postal)}}
+                                        </div>                   
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.ville)}}
+                                        </div>
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.pays)}}
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="col-12 p-3 text-center">
+                                    <button class="btn btn-warning">{{ button_label|default('Enregistrer') }}</button>
+                                    {{ form_end(form) }}
+                                </div>
+                                <div class="col-12 p-3">
+                                    <a class="btn btn-outline-info" href="{{ path('user_index') }}">Retour</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+    </div>
+
+    
 {% endblock %}
