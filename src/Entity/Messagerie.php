@@ -41,6 +41,11 @@ class Messagerie
      */
     private $event;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="message")
+     */
+    private $user;
+
     // //////////////////////////////////////////
     // /**
     //  * @ORM\OneToMany(targetEntity=Event::class, mappedBy="messagerieExpediteur")
@@ -172,6 +177,18 @@ class Messagerie
     public function setEvent(?Event $event): self
     {
         $this->event = $event;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

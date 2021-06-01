@@ -16,7 +16,7 @@ class User implements UserInterface
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")f
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -98,6 +98,11 @@ class User implements UserInterface
      */
     private $events;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Messagerie::class, mappedBy="user")
+     */
+    private $message;
+
 
 
 
@@ -105,6 +110,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->message = new ArrayCollection();
 
     }
 
@@ -346,6 +352,36 @@ class User implements UserInterface
     {
         if ($this->events->removeElement($event)) {
             $event->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Messagerie[]
+     */
+    public function getMessage(): Collection
+    {
+        return $this->message;
+    }
+
+    public function addMessage(Messagerie $message): self
+    {
+        if (!$this->message->contains($message)) {
+            $this->message[] = $message;
+            $message->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Messagerie $message): self
+    {
+        if ($this->message->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getUser() === $this) {
+                $message->setUser(null);
+            }
         }
 
         return $this;

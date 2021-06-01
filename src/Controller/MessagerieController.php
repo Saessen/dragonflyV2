@@ -6,6 +6,7 @@ use App\Entity\Messagerie;
 use App\Form\MessagerieType;
 use App\Repository\EventRepository;
 use App\Repository\MessagerieRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,11 +46,13 @@ class MessagerieController extends AbstractController
     /**
      * @Route("/new/{id}", name="messagerie_new", methods={"GET","POST"})
      */
-    public function new($id,Request $request, EventRepository $eventRepository, MessagerieRepository $messagerieRepository): Response
-    {
+    public function new($id,Request $request, EventRepository $eventRepository, MessagerieRepository $messagerieRepository, UserRepository $userRepository): Response
+    {   
+        // $user = $userRepository->find($id);
         $event = $eventRepository->find($id);
         $messagerie = new Messagerie();
         $messagerie->setEvent($event);
+        // $messagerie->setEvent($user);
         $form = $this->createForm(MessagerieType::class, $messagerie);
         $form->handleRequest($request);
 
@@ -64,7 +67,7 @@ class MessagerieController extends AbstractController
 
             // return $this->redirectToRoute('messagerie_index');
         }
-        $eventMessages = $messagerieRepository->findBy(["event"=>$id], ["createdAt"=>"DESC"]);
+        $eventMessages = $messagerieRepository->findBy(["event"=>$id],  ["createdAt"=>"DESC"]);
         return $this->render('messagerie/new.html.twig', [
             'messagerie' => $messagerie,
             'form' => $form->createView(),

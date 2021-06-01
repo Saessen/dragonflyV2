@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210531075941 extends AbstractMigration
+final class Version20210601085930 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,16 +20,16 @@ final class Version20210531075941 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE event ADD entreprise_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE event ADD CONSTRAINT FK_3BAE0AA7A4AEAFEA FOREIGN KEY (entreprise_id) REFERENCES entreprise (id)');
-        $this->addSql('CREATE INDEX IDX_3BAE0AA7A4AEAFEA ON event (entreprise_id)');
+        $this->addSql('ALTER TABLE messagerie ADD user_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE messagerie ADD CONSTRAINT FK_14E8F60CA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+        $this->addSql('CREATE INDEX IDX_14E8F60CA76ED395 ON messagerie (user_id)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE event DROP FOREIGN KEY FK_3BAE0AA7A4AEAFEA');
-        $this->addSql('DROP INDEX IDX_3BAE0AA7A4AEAFEA ON event');
-        $this->addSql('ALTER TABLE event DROP entreprise_id');
+        $this->addSql('ALTER TABLE messagerie DROP FOREIGN KEY FK_14E8F60CA76ED395');
+        $this->addSql('DROP INDEX IDX_14E8F60CA76ED395 ON messagerie');
+        $this->addSql('ALTER TABLE messagerie DROP user_id');
     }
 }
