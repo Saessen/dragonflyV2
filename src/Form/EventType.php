@@ -36,7 +36,7 @@ class EventType extends AbstractType
             ->add('pays', HiddenType::class, ['data'=>'essai'])
             ->add('latitude', HiddenType::class, ['data'=>'essai'])
             ->add('longitude', HiddenType::class, ['data'=>'essai'])
-            ->add('access', ChoiceType::class, ['placeholder'=>'Accessible facilement aux personnes à mobilité réduite?', 'choices'=>['Oui'=>1, 'Non'=>2]])
+            ->add('access', ChoiceType::class, ['placeholder'=>'Accessible facilement aux personnes à mobilité réduite?', 'choices'=>['Oui'=>0, 'Non'=>1]])
             ->add('message', TextareaType::class, ['label'=>'message', 'attr'=>['placeholder'=>'Informations complémentaires, conseils,... ', 'required'=>false]])
             ->remove('user')
             ->remove('entreprise')

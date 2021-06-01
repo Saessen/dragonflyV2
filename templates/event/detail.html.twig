@@ -4,64 +4,66 @@
 
 {% block body %}
     
-<div class="container justify-content-start">
-    <div class="row ">
-    <div class="col-12 col-lg-4">
+<div class="d-flex f-wrap justify-content-center">
+<div class="col-lg-8">
     {# STRUCTURE CARD #}
     {# Début nav entre les pages #}
-    <div class="card text-center " style="width: 1200px;">
+    {# ANCHOR - attention à la width 1200px, peut etre bloquant pour le responsive #}
+    <div class="card text-start shadow-lg p-3 mb-5 bg-body rounded" style="">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                <a class="nav-link " href="{{ path('event_new') }}">Créer un event</a>
+                <a class="nav-link text-dark" href="{{ path('event_new') }}">Créer un event</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="true" href="#">{{ event.nom | upper}}</a>
+                <a class="nav-link active text-warning fw-bold" aria-current="true" href="#">{{ event.nom | upper}}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes event</a>
+                <a class="nav-link text-dark" href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes event</a>
+                {# <a class="nav-link" href="{{ path('event_index') }}" tabindex="-1" aria-disabled="true">Mes event</a> #}
             </li>
             </ul>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">Tous les event</h5>
         {# fin nav entre les pages #}
             
+        <div class="card-body">
+            
+        
             {# Début recherche localisation des event #}
-                {# AFFICHEGAE MAP #}
-                {# <div id="mapId" class="4" style="width: 28rem;height : 18rem"></div> #}
-                
-                <div id="mapId" class="4" style="width: 28rem;height : 18rem"></div>
-                <div>
-                <p id="resultat" class="text-start">Adresse: </p>
+                 {# AFFICHEGAE MAP #}
+                <div class="row justify-content-around">
+             
+                        <div id="mapId" class="mt-2 shadow p-3 mb-5 bg-body rounded" style="max-width: 75rem;height : 25rem"></div>
+                {# AFFICHAGE BARRE DE RECHERCHE ADRESSE #}
+                <div class="col-lg-10 mt-2">
+                <h5 class="text-center fw-bold">{{ event.nom |upper}}</h5>
+                <p id="resultat" class="text-center fw-bold">Adresse: </p>
                 </div>
                 
                 {# Affichage de l'évenement #}
-                <div class="border">
-                <div class="d-flex justify-content-between align-item-center">
-                    <h5 class="">{{ event.nom |upper}}</h5>
-                    
-                    
-                </div>
+                <div class="border mb-4 shadow p-3">
+                <div class=" row mt-2">
+                    <div class="col-lg-3">
                 <p class="text-start">Catégorie :
-                 {% if event.categorie == 1 %}
-                 Festif <i class="text-warning fas fa-glass-cheers"></i></p>
-                 {% endif %}
-                  {% if event.categorie == 2 %}
-                 Entraide <i class="text-warning fas fa-hands-helping"></i></p>
-                 {% endif %}
-                  {% if event.categorie == 3 %}
-                 Familial <i class="text-warning fas fa-glass-cheers"></i></p>
-                 {% endif %}
-                  {% if event.categorie == 4 %}
-                 Loisirs/détente <i class="text-warning fas fa-palette"></i></i></p>
-                 {% endif %}
-                  {% if event.categorie == 5 %}
-                 Sportif <i class="text-warning fas fa-volleyball-ball"></i></p>
-                 {% endif %}
-                  {% if event.categorie == 6 %}
-                 Entreprise <i class="text-warning fas fa-briefcase"></i></p>
-                 {% endif %}
+                    {% if event.categorie == 1 %}
+                        Festif <i class="text-warning fas fa-glass-cheers"></i></p>
+                    {% endif %}
+                    {% if event.categorie == 2 %}
+                        Entraide <i class="text-warning fas fa-hands-helping"></i></p>
+                    {% endif %}
+                    {% if event.categorie == 3 %}
+                        Familial <i class="text-warning fas fa-glass-cheers"></i></p>
+                    {% endif %}
+                    {% if event.categorie == 4 %}
+                        Loisirs/détente <i class="text-warning fas fa-palette"></i></i></p>
+                    {% endif %}
+                    {% if event.categorie == 5 %}
+                        Sportif <i class="text-warning fas fa-volleyball-ball"></i></p>
+                    {% endif %}
+                    {% if event.categorie == 6 %}
+                        Entreprise <i class="text-warning fas fa-briefcase"></i></p>
+                    {% endif %}
+
                 <p class="text-start"><i class="fas fa-calendar-alt text-warning"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
                 {% if event.dateFin is defined and event.dateFin is not null %}
                 <p class="text-start"><i class="fas fa-calendar-alt text-warning"></i> {{ event.dateFin ? event.dateFin|date('d-m-Y') : '' }}</p>
@@ -69,33 +71,44 @@
                 <p class="text-start"><i class="fas fa-user-friends text-warning"></i> {{ event.persMin ~ "minimum"}}
                 {% if event.persMax is defined and event.persMax is not null %}
                  <p class="text-start"><i class="fas fa-users text-warning"></i> {{ event.persMax ~ "maximum"}} </p>
-                 <p class="text-start"><i class="fas fa-users text-warning"></i> {{ (event.persMax - event.persMin) ~ " places disponibles"}} </p>
+                 
                 {% endif %}
                 
                 {# <p id="resultat" class="text-start">Adresse: {{ event.rue }}{{ event.codePostal }}{{ event.ville }}</p> #}
                 {% if event.access == 0 %}
-                    <p class="text-start"><i class="fas fa-wheelchair text-warning"></i> {{ event.access ~ "accessible facilement" }}</p>
-                {% else %}
-                    <p class="text-start"><i class="fas fa-wheelchair text-warning"></i> {{ event.access ~ "accessibilité difficile"}}</p>
+                    <p class="text-start"><i class="fas fa-wheelchair text-success"></i> {{"accessible facilement" }}</p>
                 {% endif %}
-                {% if event.message is defined and event.message is not null %}
-                <p class="text-start"><i class="fas fa-quote-left text-warning"></i> {{ event.message }} <i class="fas fa-quote-right text-warning"></i></p>
+                {% if event.access == 1 %}
+                    <p class="text-start"><i class="fas fa-wheelchair text-danger"></i> {{"accessibilité difficile"}}</p>
                 {% endif %}
-                {# ANCHOR A AJOUTER : ORGANISER PAR AVEC ID USER #}
-
-                <div class="d-none">
-                <p id="lat".class="text-end">{{event.latitude}}</p>
-                <p id="lng".class="text-end">{{event.longitude}}</p>
                 </div>
 
-               <div>
-                <a href="{{ path('event_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
+                <div class="col-lg-7">
+                    <h6>Message à destination des participants</h6>
+                    {% if event.message is defined and event.message is not null %}
+                    <p class="text-start"><i class="fas fa-quote-left text-warning"></i> {{ event.message }} <i class="fas fa-quote-right text-warning"></i></p>
+                </div>
+                <div class="d-none">
+                    <p id="lat".class="text-end">{{event.latitude}}</p>
+                    <p id="lng".class="text-end">{{event.longitude}}</p>
+                </div>
+                {% endif %}
                 
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Je m'inscris!
-                </button>
 
+                
+                <div class="row col-lg-2 m-0 d-flex align-items-baseline">
+                    <a href="{{path('event_index') }}" class="btn btn-outline-warning mb-1 " id="geocode" data-bs-toggle="tooltip" data-bs-placement="left" title="Retour"><i class="fas fa-backward"></i></a>
+
+                    <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-outline-secondary mb-1"data-bs-toggle="tooltip" data-bs-placement="left" title="Fil de discussion"><i class="far fa-comments"></i></a>
+                    
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-warning mb-1 " data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+               
+              
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -114,17 +127,12 @@
                     </div>
                 </div>
                 </div>
-
-
-
-                
-                <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-outline-secondary"><i class="far fa-comments"></i></a>
                </div>
-                </div>
+            </div>
             
         </div>
-    </div>
-</div>
+    {# </div> #}
+{# </div>  #}
 {# FIN CARD #}
     </div>
     </div>

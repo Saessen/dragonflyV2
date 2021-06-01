@@ -5,43 +5,40 @@
 {% block body %}
     
 <div class="d-flex f-wrap justify-content-center">
-<div class="col-lg-6">
+<div class="col-lg-8">
     {# STRUCTURE CARD #}
     {# Début nav entre les pages #}
-    <div class="card text-start ">
+    <div class="card text-start shadow-lg p-3 mb-5 bg-body rounded" style="">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                <a class="nav-link " href="{{ path('event_new') }}">Créer un event</a>
+                <a class="nav-link text-dark" href="{{ path('event_new') }}">Créer un event</a>
             </li>
             <li class="nav-item">
 
-                <a class="nav-link " aria-current="true" href="{{ path('event_index') }}">Tous les event</a>
+                <a class="nav-link text-dark" aria-current="true" href="{{ path('event_index') }}">Tous les event</a>
 
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes event</a>
+                <a class="nav-link active text-warning" href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes event</a>
             </li>
             </ul>
         </div>
         <div class="card-body">
-            <h5 class="card-title text-center">Mes events</h5>
-            {% for event in app.user.events %}
-            {# {{ dump(event)}} #}
-            {# Affichage des évenements #}
-                <div class="border">
+         {% for event in app.user.events %}
+                {# Affichage des évenements #}
+                <div class="border mb-4 shadow p-3">
                 
-                    <h5>{{ event.nom |upper}}</h5>
-                   
+                <div class=" row mt-2">
+                    <div class="col-lg-3">
+<h5 class="nomEvent">{{ event.nom |upper}}</h5>
                     
-                {# </div> #}
-                
-                   <p class="">Catégorie :
+                <p class="text-start">Catégorie :
                  {% if event.categorie == 1 %}
                  Festif <i class="text-warning fas fa-glass-cheers"></i></p>
                  {% endif %}
                   {% if event.categorie == 2 %}
-                 Entraide <i class="text-warning fas fa-hands-helping"></i></p>
+                 Entraide <i class=" text-warning fas fa-hands-helping"></i></p>
                  {% endif %}
                   {% if event.categorie == 3 %}
                  Familial <i class="text-warning fas fa-glass-cheers"></i></p>
@@ -55,32 +52,87 @@
                   {% if event.categorie == 6 %}
                  Entreprise <i class="text-warning fas fa-briefcase"></i></p>
                  {% endif %}
-                <p class=""><i class="fas fa-calendar-alt text-warning"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
-                <p class=""><i class=" text-warning fas fa-map-pin"></i> {{ event.ville }}</p>
+                <p class="text-start"><i class="text-warning fas fa-calendar-alt"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
+                <p class="text-start"><i class=" text-warning fas fa-map-pin"></i> {{ event.ville }}</p>
                 <div class="d-none">
-                <p id="lat".class="text-end">{{event.latitude}}</p>
-                <p id="lng".class="text-end">{{event.longitude}}</p>
-                </div>
-                <div class="text-end">
-                    <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-warning "id="geocode">VOIR</button></a>
-                    <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-warning"><i class="far fa-comments"></i></a>
-                    <a href="{{ path('event_desinscription', {id: event.id}) }}" class="btn btn-warning">Me désinscrire</a>
+                <div class="coords">{{event.latitude}}#{{event.longitude}}#{{ event.nom |upper}}</div>
+                </div>               
+               
+                
                     </div>
+                     <div class="col-lg-7">
+                     <h6>Message à destination des participants</h6>
+                     <p class="text-dark"><i class="text-warning fas fa-quote-left"></i> {{event.message}}  <i class="text-warning fas fa-quote-right"></i></p>
+                     {% if (event.persMax - event.persMin) < 3 %}
+                     <div class="bg-danger text-white mb-1 d-inline-block">Attention peu de places disponibles sur cet événement!</div>
+                     {% endif %}
                 </div>
+                    {# ANCHOR ROUTE BTN #}
+                    <div class="row col-lg-2 m-0">
+                    <a href="{{path('event_detail', {'id': event.id })}}" class="btn btn-outline-warning mb-1 " id="geocode" data-bs-toggle="tooltip" data-bs-placement="left" title="Voir les détails"><i class="far fa-eye"></i></a>
+
+                    <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-outline-secondary mb-1"data-bs-toggle="tooltip" data-bs-placement="left" title="Fil de discussion"><i class="far fa-comments"></i></a>
+                    
+                    
+
+                    <!-- Button trigger modal -->
+                    
+
+
+                    
+                    <button type="button" class="btn btn-outline-warning  mb-1" data-bs-toggle="modal" data-bs-target="#modalEvent{{loop.index}}">
+                    <i class="far fa-trash-alt"></i>
+                    </button>
+                    </div>
+
+
+                  
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalEvent{{loop.index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                        
+                            <h5 class="modal-title" id="exampleModalLabel">Désinscription {{ event.nom }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Je souhaite annuler ma participation à {{ event.nom}} le {{event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }} à {{event.ville}}
+                        </div>
+                        <div class="modal-footer">
+                             
+                            <button type="button" class="btn btn-success "><a href="{{ path('event_desinscription', {id: event.id}) }}" class="text-decoration-none text-white">Me désinscrire</a></button>
+                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
+                 </div>
             {% endfor %}
-            
         </div>
     </div>
 
 {# FIN CARD #}
-</div>
-</div>
-
+    </div>
+   </div>
+   
      {% block javascripts %}
      
-    <!-- FICHIER JS LEAFLET -->
+    
     
     <script>
+    var myModal = document.getElementById('myModal')
+    var myInput = document.getElementById('myInput')
+
+    myModal.addEventListener('shown.bs.modal', function () {
+    myInput.focus()
+    })
+
+<!-- FICHIER JS LEAFLET -->
    document.addEventListener("DOMContentLoaded", initMap, false);
     function initMap(){
         {# MES VARIABLES #}
