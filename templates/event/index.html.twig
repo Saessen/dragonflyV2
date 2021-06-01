@@ -56,22 +56,25 @@
                     <h5 class="nomEvent">{{ event.nom |upper}}</h5>
                     {# ANCHOR ROUTE BTN #}
                     <div>
-                      <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-warning "id="geocode">VOIR</button></a>
+                    <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-warning "id="geocode">VOIR</button></a>
                     <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-warning"><i class="far fa-comments"></i></a>
+                    
+
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEvent{{loop.index}}">
                     Je m'inscris!
                     </button>
                     </div>
 
 
                   
-
+                    
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="modalEvent{{loop.index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
+                        
                             <h5 class="modal-title" id="exampleModalLabel">Inscription {{ event.nom }}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -81,8 +84,10 @@
                         <div class="modal-footer">
                            
                              <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-warning "id="geocode">Voir</button></a>
-                            <button type="button" class="btn btn-success "><a href="{{ path('event_subscribe', {id: event.id}) }}" class="text-decoration-none text-white">Confirmation</a></button>
+                             
+                            <button type="button" class="btn btn-success "><a href="{{ path('event_subscribe', {'id': event.id}) }}" class="text-decoration-none text-white">Confirmation</a></button>
                              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            
                         </div>
                         </div>
                     </div>
@@ -112,7 +117,7 @@
                 <p class="text-start"><i class="text-warning fas fa-calendar-alt"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
                 <p class="text-start"><i class=" text-warning fas fa-map-pin"></i> {{ event.ville }}</p>
                 <div class="d-none">
-                <div class="coords">{{event.latitude}}#{{event.longitude}}</div>
+                <div class="coords">{{event.latitude}}#{{event.longitude}}#{{ event.nom |upper}}</div>
                                
                 </div>
                 </div>
@@ -155,8 +160,8 @@
             var c = coordsArray[i].innerHTML;
             var pt = c.split("#");
 
-            L.marker(pt)
-            .bindTooltip(nE)
+            L.marker([pt[0], pt[1]])
+            .bindTooltip(pt[2])
             .addTo(map);
         }
         
@@ -283,5 +288,4 @@
                 {# A GARDER #}
                 {#
                 <td>{{ event.longitude }}</td> #}
-                {# <a href="{{ path('event_show', {'id': event.id}) }}">show</a>
-                <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a> #}
+              

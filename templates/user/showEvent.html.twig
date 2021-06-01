@@ -65,6 +65,7 @@
                 <div class="text-end">
                     <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-warning "id="geocode">VOIR</button></a>
                     <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-warning"><i class="far fa-comments"></i></a>
+                    <a href="{{ path('event_desinscription', {id: event.id}) }}" class="btn btn-warning">ANNULER</a>
                     </div>
                 </div>
             {% endfor %}

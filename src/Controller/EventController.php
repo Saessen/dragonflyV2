@@ -88,7 +88,17 @@ class EventController extends AbstractController
             'event' => $event,
         ]);
     }
-    
+    /**
+     * @Route("/event/desinscription/{id}", name= "event_desinscription")
+     */
+    public function desinscription($id, EventRepository $eventRepository){
+        $event = $eventRepository->find($id);
+        $event->removeUser($this->getUser());
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($event);
+        $em->flush();
+        return $this->redirectToRoute("user_showEvent");
+    }
 
     /**
      * @Route("/event/{id}/edit", name="event_edit", methods={"GET","POST"})
