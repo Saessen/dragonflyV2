@@ -63,7 +63,7 @@ class EntrepriseController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-
+            $this->addFlash('message', 'E-mail de confirmation envoyé !');
             return $this->redirectToRoute('app_login');
         }
         return $this->render('entreprise/new.html.twig', [
