@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="d-flex f-wrap justify-content-center">
-    <div class="col-lg-6">
+    <div class="col-lg-8">
     {# STRUCTURE CARD #}
     <div class="card text-center">
         <div class="card-header">
@@ -27,11 +27,11 @@
             {# AFFICHEGAE MAP #}
             <div id="mapId" class="mt-2 shadow p-3 mb-5 bg-body rounded" style="max-width: 28rem;height : 18rem"></div>
             {# AFFICHAGE BARRE DE RECHERCHE ADRESSE #}
-            <div class="col-lg-5 mt-2">
-            <p class="text-start text-danger fw-bold shadow" >Entrez votre adresse dans la barre de recherche ou cliquez sur la map</p>
+            <div class="col-lg-10 mt-2">
+            <p class="text-start text-danger fw-bold" >Entrez votre adresse dans la barre de recherche ou cliquez sur la map</p>
             <p class="text-start">
                 <input class="geo mt-1" id="adresse" value="" placeholder="adresse de l'évenement">
-                <button type="button" class="btn btn-outline-warning ms-2 shadow "id="geocode">RECHERCHER</button>
+                <button type="button" class="btn btn-outline-warning ms-1 shadow "id="geocode">RECHERCHER</button>
             </p>
             {# AFFICHAGE BOUTON GEOLOCALISATION #}
             {# <p class="text-start">

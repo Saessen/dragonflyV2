@@ -5,7 +5,7 @@
 {% block body %}
     
 <div class="d-flex f-wrap justify-content-center">
-<div class="col-lg-6">
+<div class="col-lg-8">
     {# STRUCTURE CARD #}
     {# Début nav entre les pages #}
     {# ANCHOR - attention à la width 1200px, peut etre bloquant pour le responsive #}
@@ -32,7 +32,7 @@
                 {# AFFICHEGAE MAP #}
                 <div class="row justify-content-around">
              
-                        <div id="mapId" class="mt-2 shadow p-3 mb-5 bg-body rounded" style="max-width: 28rem;height : 18rem"></div>
+                        <div id="mapId" class="mt-2 shadow p-3 mb-5 bg-body rounded" style="max-width: 30rem;height : 18rem"></div>
                 {# AFFICHAGE BARRE DE RECHERCHE ADRESSE #}
                 <div class="col-lg-10 mt-2">
                 <h6>Entrez votre adresse dans la barre de recherche ou cliquez sur la map</h6>
@@ -60,10 +60,10 @@
                 {# Fin recherche localisation des event #}
                 {% for event in events %}
                 {# Affichage des évenements #}
-                <div class="border mb-4 shadow p-2">
+                <div class="border mb-4 shadow p-3">
                 
                 <div class=" row mt-2">
-                    <div class="col-10">
+                    <div class="col-lg-3">
                     <h5 class="nomEvent">{{ event.nom |upper}}</h5>
                     
                 <p class="text-start">Catégorie :
@@ -89,19 +89,23 @@
                 <p class="text-start"><i class=" text-warning fas fa-map-pin"></i> {{ event.ville }}</p>
                 <div class="d-none">
                 <div class="coords">{{event.latitude}}#{{event.longitude}}#{{ event.nom |upper}}</div>
-                               
-                </div>
+                </div>               
+               
                 
                     </div>
+                     <div class="col-lg-7">
+                     <h6>Message à destination des participants</h6>
+                     <p class="text-dark"><i class="text-warning fas fa-quote-left"></i> {{event.message}}  <i class="text-warning fas fa-quote-right"></i></p>
+                </div>
                     {# ANCHOR ROUTE BTN #}
                     <div class="row col-lg-2 m-0">
-                    <a href="{{path('event_detail', {'id': event.id })}}" class="btn btn-outline-warning shadow " id="geocode" data-bs-toggle="tooltip" data-bs-placement="left" title="Voir les détails"><i class="far fa-eye"></i></a>
+                    <a href="{{path('event_detail', {'id': event.id })}}" class="btn btn-outline-warning mb-1 " id="geocode" data-bs-toggle="tooltip" data-bs-placement="left" title="Voir les détails"><i class="far fa-eye"></i></a>
 
-                    <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-outline-secondary shadow"data-bs-toggle="tooltip" data-bs-placement="left" title="Fil de discussion"><i class="far fa-comments"></i></a>
+                    <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-outline-secondary mb-1"data-bs-toggle="tooltip" data-bs-placement="left" title="Fil de discussion"><i class="far fa-comments"></i></a>
                     
 
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-outline-warning shadow mb-1" data-bs-toggle="modal tooltip" data-bs-target="#modalEvent{{loop.index}}">
+                    <button type="button" class="btn btn-outline-warning  mb-1" data-bs-toggle="modal" data-bs-target="#modalEvent{{loop.index}}">
                     <i class="fas fa-plus"></i>
                     </button>
                     </div>
