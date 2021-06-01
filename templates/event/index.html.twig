@@ -3,6 +3,12 @@
 {% block title %}Evènements{% endblock %}
 
 {% block body %}
+     {% for message in app.flashes('notice') %} 
+     <div class="d-inline-block alert alert-success text-dark fw-bold" role="alert"> {{ message }}
+     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+     </div> 
+    
+{% endfor %}
     <div class="container">
         <div class="row">
             <div class="col-12 mb-5">
@@ -163,6 +169,7 @@
     {% block javascripts %}
        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <script>
+      
 {# ANCHOR BOUCLE #}
         
         {# var lat = document.getElementById('lat').value;

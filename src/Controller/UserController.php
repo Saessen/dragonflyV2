@@ -79,7 +79,10 @@ class UserController extends AbstractController
             <br>Voici vos informations de connexions: Username:  " . $user->getUsername() . ", Password : " .  $user->setPassword($originePassword)->getPassword() );
 
             $mailer->send($email);
-
+            $this->addFlash(
+                'notice',
+                'Un email contenant les informations de connexion a été envoyé à l\'utilisateur'
+            );
             return $this->redirectToRoute('user_index');
         }
 
@@ -146,11 +149,15 @@ class UserController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
 
-                $this->addFlash("success", "Vos informations ont bien été mises à jour.");
+                $this->addFlash(
+                    'notice',
+                    'Vos informations ont été mis à jour'
+                );
         }
         return $this->render('user/moncompte_edit.html.twig', [
             "form"=>$form->createView(),
         ]);
+        
     }
     
 
