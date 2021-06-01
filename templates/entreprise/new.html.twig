@@ -18,7 +18,8 @@
             </div>
         </div>
     </div>
-    <div class="container bg-under-text">
+    
+    <div class="container">
 
     
         {# Affichage du formulaire d'ajout d'un admin entreprise #}
@@ -27,7 +28,7 @@
             {{ form_start(form) }}
                 <div class="row p-3">
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card shadow rounded">
                             <div class="card-title">
                                 <h4 class="p-1 text-center">1. Créer un compte pour votre entreprise</h4>
                                 <h4 class="p-1 text-center">2. Connectez vous</h4>
@@ -41,8 +42,8 @@
                                             {{form_row(form.siren)}}
                                         </div>
                                         <div class="form-group p-1 m-2">
-                                            {{form_label(form.denomination)}}
-                                            {{form_widget(form.denomination, {'attr': {'class': 'bg-light'}} ) }}
+                                            {{form_row(form.denomination)}}
+                                            
                                         </div>
                                         <div class="form-group p-1 m-2">
                                             {{form_row(form.admin.username)}}

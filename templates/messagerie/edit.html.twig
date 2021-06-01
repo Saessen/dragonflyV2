@@ -7,7 +7,7 @@
 
     {{ include('messagerie/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('messagerie_index') }}">back to list</a>
+    <a class="btn btn-outline-info" href="{{ path('messagerie_index') }}">Retour</a>
 
     {{ include('messagerie/_delete_form.html.twig') }}
 {% endblock %}
