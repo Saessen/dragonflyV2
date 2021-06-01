@@ -57,13 +57,17 @@ class EntrepriseController extends AbstractController
             ->html('<H1>Bonjour </H1><br><p>L\'inscription de votre entreprise est enregistrée!</p>');
     
             $mailer->send($email);
+            $this->addFlash(
+                'notice',
+                'Merci pour votre inscription, un email de confirmation a été envoyé'
+            );
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($entreprise);
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('message', 'E-mail de confirmation envoyé !');
+            
             return $this->redirectToRoute('app_login');
         }
         return $this->render('entreprise/new.html.twig', [
