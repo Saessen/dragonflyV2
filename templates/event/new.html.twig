@@ -10,35 +10,84 @@
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="true" href="#">Créer un event</a>
+                <a class="nav-link active text-warning fw-bold" aria-current="true" href="#">Créer un event</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('event_index') }}">Tous les event</a>
+                <a class="nav-link text-dark" href="{{ path('event_index') }}">Tous les event</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes event</a>
+                <a class="nav-link text-dark" href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes event</a>
             </li>
             </ul>
         </div>
         <div class="card-body">
-            <h5 class="card-title">CREER UN EVENEMENT</h5>
+        <div class="row justify-content-around">
+          
+            {# <h5 class="card-title">CREER UN EVENEMENT</h5> #}
             {# AFFICHEGAE MAP #}
-            <div id="mapId" class="" style="max-width: 28rem;height : 18rem"></div>
+            <div id="mapId" class="mt-2 shadow p-3 mb-5 bg-body rounded" style="max-width: 28rem;height : 18rem"></div>
             {# AFFICHAGE BARRE DE RECHERCHE ADRESSE #}
+            <div class="col-lg-5 mt-2">
+            <p class="text-start text-danger fw-bold shadow" >Entrez votre adresse dans la barre de recherche ou cliquez sur la map</p>
             <p class="text-start">
-                <input class="geo mt-1" id="adresse" value="">
-                <button type="button" class="btn btn-warning "id="geocode">RECHERCHER</button>
+                <input class="geo mt-1" id="adresse" value="" placeholder="adresse de l'évenement">
+                <button type="button" class="btn btn-outline-warning ms-2 shadow "id="geocode">RECHERCHER</button>
             </p>
             {# AFFICHAGE BOUTON GEOLOCALISATION #}
             {# <p class="text-start">
             <button type="button" class="btn btn-outline-secondary mt-2"id="localisation">JE VEUX ETRE GEOLOCALISE</button>
             </p> #}
             <p class="d-none" id="localisation"></p>
-            <p class="text-danger fw-bold" >Entrez votre adresse dans la barre de recherche ou cliquez sur la map</p>
-            <p id="resultat"></p>
             
+            <p class="text-start" id="resultat"></p>
+            </div>
+            </div>
             {# FORM #}
-            <p class="card-text">{{ include('event/_form.html.twig') }}</p>
+            {# <p class="card-text">{{ include('event/_form.html.twig') }}</p> #}
+            <div class="card-body">
+             {{ form_start(form)}}
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-12 col-md-6">
+
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.categorie)}}
+                                        </div>
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.nom)}}
+                                        </div>
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.date_debut)}}
+                                        </div>                   
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.heure_debut)}}
+                                        </div>
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.date_fin)}}
+                                        </div>
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.heure_fin)}}
+                                        </div>
+                                    </div>
+                                 <div class="col-12 col-md-6">
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.pers_min)}}
+                                        </div>                        
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.pers_max)}}
+                                        </div>                        
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.access)}}
+                                        </div>
+                                        <div class="form-group p-1 m-2">
+                                            {{form_row(form.message)}}
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-12 p-3 text-center">
+                                    <button class="btn btn-warning">{{ button_label|default('Créer') }}</button>
+                                   
+                                    </div> {{ form_end(form)}}
             
         </div>
     </div>
@@ -97,7 +146,7 @@
             }else {
                 document.getElementById("event_ville").value = municipality;
             }
-            
+            resultat.innerText = "Vos données sont transmises au formulaire avec succès";
             
             //ajout d'un marker
             L.marker([lat, lng]).addTo(map) //ANCHOR mettre un popup sur le maker   

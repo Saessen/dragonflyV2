@@ -9,7 +9,7 @@
     {# STRUCTURE CARD #}
     {# Début nav entre les pages #}
     {# ANCHOR - attention à la width 1200px, peut etre bloquant pour le responsive #}
-    <div class="card text-start " style="">
+    <div class="card text-start shadow-lg p-3 mb-5 bg-body rounded" style="">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
@@ -25,21 +25,23 @@
             </ul>
         </div>
         <div class="card-body">
-            <h5 class="card-title">Tous les event</h5>
+     
         {# fin nav entre les pages #}
             
             {# Début recherche localisation des event #}
                 {# AFFICHEGAE MAP #}
-                <div class="d-flex ">
-                    <div class="col-12">
-                        <div id="mapId" class=" " style="max-width: 28rem;height : 18rem"></div>
+                <div class="row justify-content-around">
+             
+                        <div id="mapId" class="mt-2 shadow p-3 mb-5 bg-body rounded" style="max-width: 28rem;height : 18rem"></div>
                 {# AFFICHAGE BARRE DE RECHERCHE ADRESSE #}
-                <div class="col-4">
-                    <p class="text-start">
-                    <input class="geo mt-1" id="adresse" value="">
-                    <button type="button" class="btn btn-outline-secondary "id="geocode">RECHERCHER</button>
-                    </p>
+                <div class="col-lg-10 mt-2">
+                <h6>Entrez votre adresse dans la barre de recherche ou cliquez sur la map</h6>
+                 <div class="d-flex flex-wrap align-items-center mb-2">
+                    <input class="geo" id="adresse" value="" placeholder="localisation souhaitée">
+                    <button type="button" class="btn btn-sm btn-outline-warning ms-1 shadow" id="geocode">RECHERCHER</button>
+                    </div>
                     {# CURSEUR DISTANCE #}
+                    <h6>Ajustez votre périmètre de recherche pour consulter les évenements dans votre zone géographique</h6>
                     <p class="text-start">
                     <label for="distance">Distance (de 1 à 100km): </label>
                     <input type="range" min="1" max="100" id="distance">
@@ -52,24 +54,55 @@
                     <p id="resultat"></p>
                 </div>
                     </div>
-                </div>
+              
                 
                 
                 {# Fin recherche localisation des event #}
                 {% for event in events %}
                 {# Affichage des évenements #}
-                <div class="border">
-                <div class="d-flex justify-content-between align-item-center">
+                <div class="border mb-4 shadow p-2">
+                
+                <div class=" row mt-2">
+                    <div class="col-10">
                     <h5 class="nomEvent">{{ event.nom |upper}}</h5>
+                    
+                <p class="text-start">Catégorie :
+                 {% if event.categorie == 1 %}
+                 Festif <i class="text-warning fas fa-glass-cheers"></i></p>
+                 {% endif %}
+                  {% if event.categorie == 2 %}
+                 Entraide <i class=" text-warning fas fa-hands-helping"></i></p>
+                 {% endif %}
+                  {% if event.categorie == 3 %}
+                 Familial <i class="text-warning fas fa-glass-cheers"></i></p>
+                 {% endif %}
+                  {% if event.categorie == 4 %}
+                 Loisirs/détente <i class="text-warning fas fa-palette"></i></i></p>
+                 {% endif %}
+                  {% if event.categorie == 5 %}
+                 Sportif <i class="text-warning fas fa-volleyball-ball"></i></p>
+                 {% endif %}
+                  {% if event.categorie == 6 %}
+                 Entreprise <i class="text-warning fas fa-briefcase"></i></p>
+                 {% endif %}
+                <p class="text-start"><i class="text-warning fas fa-calendar-alt"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
+                <p class="text-start"><i class=" text-warning fas fa-map-pin"></i> {{ event.ville }}</p>
+                <div class="d-none">
+                <div class="coords">{{event.latitude}}#{{event.longitude}}#{{ event.nom |upper}}</div>
+                               
+                </div>
+                
+                    </div>
                     {# ANCHOR ROUTE BTN #}
-                    <div>
-                    <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-warning "id="geocode">VOIR</button></a>
-                    <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-warning"><i class="far fa-comments"></i></a>
+                    <div class="row col-lg-2 m-0">
+                    <a href="{{path('event_detail', {'id': event.id })}}" class="btn btn-outline-warning shadow " id="geocode" data-bs-toggle="tooltip" data-bs-placement="left" title="Voir les détails"><i class="far fa-eye"></i></a>
+
+                    <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-outline-secondary shadow"data-bs-toggle="tooltip" data-bs-placement="left" title="Fil de discussion"><i class="far fa-comments"></i></a>
                     
 
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEvent{{loop.index}}">
-                    Je m'inscris!
+                    <button type="button" class="btn btn-outline-warning shadow mb-1" data-bs-toggle="modal tooltip" data-bs-target="#modalEvent{{loop.index}}">
+                    <i class="fas fa-plus"></i>
                     </button>
                     </div>
 
@@ -101,40 +134,15 @@
                     </div>
 
                 </div>
-                
-                <p class="text-start">Catégorie :
-                 {% if event.categorie == 1 %}
-                 Festif <i class="text-warning fas fa-glass-cheers"></i></p>
-                 {% endif %}
-                  {% if event.categorie == 2 %}
-                 Entraide <i class=" text-warning fas fa-hands-helping"></i></p>
-                 {% endif %}
-                  {% if event.categorie == 3 %}
-                 Familial <i class="text-warning fas fa-glass-cheers"></i></p>
-                 {% endif %}
-                  {% if event.categorie == 4 %}
-                 Loisirs/détente <i class="text-warning fas fa-palette"></i></i></p>
-                 {% endif %}
-                  {% if event.categorie == 5 %}
-                 Sportif <i class="text-warning fas fa-volleyball-ball"></i></p>
-                 {% endif %}
-                  {% if event.categorie == 6 %}
-                 Entreprise <i class="text-warning fas fa-briefcase"></i></p>
-                 {% endif %}
-                <p class="text-start"><i class="text-warning fas fa-calendar-alt"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
-                <p class="text-start"><i class=" text-warning fas fa-map-pin"></i> {{ event.ville }}</p>
-                <div class="d-none">
-                <div class="coords">{{event.latitude}}#{{event.longitude}}#{{ event.nom |upper}}</div>
-                               
-                </div>
-                </div>
+                 </div>
             {% endfor %}
         </div>
     </div>
-</div>
+
 {# FIN CARD #}
     </div>
    </div>
+  
     {% block javascripts %}
        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <script>
