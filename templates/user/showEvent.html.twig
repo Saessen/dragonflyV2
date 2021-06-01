@@ -4,12 +4,11 @@
 
 {% block body %}
     
-<div class="container justify-content-start">
-    <div class="row ">
-    <div class="col-12 col-lg-4">
+<div class="d-flex f-wrap justify-content-center">
+<div class="col-lg-6">
     {# STRUCTURE CARD #}
     {# Début nav entre les pages #}
-    <div class="card text-start " style="width: 1200px;">
+    <div class="card text-start ">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
@@ -65,17 +64,18 @@
                 <div class="text-end">
                     <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-warning "id="geocode">VOIR</button></a>
                     <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-warning"><i class="far fa-comments"></i></a>
-                    <a href="{{ path('event_desinscription', {id: event.id}) }}" class="btn btn-warning">ANNULER</a>
+                    <a href="{{ path('event_desinscription', {id: event.id}) }}" class="btn btn-warning">Me désinscrire</a>
                     </div>
                 </div>
             {% endfor %}
             
         </div>
     </div>
-</div>
+
 {# FIN CARD #}
-    </div>
-    </div>
+</div>
+</div>
+
      {% block javascripts %}
      
     <!-- FICHIER JS LEAFLET -->

@@ -4,23 +4,22 @@
 
 {% block body %}
     
-<div class="container justify-content-start">
-    <div class="row ">
-    <div class="col-12 col-lg-4 max-width:1200px">
+<div class="d-flex f-wrap justify-content-center">
+<div class="col-lg-6">
     {# STRUCTURE CARD #}
     {# Début nav entre les pages #}
     {# ANCHOR - attention à la width 1200px, peut etre bloquant pour le responsive #}
-    <div class="card text-start " style="width: 1200px;">
+    <div class="card text-start " style="">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                <a class="nav-link " href="{{ path('event_new') }}">Créer un event</a>
+                <a class="nav-link text-dark" href="{{ path('event_new') }}">Créer un event</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="true" href="#">Tous les event</a>
+                <a class="nav-link active fw-bold text-warning" aria-current="true" href="#">Tous les event</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes event</a>
+                <a class="nav-link text-dark" href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes event</a>
                 {# <a class="nav-link" href="{{ path('event_index') }}" tabindex="-1" aria-disabled="true">Mes event</a> #}
             </li>
             </ul>
@@ -31,23 +30,31 @@
             
             {# Début recherche localisation des event #}
                 {# AFFICHEGAE MAP #}
-                <div id="mapId" class="4" style="width: 28rem;height : 18rem"></div>
+                <div class="d-flex ">
+                    <div class="col-12">
+                        <div id="mapId" class=" " style="max-width: 28rem;height : 18rem"></div>
                 {# AFFICHAGE BARRE DE RECHERCHE ADRESSE #}
-                <p class="text-start">
+                <div class="col-4">
+                    <p class="text-start">
                     <input class="geo mt-1" id="adresse" value="">
                     <button type="button" class="btn btn-outline-secondary "id="geocode">RECHERCHER</button>
-                </p>
-                {# CURSEUR DISTANCE #}
-                <p class="text-start">
+                    </p>
+                    {# CURSEUR DISTANCE #}
+                    <p class="text-start">
                     <label for="distance">Distance (de 1 à 100km): </label>
                     <input type="range" min="1" max="100" id="distance">
-                </p>
-                <p class="text-start" id="valeurDistance"></p>
-                {# AFFICHAGE BOUTON GEOLOCALISATION #}
-                <p class="text-start d-none">
-                <button type="button" class="btn btn-outline-secondary mt-2"id="localisation">JE VEUX ETRE GEOLOCALISE</button>
-                </p>
-                <p id="resultat"></p>
+                    </p>
+                    <p class="text-start" id="valeurDistance"></p>
+                    {# AFFICHAGE BOUTON GEOLOCALISATION #}
+                    <p class="text-start d-none">
+                    <button type="button" class="btn btn-outline-secondary mt-2"id="localisation">JE VEUX ETRE GEOLOCALISE</button>
+                    </p>
+                    <p id="resultat"></p>
+                </div>
+                    </div>
+                </div>
+                
+                
                 {# Fin recherche localisation des event #}
                 {% for event in events %}
                 {# Affichage des évenements #}
@@ -127,7 +134,7 @@
 </div>
 {# FIN CARD #}
     </div>
-    </div>
+   </div>
     {% block javascripts %}
        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <script>
@@ -285,7 +292,4 @@
                 
                 
               
-                {# A GARDER #}
-                {#
-                <td>{{ event.longitude }}</td> #}
-              
+                

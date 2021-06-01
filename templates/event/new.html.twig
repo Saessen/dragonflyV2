@@ -3,10 +3,10 @@
 {% block title %}New Event{% endblock %}
 
 {% block body %}
-    <div class="container justify-content-start">
-    <div class="col-12 col-lg-4">
+    <div class="d-flex f-wrap justify-content-center">
+    <div class="col-lg-6">
     {# STRUCTURE CARD #}
-    <div class="card text-center" style="width: 1200px;">
+    <div class="card text-center">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
@@ -23,7 +23,7 @@
         <div class="card-body">
             <h5 class="card-title">CREER UN EVENEMENT</h5>
             {# AFFICHEGAE MAP #}
-            <div id="mapId" class="" style="width: 28rem;height : 18rem"></div>
+            <div id="mapId" class="" style="max-width: 28rem;height : 18rem"></div>
             {# AFFICHAGE BARRE DE RECHERCHE ADRESSE #}
             <p class="text-start">
                 <input class="geo mt-1" id="adresse" value="">
@@ -39,14 +39,13 @@
             
             {# FORM #}
             <p class="card-text">{{ include('event/_form.html.twig') }}</p>
-            {# ANCHOR A SUPPRIMER PAS DE RETOUR SUR LA CARTE #}
-            {# <a href="{{ path('event_index') }}" class="btn btn-primary">Retour</a> #}
+            
         </div>
     </div>
 </div>
 {# FIN CARD #}
     </div>
-
+</div>
     
     
     {% block javascripts %}
