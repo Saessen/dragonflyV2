@@ -7,9 +7,9 @@
         <div class="row">
             <div class="col-12 mb-5">
                 <h1>
-                    <span class="d-block titre-home col-6 text-end">Connexion</span>
+                    <span class="d-block titre-home col-7 text-end">Connexion</span>
                     <br>
-                    <span class="d-block titre-home col-7 text-end">Utilisateur</span>
+                    <span class="d-block titre-home col-8 text-end">Utilisateur</span>
                 </h1>
             </div>
         </div>
@@ -19,7 +19,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-title">
-                        <h3 class="h3 mb-3 font-weight-normal">Merci de vous connecter</h3>
+                        <h3 class=" m-3 text-center">Merci de vous connecter</h3>
                     </div>
                     <div class="card-body">
                         <div class="d-flex flex-wrap row justify-content-center">
@@ -35,7 +35,8 @@
                                         </div>
                                     {% endif %}
                                 
-                                    <div class="col-md-5 p-2">
+                                    <div class="row justify-content-center">
+                                    <div class="col-lg-5 p-2">
                                         <label class="form-label p-2" for="inputUsername">Username</label>
                                         <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control p-2 mb-2" autocomplete="username" required autofocus>
                                         <label class="form-label p-2" for="inputPassword">Mot de passe</label>
@@ -46,6 +47,7 @@
                                         <div class="col-md-8 text-center">
                                             <button class="col-md-6 m-3 btn btn-lg btn-warning" type="submit">Se connecter</button>
                                         </div>
+                                    </div>
                                     </div>
 
                                 {#

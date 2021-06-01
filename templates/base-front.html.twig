@@ -15,6 +15,21 @@
              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
             <link rel="stylesheet" href="{{ asset('css/style.min.css') }}">
+
+            {# FONTS  #}
+                {# Dragonfly  #}
+                    <link rel="preconnect" href="https://fonts.gstatic.com">
+                    <link href="https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2&family=Caveat:wght@400;500;600;700&family=Forum&family=Handlee&family=Julius+Sans+One&family=Kalam:wght@300;400&family=Mate:ital@0;1&display=swap" rel="stylesheet"> 
+                {# Titres #}
+                    <link rel="preconnect" href="https://fonts.gstatic.com">
+                    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,700&family=Raleway:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Roboto+Condensed:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet"> 
+
+                    <link rel="preconnect" href="https://fonts.gstatic.com">
+                    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+                {# Texte #}
+                <link rel="preconnect" href="https://fonts.gstatic.com">
+                <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Noto+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"> 
+
         {% endblock %}
 
 
@@ -25,40 +40,35 @@
             <nav class="navbar sticky-top navbar-light mb-5">
                 <div id="nav_div_1" class="container-fluid">
                     <div id="nav_div_logo">    
-                        <button type="button" class="btn " data-bs-toggle="tooltip" data-bs-placement="top" title="Accueil DragonFLy">
-                            <a class="navbar-brand m-0 nav_div_logo_a" href="{{ path('home_page')}}">
-                                Dragonfly<img id="logo" src="{{asset('images/icons/logo2_libellule.svg')}}" alt="logo dragonfly" width="50">
-                            </a>
-                        </button>        
+                        <a id="nav_div_logo_a" class="navbar-brand m-0 nav_div_logo_a" href="{{ path('home_page')}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Accueil DragonFly">
+                            Dragonfly<img id="logo" src="{{asset('images/icons/logo2_libellule.svg')}}" alt="logo dragonfly" width="50">
+                        </a>
                     </div>
                     <div>
                     {% if app.user.roles is defined and "ROLE_USER" in app.user.roles %}
-                        <button type="button" class="btn " data-bs-toggle="tooltip" data-bs-placement="bottom" title="Mon compte">
-                            <a href="{{ path('user_moncompte')}}" class="navbar-brand">
-                                <img class="nav_icone" src="{{asset('images/icons/user-solid.svg')}}" alt="mon compte" width="18">
-                            </a>
-                        </button>
-                        <button type="button" class="btn " data-bs-toggle="tooltip" data-bs-placement="bottom" title="Déconnexion">
-                            <a href="{{ path('app_logout')}}" class="navbar-brand m-0">
-                                <img class="nav_icone" src="{{asset('images/icons/sign-out-alt-solid.svg')}}" alt="déconnexion" width="25">
-                            </a>
-                        </button>
+                        
+                        <a href="{{ path('user_moncompte')}}" class="navbar-brand" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Mon compte">
+                            <img class="nav_icone" src="{{asset('images/icons/user-solid.svg')}}" alt="mon compte" width="18">
+                        </a>
+                        
+                        <a href="{{ path('app_logout')}}" class="navbar-brand m-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Déconnexion">
+                            <img class="nav_icone" src="{{asset('images/icons/sign-out-alt-solid.svg')}}" alt="déconnexion" width="25">
+                        </a>
                         {% else %}
-                        <button type="button" class="btn " data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inscription">
-                            <a href="{{ path('entreprise_new')}}" class="navbar-brand">
-                                <img class="nav_icone" src="{{asset('images/icons/inscription.svg')}}" alt="inscription" width="25">
-                            </a>
-                        </button>
-                        <button type="button" class="btn " data-bs-toggle="tooltip" data-bs-placement="bottom" title="Connexion">
-                            <a href="{{ path('app_login')}}" class="navbar-brand m-0">
-                                <img class="nav_icone" src="{{asset('images/icons/connexion.svg')}}" alt="connexion" width="25">
-                            </a>
-                        </button>
-                            
+
+                        <a href="{{ path('entreprise_new')}}" class="navbar-brand" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inscription">
+                            <img class="nav_icone" src="{{asset('images/icons/inscription.svg')}}" alt="inscription" width="25">
+                        </a>
+
+                        <a href="{{ path('app_login')}}" class="navbar-brand m-0"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Connexion">
+                            <img class="nav_icone" src="{{asset('images/icons/connexion.svg')}}" alt="connexion" width="25">
+                        </a>
                         
                     {% endif %}
                     </div>
-
+                    <div class="col-lg-6 text-start">
+                        <h2 id="nav_div_h2_name">DRAGONFLY</h2>
+                    </div>
                 </div>
             </nav>
 

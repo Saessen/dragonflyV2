@@ -16,10 +16,10 @@
                 <a class="nav-link text-dark" href="{{ path('event_new') }}">Créer un event</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active fw-bold text-warning" aria-current="true" href="#">Tous les event</a>
+                <a class="nav-link active fw-bold text-warning" aria-current="true" href="#">Tous les events</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark" href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes event</a>
+                <a class="nav-link text-dark" href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes events</a>
                 {# <a class="nav-link" href="{{ path('event_index') }}" tabindex="-1" aria-disabled="true">Mes event</a> #}
             </li>
             </ul>
@@ -97,7 +97,7 @@
                      <h6>Message à destination des participants</h6>
                      <p class="text-dark"><i class="text-warning fas fa-quote-left"></i> {{event.message}}  <i class="text-warning fas fa-quote-right"></i></p>
                      {% if (event.persMax - event.persMin) < 3 %}
-                     <div class="bg-danger text-white mb-1 d-inline-block">Attention peu de places disponibles sur cet événement!</div>
+                     <div class="bg-danger text-white mb-1 d-inline-block">Attention peu de places disponibles sur cet évènement!</div>
                      {% endif %}
                 </div>
                     {# ANCHOR ROUTE BTN #}
@@ -126,7 +126,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            Je confirme mon inscription pour l'évenement {{ event.nom}} le {{event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }} à {{event.ville}}
+                            Je confirme mon inscription pour l'évènement {{ event.nom}} le {{event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }} à {{event.ville}}
                         </div>
                         <div class="modal-footer">
                            

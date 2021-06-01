@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    font-family: 'Merriweather', serif;
 }
 
 body {
@@ -10,7 +11,35 @@ body {
     -o-background-size: cover;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fira Sans', sans-serif;;
+}
 
+#nav_div_logo_a {
+    font-family: 'Julius Sans One', sans-serif;
+}
+
+// FONTS 
+
+    // LOGO DRAGONFLY 
+
+        // font-family: 'Caveat', cursive;
+
+        // font-family: 'Julius Sans One', sans-serif; ✔
+
+        // font-family: 'Kalam', cursive;
+    
+    // TITRES
+
+        // font-family: 'Montserrat', sans-serif; 
+
+        // font-family: 'Fira Sans', sans-serif; ✔
+
+    // TEXTE 
+
+        // font-family: 'Merriweather', serif; ✔
+
+ 
 
 /* ANCHOR CUSTOM CLASSES */
 
@@ -34,6 +63,13 @@ body {
     background: rgba(139, 181, 219, 0.7);
 }
 
+#nav_div_h2_name {
+    display: none;
+    font-size: 30px;
+    color: #f1f1f1;
+    font-family: 'Julius Sans One', sans-serif;
+}
+
 nav div a {
     color: #F8BE00;
 }
@@ -53,7 +89,7 @@ nav div a {
     text-transform: uppercase;
     font-size: 30px;
     color: rgb(247, 246, 248);
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Fira Sans', sans-serif;
 }
 
 /* ANCHOR TROIS BOUTONS HOMEPAGE */
@@ -65,7 +101,7 @@ nav div a {
     background: rgba(139, 181, 219, 0.6);
     font-size: 18px;
     padding: 10px;
-    width: 120px;
+    width: 140px;
     color: #f1f1f1;
     cursor: pointer;
 }
@@ -198,6 +234,14 @@ nav div a {
         justify-content: flex-start;
     }
 
+    #nav_div_h2_name {
+        display: block;
+        font-size: 50px;
+        color: #f1f1f1;
+        font-family: 'Julius Sans One', sans-serif;
+
+    }
+
     #nav_div_logo {
         margin-left: 30px;
     }
@@ -221,7 +265,7 @@ nav div a {
         text-transform: uppercase;
         font-size: 65px;
         color: rgb(247, 246, 248);
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-family: 'Fira Sans', sans-serif;
     }
 
     #span_h1_1 {
