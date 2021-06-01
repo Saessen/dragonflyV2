@@ -146,7 +146,7 @@
                     <div class="footer_column_2 col-4">
                         <p>Une question? contactez nous</p>
                             <a href="#">
-                                <img src="../images/icons/envelope.svg" alt="enveloppe contact" width="40">
+                                <img src="{{ asset ('images/icons/envelope.svg') }}" alt="enveloppe contact" width="40">
                             </a>
                     </div>
                     <div class="footer_column_3 col-4">
@@ -185,14 +185,14 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                     const TL = gsap.timeline({paused : true});
                     // On l'instancie
                     TL
-                        // On séquencie les animations avec .staggerFrom qui décalera dans le temps l'animation des éléments séléctionners
+                        // On séquencie les animations avec .staggerFrom qui décalera dans le temps l'animation des éléments séléctionnés
                         // On insère les paramètres de positionnement et de séquençage
                         // https://greensock.com/docs/v3/GSAP/Timeline (pour plus d'explications sur les différents paramétrages)
                         .staggerFrom(titreSpan, 1, {top: 50, opacity: 0, ease: 'power2.out'}, 0.3)
                         .staggerFrom(btns, 1, {opacity: 0, ease: 'power2.out'}, 0.3, '-=1')
                         // .from(logo, 0.4, {transform: "scale(0)", ease: 'power2.out'}, 0.3, '-=2')
                         .staggerFrom(medias, 1, {right: -200, ease: 'power2.out'}, 0.1, '-=2')
-                        // Ici, on anime les éléments de la constante medias, l'animation durera 1 seconde, elle partira de 200 pixels depuis la droite vers la gauche (donc -200px à droite) pour se positionner à l'endroit prévu par le css (0px) et aura un easing qui ralentira l'animation sur la fin, elle animera les elements a 0.1 seconde les uns des autres, elle commencera 2 secondes avant la fin de l'animation précédente.
+                        // Ici, on anime les éléments de la constante medias, l'animation durera 1 seconde, elle partira de 200 pixels depuis la droite vers la gauche (donc -200px à droite) pour se positionner à l'endroit prévu par le css (0px) et aura un easing qui accélerrera l'animation au milieu et la ralentira sur la fin, elle animera les éléments a 0.1 seconde les uns des autres, elle commencera 2 secondes avant la fin de l'animation précédente.
 
                     TL.eventCallback("onComplete", ()=>{
                         eltCloseMenu.setAttribute("data-open", "true");
@@ -223,7 +223,7 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                         // On déclare la constante de la seconde animation
                         const TL2 = gsap.timeline({paused : true});
                         TL2
-                            // l'animation reste la même puisque l'on a enlevé l'attribut style qui empechait le bon positionnement de l'animation
+                            // l'animation reste la même 
                             .staggerFrom(bulles, 1, {right: -200, ease: 'power2.out'}, 0.1, '-=2')
                     
                         TL2.eventCallback("onComplete", ()=>{
