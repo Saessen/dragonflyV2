@@ -1,41 +1,114 @@
 {% extends 'base-front.html.twig' %}
 
-{% block title %}Messagerie index{% endblock %}
+{% block title %}Messagerie{% endblock %}
 
 {% block body %}
-    <h1>Messagerie index</h1>
+<div class="container">
+        <div class="row">
+            <div class="col-12 mb-5">
+                <h1>
+                    <span class="d-block titre-home col-7 text-end">Messages de </span>
+                    <br>
+                    <span class="d-block titre-home col-8 text-end">{{ app.user.username}}</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+<div class="container">
+        <div class="row p-3 justify-content-center">
+            <div class="col-12">
+                <div class="card shadow rounded">
+                    <div class="card-title">
+                        <h2 class="p-5 text-center"> Consultez les messages concernants les events auxquels vous êtes inscrits.</h2>
+                    </div>
+                    <div class="card-body">
+                        
+                        <div class="d-flex flex-wrap justify-content-center">
+                                <table class="table table-info table-hover table-striped shadow rounded m-0 ">
+                                    {% if events is defined and events|length >0 %}
+                                        {% for event in events %}
+                                            {% if event.messages|length >0 %}
+                                                {% for message in event.messages %}
+                                <div class="col-lg-8">
+                                    <tbody>
+                                        <tr class="text-start">
+                                            <th scope="col">Nom de l'event</th>
+                                            <td>{{ message.event.nom}}</td>
+                                        </tr>
+                                        <tr class="text-start">
+                                        
+                                            <th scope="col">Expéditeur</th>
+                                            <td>{{ app.user.username}}</td>
+                                        </tr>
+                                        
+                                        <tr class="text-start">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Event</th>
-                <th>Expéditeur</th>
-                <th>Message</th>
-                <th>CreatedAt</th>
-               
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for messagerie in messageries %}
-            <tr>
-                <td>{{ messagerie.event.nom | upper}} </td>
-                <td>{{ app.user.username}}</td>
-                <td>{{ messagerie.message }}</td>
-                <td>{{ messagerie.createdAt ? messagerie.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                
-                <td>
-                    <a href="{{ path('messagerie_show', {'id': messagerie.id}) }}">show</a>
-                    <a href="{{ path('messagerie_edit', {'id': messagerie.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                                            <th scope="col">Message</th>
+                                            <td>{{ message.message }}</td>
+                                        </tr>
+                                        
+                                        <tr class="text-start">
 
-    {# <a href="{{ path('messagerie_new') }}">Create new</a> #}
+                                            <th scope="col">Date d'envoi</th>
+                                            <td>{{ message.createdAt ? message.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                                        </tr>
+                                        <tr class="text-end">
+                                            <td colspan="5">
+                                                <a class="btn btn-outline-info" href="{{ path('messagerie_show', {'id': message.id}) }}">Voir</a>
+                                            </td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </div>
+                                    
+                                                {% endfor %}
+                                            {# {% else %}
+                                                <tr>
+                                                <td colspan="6">Pas de message</td>
+                                                </tr> #}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="5">Pas d'évènement</td>
+                                        </tr>
+                                    {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-12 p-3">
+                            <a href="{{ path('event_index') }} " class="btn btn-outline-info mt-2 shadow rounded">Retour</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+</div>
+            {# {% if events is defined and events|length >0 %}
+                {% for event in events %}
+                    {% if event.messages|length >0 %}
+                        {% for message in event.messages %}
+                            <tr>
+                            <td>{{ message.id }}</td>
+                                <td>{{ message.message }}</td>
+                                <td>{{ message.createdAt ? message.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>{{ message.isRead ? 'Yes' : 'No' }}</td>
+                                <td>
+                                <a href="{{ path('messagerie_show', {'id': message.id}) }}">show</a>
+                                    <a href="{{ path('messagerie_edit', {'id': message.id}) }}">edit</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5">Pas de message</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5">Pas d'évènement</td>
+                </tr>
+            {% endif %} #}
 {% endblock %}

@@ -3,32 +3,71 @@
 {% block title %}Messagerie{% endblock %}
 
 {% block body %}
-    <h1>Messagerie</h1>
+<div class="container">
+        <div class="row">
+            <div class="col-12 mb-5">
+                <h1>
+                    <span class="d-block titre-home col-7 text-end">Message de </span>
+                    <br>
+                    <span class="d-block titre-home col-8 text-end">{{message.event.nom}}</span>
+                </h1>
+            </div>
+        </div>
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ messagerie.id }}</td>
-            </tr>
-            <tr>
-                <th>Message</th>
-                <td>{{ messagerie.message }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ messagerie.createdAt ? messagerie.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>IsRead</th>
-                <td>{{ messagerie.isRead ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="container">
+    <div class="row p-5 justify-content-center">
+        <div class="col-12">
+            <div class="card shadow rounded">
+                <div class="card-body">
+                    <div class="d-flex flex-wrap">
+                        
+                        <table class="table table-info table-hover table-striped shadow rounded m-0 ">
+                            <thead>
+                                <tr class="text-left">
+                                    <th scope="col">Nom de l'event</th>
+                                    <td>{{ message.event.nom}}</td>
+                                </tr>
+                                <tr class="text-left">
+                                
+                                    <th scope="col">Expéditeur</th>
+                                    <td>{{ app.user.username}}</td>
+                                </tr>
+                                
+                                <tr class="text-left">
 
-    <a href="{{ path('messagerie_index') }}">back to list</a>
+                                    <th scope="col">Message</th>
+                                    <td>{{ message.message }}</td>
+                                </tr>
+                                
+                                <tr class="text-left">
 
-    <a href="{{ path('messagerie_edit', {'id': messagerie.id}) }}">edit</a>
+                                    <th scope="col">Date d'envoi</th>
+                                    <td>{{ message.createdAt ? message.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                                </tr>
 
-    {{ include('messagerie/_delete_form.html.twig') }}
+                                    {# <th scope="col">Lu?</th> #}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+
+                                    {# <td>{{ message.isRead ? 'Yes' : 'No' }}</td> #}
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="col-12 p-3">
+                            <a class="btn btn-outline-info p-2 text-start" href="{{ path('messagerie_index') }}">Retour</a>
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
 {% endblock %}

@@ -22,10 +22,11 @@ class MessagerieController extends AbstractController
     {
         
         $user = $this->getUser();
-        
+        $events = $user->getEvents();
         // return new Response('hop message');
         return $this->render('messagerie/index.html.twig', [
-            'messageries' => $messagerieRepository->findAll(),
+            // 'messageries' => $messagerieRepository->findAll(),
+            'events' => $events,
         ]);
     }
 /////////////////////////////////////////////////////////////////////
@@ -84,7 +85,7 @@ class MessagerieController extends AbstractController
     public function show(Messagerie $messagerie): Response
     {
         return $this->render('messagerie/show.html.twig', [
-            'messagerie' => $messagerie,
+            'message' => $messagerie,
         ]);
     }
 
