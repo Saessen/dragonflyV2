@@ -20,6 +20,7 @@
         </div>
     </div>
 </div>
+
 <div class="d-flex f-wrap justify-content-center">
     <div class="col-lg-8">
         {# STRUCTURE CARD #}
@@ -184,36 +185,19 @@
     </div>
 </div>
 
-{% block javascripts %}
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script>
-    {
-        #
-        ANCHOR BOUCLE#
-    }
-
-    {
-        #
-        var lat = document.getElementById('lat').value;
-        var lng = document.getElementById('lng').value;#
-    } {
-        #
-        console.log(lat);
-        console.log(lng);#
-    } {
-        #
-        var events = {
-            lat,
-            lng
-        };
-        console.log(events);#
-    }
-    var centre = {
-        lat: 46.77668,
-        lng: 3.07722
-    }; // Lat, Lng
-    var map = L.map('mapId').setView(centre, 5); // 13 correspond au zoom de base sur la carte
-    L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+{# FIN CARD #}
+    </div>
+   </div>
+  
+    {% block javascripts %}
+       <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+        <script>
+      
+{# ANCHOR BOUCLE #}
+        
+        var centre ={lat: 46.77668, lng: 3.07722}; // Lat, Lng
+        var map = L.map('mapId').setView( centre, 5); // 13 correspond au zoom de base sur la carte
+        L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
         maxZoom: 17,
         //attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
     }).addTo(map);
@@ -245,13 +229,6 @@
 
         var distance = document.querySelector("#distance");
 
-        {
-            #
-            for (event in events) {
-                console.log("test" + event);
-            }#
-        }
-
         circle = L.circle([45.3870, 3.3084], {
             color: '#ff000000',
             radius: 1000 * d /// en mètre
@@ -278,63 +255,79 @@
         var geocodebtn = document.getElementById('geocode');
         geocodebtn.addEventListener('click', function () {
             let adresse = document.getElementById('adresse').value;
-            // console.log(adresse);
+            
             geoCode(adresse);
         });
 
-        async function geoCode(adresse, e) {
-                let url = `https://nominatim.openstreetmap.org/search/?format=json&addressdetails=1&q=${adresse}`;
-                let resp = await fetch(url);
-                let datas = await resp.json(); {
-                    #
-                    console.log(datas);#
-                }
-                var lat = parseFloat(datas[0].lat).toFixed(4);
-                var lng = parseFloat(datas[0].lon).toFixed(4); // attention ac ce fournisseur la lng est une lon
-                {
-                    #
-                    console.log(lat, lng);#
-                }
+        async function geoCode(adresse, e){
+            let url = `https://nominatim.openstreetmap.org/search/?format=json&addressdetails=1&q=${adresse}`;
+            let resp =await fetch(url);
+            let datas = await resp.json();
+            {# console.log(datas); #}
+            var lat =parseFloat(datas[0].lat).toFixed(4);
+            var lng =parseFloat(datas[0].lon).toFixed(4); // attention ac ce fournisseur la lng est une lon
+            {# console.log(lat, lng);#}
 
+            
+            //ajout d'un marker
+            L.marker([lat, lng]).addTo(map); 
+            {# map.panTo([lat, lng], 10);
+          
+            {# ANCHOR d is not defined #}
+            circle.setLatLng([lat, lng]);
+            circle.setRadius(distance.value*1000);
+            circle.setStyle({'color': '#0000FFFF'});
+        }
 
-                //ajout d'un marker
-                L.marker([lat, lng]).addTo(
-                map); ///////////////////////////////PROBLEME ANCHOR le point s'affiche que si il est dans la vue de la carte obliger de dézoomer pour le voir
-                {
-                    #
-                    map.panTo([lat, lng], 10);
+        {# GEOLOCALISATION AU BTN #}
+        var localisation = document.getElementById('localisation');
+        localisation.addEventListener('click', function(){
+            
+            localisation.disabled = true ; //désactiver le bouton une fois cliquer pr éviter que le user click 50fois si le chargement prend du tps
+            map.on('locationfound', onLocationFound);
+            map.on('locationerror', onLocationError);
 
-                    {
-                        #
-                        ANCHOR d is not defined#
-                    }
-                    circle.setLatLng([lat, lng]);
-                    circle.setRadius(distance.value * 1000);
-                    circle.setStyle({
-                        'color': '#0000FFFF'
-                    });
-                }
+            map.locate({setView:true, maxZoom: 11}) //fction de leaflet qui lance la localisation et appelera nos fctions/ setView:true pr recentrer sur cette localisation
+        });
 
-                {
-                    #
-                    GEOLOCALISATION AU BTN#
-                }
-                var localisation = document.getElementById('localisation');
-                localisation.addEventListener('click', function () {
-                    // console.log('dis mois que ca marche..')
-                    localisation.disabled =
-                    true; //désactiver le bouton une fois cliquer pr éviter que le user click 50fois si le chargement prend du tps
-                    map.on('locationfound', onLocationFound);
-                    map.on('locationerror', onLocationError);
+        function onLocationFound(e){
+           
+            var m = L.marker(e.latlng).addTo(map); //récupérer les données sous forme d'objet pr pouvoir les réutiliser   
+            var popUp = L.popup().setLatLng(e.latlng).setContent('Test').openOn(map);
+            m.bindPopup(popUp).openPopup();
+            circle.setLatLng([e.latlng]);
+            circle.setRadius(distance.value*1000);
+            circle.setStyle({'color': '#0000FFFF'});
+            
+        }
+        //fction indiquant erreur dans la localisation et réactivation du btn
+        function onLocationError(e){
+            localisation.disabled = false;
+            alert(e.message);
+        }
+        {# FIN GEOLOCALISATION AU BTN #}
 
-                    map.locate({
-                        setView: true,
-                        maxZoom: 11
-                    }) //fction de leaflet qui lance la localisation et appelera nos fctions/ setView:true pr recentrer sur cette localisation
-                }); {
-                    #
-                    ANCHOR LE popup NE S OUVRE PAS POURQUOI ? ? ? ? ? ? ? ? ? ? ? ? #
-                }
+        ///////CLICK SUR MAP///////
+        map.on('click', function(e){
+            
+            let lat = parseFloat(e.latlng.lat).toFixed(4);
+            let lng = parseFloat(e.latlng.lng).toFixed(4);
+            {# console.log(lat, lng); #}
+            
+            L.marker([lat, lng]).addTo(map); 
+            geoDecode(lat, lng);
+        });
+
+        async function geoDecode(lat, lng){
+            //appel nominatim
+            let resp = await fetch (`http://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`); //précise reverse pour avoir l'inverse 
+            let datas =await resp.json();
+            
+            {# console.log(datas);  #}
+            circle.setLatLng([lat, lng]);
+            circle.setRadius(distance.value*1000);
+            circle.setStyle({'color': '#0000FFFF'});
+            
 
                 function onLocationFound(e) {
                     {
@@ -399,5 +392,3 @@
 </script>
 {% endblock %}
 
-
-{% endblock %}
