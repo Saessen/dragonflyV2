@@ -3,325 +3,401 @@
 {% block title %}Evènements{% endblock %}
 
 {% block body %}
-     {% for message in app.flashes('notice') %} 
-     <div class="d-inline-block alert alert-success text-dark fw-bold" role="alert"> {{ message }}
-     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-     </div> 
-    
+{% for message in app.flashes('notice') %}
+<div class="d-inline-block alert alert-success text-dark fw-bold" role="alert"> {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 {% endfor %}
-    <div class="container">
-        <div class="row">
-            <div class="col-12 mb-5">
-                <h1>
-                    <span class="d-block titre-home col-7 text-end">Tous les </span>
-                    <br>
-                    <span class="d-block titre-home col-8 text-end">events</span>
-                </h1>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 mb-5">
+            <h1>
+                <span class="d-block titre-home col-7 text-end">Tous les </span>
+                <br>
+                <span class="d-block titre-home col-8 text-end">events</span>
+            </h1>
         </div>
     </div>
+</div>
 <div class="d-flex f-wrap justify-content-center">
-<div class="col-lg-8">
-    {# STRUCTURE CARD #}
-    {# Début nav entre les pages #}
-    {# ANCHOR - attention à la width 1200px, peut etre bloquant pour le responsive #}
-    <div class="card text-start shadow-lg p-3 mb-5 bg-body rounded" style="">
-        <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs">
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="{{ path('event_new') }}">Créer un event</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active fw-bold text-warning" aria-current="true" href="#">Tous les events</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes events</a>
-                {# <a class="nav-link" href="{{ path('event_index') }}" tabindex="-1" aria-disabled="true">Mes event</a> #}
-            </li>
-            </ul>
-        </div>
-        <div class="card-body">
-     
-        {# fin nav entre les pages #}
-            
-            {# Début recherche localisation des event #}
+    <div class="col-lg-8">
+        {# STRUCTURE CARD #}
+        {# Début nav entre les pages #}
+        {# ANCHOR - attention à la width 1200px, peut etre bloquant pour le responsive #}
+        <div class="card text-start shadow-lg p-3 mb-5 bg-body rounded" style="">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{{ path('event_new') }}">Créer un event</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active fw-bold text-warning" aria-current="true" href="#">Tous les events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{{ path('user_showEvent') }}" tabindex="-1"
+                            aria-disabled="true">Mes events</a>
+                        {# <a class="nav-link" href="{{ path('event_index') }}" tabindex="-1" aria-disabled="true">Mes event</a> #}
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+
+                {# fin nav entre les pages #}
+
+                {# Début recherche localisation des event #}
                 {# AFFICHEGAE MAP #}
                 <div class="row justify-content-around">
-             
-                        <div id="mapId" class="mt-2 shadow p-3 mb-5 bg-body rounded" style="max-width: 75rem;height : 25rem"></div>
-                {# AFFICHAGE BARRE DE RECHERCHE ADRESSE #}
-                <div class="col-lg-10 mt-2">
-                <h6>Entrez votre adresse dans la barre de recherche ou cliquez sur la map</h6>
-                 <div class="d-flex flex-wrap align-items-center mb-2">
-                    <input class="geo" id="adresse" value="" placeholder="localisation souhaitée">
-                    <button type="button" class="btn btn-sm btn-outline-warning ms-1 shadow" id="geocode">RECHERCHER</button>
+
+                    <div id="mapId" class="mt-2 shadow p-3 mb-5 bg-body rounded"
+                        style="max-width: 75rem;height : 25rem"></div>
+                    {# AFFICHAGE BARRE DE RECHERCHE ADRESSE #}
+                    <div class="col-lg-10 mt-2">
+                        <h6>Entrez votre adresse dans la barre de recherche ou cliquez sur la map</h6>
+                        <div class="d-flex flex-wrap align-items-center mb-2">
+                            <input class="geo" id="adresse" value="" placeholder="localisation souhaitée">
+                            <button type="button" class="btn btn-sm btn-outline-warning ms-1 shadow"
+                                id="geocode">RECHERCHER</button>
+                        </div>
+                        {# CURSEUR DISTANCE #}
+                        <h6>Ajustez votre périmètre de recherche pour consulter les évenements dans votre zone
+                            géographique</h6>
+                        <p class="text-start">
+                            <label for="distance">Distance (de 1 à 100km): </label>
+                            <input type="range" min="1" max="100" id="distance">
+                        </p>
+                        <p class="text-start" id="valeurDistance"></p>
+                        {# AFFICHAGE BOUTON GEOLOCALISATION #}
+                        <p class="text-start d-none">
+                            <button type="button" class="btn btn-outline-secondary mt-2" id="localisation">JE VEUX ETRE
+                                GEOLOCALISE</button>
+                        </p>
+                        <p id="resultat"></p>
                     </div>
-                    {# CURSEUR DISTANCE #}
-                    <h6>Ajustez votre périmètre de recherche pour consulter les évenements dans votre zone géographique</h6>
-                    <p class="text-start">
-                    <label for="distance">Distance (de 1 à 100km): </label>
-                    <input type="range" min="1" max="100" id="distance">
-                    </p>
-                    <p class="text-start" id="valeurDistance"></p>
-                    {# AFFICHAGE BOUTON GEOLOCALISATION #}
-                    <p class="text-start d-none">
-                    <button type="button" class="btn btn-outline-secondary mt-2"id="localisation">JE VEUX ETRE GEOLOCALISE</button>
-                    </p>
-                    <p id="resultat"></p>
                 </div>
-                    </div>
-              
-                
-                
+
+
+
                 {# Fin recherche localisation des event #}
                 {% for event in events %}
                 {# Affichage des évenements #}
                 <div class="border mb-4 shadow p-3">
-                
-                <div class=" row mt-2">
-                    <div class="col-lg-3">
-                    <h5 class="nomEvent">{{ event.nom |upper}}</h5>
-                    
-                <p class="text-start">Catégorie :
-                 {% if event.categorie == 1 %}
-                 Festif <i class="text-warning fas fa-glass-cheers"></i></p>
-                 {% endif %}
-                  {% if event.categorie == 2 %}
-                 Entraide <i class=" text-warning fas fa-hands-helping"></i></p>
-                 {% endif %}
-                  {% if event.categorie == 3 %}
-                 Familial <i class="text-warning fas fa-glass-cheers"></i></p>
-                 {% endif %}
-                  {% if event.categorie == 4 %}
-                 Loisirs/détente <i class="text-warning fas fa-palette"></i></i></p>
-                 {% endif %}
-                  {% if event.categorie == 5 %}
-                 Sportif <i class="text-warning fas fa-volleyball-ball"></i></p>
-                 {% endif %}
-                  {% if event.categorie == 6 %}
-                 Entreprise <i class="text-warning fas fa-briefcase"></i></p>
-                 {% endif %}
-                <p class="text-start"><i class="text-warning fas fa-calendar-alt"></i> {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
-                <p class="text-start"><i class=" text-warning fas fa-map-pin"></i> {{ event.ville }}</p>
-                <div class="d-none">
-                <div class="coords">{{event.latitude}}#{{event.longitude}}#{{ event.nom |upper}}</div>
-                </div>               
-               
-                
+
+                    <div class=" row mt-2">
+                        <div class="col-lg-3">
+                            <h5 class="nomEvent">{{ event.nom |upper}}</h5>
+
+                            <p class="text-start">Catégorie :
+                            {% if event.categorie == 1 %}
+                                Festif <i class="text-warning fas fa-glass-cheers"></i></p>
+                            {% endif %}
+                            {% if event.categorie == 2 %}
+                                Entraide <i class=" text-warning fas fa-hands-helping"></i></p>
+                            {% endif %}
+                            {% if event.categorie == 3 %}
+                                Familial <i class="text-warning fas fa-glass-cheers"></i></p>
+                            {% endif %}
+                            {% if event.categorie == 4 %}
+                                Loisirs/détente <i class="text-warning fas fa-palette"></i></i></p>
+                            {% endif %}
+                            {% if event.categorie == 5 %}
+                                Sportif <i class="text-warning fas fa-volleyball-ball"></i></p>
+                            {% endif %}
+                            {% if event.categorie == 6 %}
+                                Entreprise <i class="text-warning fas fa-briefcase"></i></p>
+                            {% endif %}
+                            <p class="text-start"><i class="text-warning fas fa-calendar-alt"></i>
+                                {{ event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }}</p>
+                            <p class="text-start"><i class=" text-warning fas fa-map-pin"></i> {{ event.ville }}</p>
+                            <div class="d-none">
+                                <div class="coords">{{event.latitude}}#{{event.longitude}}#{{ event.nom |upper}}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h6>Message à destination des participants</h6>
+                            <p class="text-dark"><i class="text-warning fas fa-quote-left"></i> {{event.message}} <i
+                                    class="text-warning fas fa-quote-right"></i></p>
+                            {% if (event.persMax - event.persMin) < 3 %}
+                            <div class="bg-danger text-white mb-1 d-inline-block">Attention peu de places disponibles
+                                sur cet évènement!</div>
+                            {% endif %}
+                        </div>
+                        {# ANCHOR ROUTE BTN #}
+                        <div class="row col-lg-2 m-0">
+                            <a href="{{path('event_detail', {'id': event.id })}}" class="btn btn-outline-warning mb-1 "
+                                id="geocode" data-bs-toggle="tooltip" data-bs-placement="left"
+                                title="Voir les détails"><i class="far fa-eye"></i></a>
+
+                            <a href="{{ path('messagerie_new', {id: event.id}) }}"
+                                class="btn btn-outline-secondary mb-1" data-bs-toggle="tooltip" data-bs-placement="left"
+                                title="Fil de discussion"><i class="far fa-comments"></i></a>
+
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-outline-warning  mb-1" title="S'inscrire"
+                                data-bs-toggle="modal" data-bs-target="#modalEvent{{loop.index}}">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+
+
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalEvent{{loop.index}}" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+
+                                        <h5 class="modal-title" id="exampleModalLabel">Inscription {{ event.nom }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Je confirme mon inscription pour l'évènement {{ event.nom}} le
+                                        {{event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }} à {{event.ville}}
+                                    </div>
+                                    <div class="modal-footer">
+
+                                        <a href="{{path('event_detail', {'id': event.id })}}"><button type="button"
+                                                class="btn btn-warning " id="geocode">Voir</button></a>
+
+                                        <button type="button" class="btn btn-success "><a
+                                                href="{{ path('event_subscribe', {'id': event.id}) }}"
+                                                class="text-decoration-none text-white">Confirmation</a></button>
+                                        <button type="button" class="btn btn-danger"
+                                            data-bs-dismiss="modal">Close</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                     <div class="col-lg-7">
-                     <h6>Message à destination des participants</h6>
-                     <p class="text-dark"><i class="text-warning fas fa-quote-left"></i> {{event.message}}  <i class="text-warning fas fa-quote-right"></i></p>
-                     {% if (event.persMax - event.persMin) < 3 %}
-                     <div class="bg-danger text-white mb-1 d-inline-block">Attention peu de places disponibles sur cet évènement!</div>
-                     {% endif %}
                 </div>
-                    {# ANCHOR ROUTE BTN #}
-                    <div class="row col-lg-2 m-0">
-                    <a href="{{path('event_detail', {'id': event.id })}}" class="btn btn-outline-warning mb-1 " id="geocode" data-bs-toggle="tooltip" data-bs-placement="left" title="Voir les détails"><i class="far fa-eye"></i></a>
-
-                    <a href="{{ path('messagerie_new', {id: event.id}) }}" class="btn btn-outline-secondary mb-1"data-bs-toggle="tooltip" data-bs-placement="left" title="Fil de discussion"><i class="far fa-comments"></i></a>
-                    
-
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-outline-warning  mb-1" title="S'inscrire" data-bs-toggle="modal" data-bs-target="#modalEvent{{loop.index}}">
-                    <i class="fas fa-plus"></i>
-                    </button>
-                    </div>
-
-
-                  
-                    
-                    <!-- Modal -->
-                    <div class="modal fade" id="modalEvent{{loop.index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                        
-                            <h5 class="modal-title" id="exampleModalLabel">Inscription {{ event.nom }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Je confirme mon inscription pour l'évènement {{ event.nom}} le {{event.dateDebut ? event.dateDebut|date('d-m-Y') : '' }} à {{event.ville}}
-                        </div>
-                        <div class="modal-footer">
-                           
-                             <a href="{{path('event_detail', {'id': event.id })}}"><button type="button" class="btn btn-warning "id="geocode">Voir</button></a>
-                             
-                            <button type="button" class="btn btn-success "><a href="{{ path('event_subscribe', {'id': event.id}) }}" class="text-decoration-none text-white">Confirmation</a></button>
-                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-
-                </div>
-                 </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
 
-{# FIN CARD #}
+        {# FIN CARD #}
     </div>
-   </div>
-  
-    {% block javascripts %}
-       <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-        <script>
-      
-{# ANCHOR BOUCLE #}
-        
-        {# var lat = document.getElementById('lat').value;
-        var lng = document.getElementById('lng').value; #}
-        {# console.log(lat);
-        console.log(lng); #}
-        {# var events = {lat, lng};
-        console.log(events); #}
-        var centre ={lat: 46.77668, lng: 3.07722}; // Lat, Lng
-        var map = L.map('mapId').setView( centre, 5); // 13 correspond au zoom de base sur la carte
-        L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+</div>
+
+{% block javascripts %}
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    {
+        #
+        ANCHOR BOUCLE#
+    }
+
+    {
+        #
+        var lat = document.getElementById('lat').value;
+        var lng = document.getElementById('lng').value;#
+    } {
+        #
+        console.log(lat);
+        console.log(lng);#
+    } {
+        #
+        var events = {
+            lat,
+            lng
+        };
+        console.log(events);#
+    }
+    var centre = {
+        lat: 46.77668,
+        lng: 3.07722
+    }; // Lat, Lng
+    var map = L.map('mapId').setView(centre, 5); // 13 correspond au zoom de base sur la carte
+    L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
         maxZoom: 17,
         //attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-        }).addTo(map);
-        
-        
-        var nomEvent = document.querySelectorAll('.nomEvent');
-         for(var i= 0; i< nomEvent.length; i++){
-            var nE = nomEvent[i].innerHTML;
-            console.log(nE);
-        }
-        
-       
-        {# boucle affichage de tous les events de l'entreprise #}
+    }).addTo(map);
+
+
+    var nomEvent = document.querySelectorAll('.nomEvent');
+    for (var i = 0; i < nomEvent.length; i++) {
+        var nE = nomEvent[i].innerHTML;
+        console.log(nE);
+    }
+
+
+    {
+        #
+        boucle affichage de tous les events de l 'entreprise #}
         var coordsArray = document.querySelectorAll('.coords');
-        for(var i= 0; i<coordsArray.length; i++){
+        for (var i = 0; i < coordsArray.length; i++) {
             var c = coordsArray[i].innerHTML;
             var pt = c.split("#");
 
             L.marker([pt[0], pt[1]])
-            .bindTooltip(pt[2])
-            .addTo(map);
+                .bindTooltip(pt[2]).openTooltip()
+                .addTo(map);
         }
-        
+
 
         var d = 0;
         var circle;
-        
+
         var distance = document.querySelector("#distance");
 
-{# 
-        for (event in events){
-            console.log("test" + event);
-        } #}
+        {
+            #
+            for (event in events) {
+                console.log("test" + event);
+            }#
+        }
 
         circle = L.circle([45.3870, 3.3084], {
             color: '#ff000000',
             radius: 1000 * d /// en mètre
         });
-    
-        circle.addTo(map); 
-        {# DISTANCE #}
-        distance.addEventListener("change", function(){
-            d = this.value 
+
+        circle.addTo(map); {
+            #
+            DISTANCE#
+        }
+        distance.addEventListener("change", function () {
+            d = this.value
             valeurDistance.innerText = d + " km"
-            if(circle!=null){
-                {# console.log("redraw circle"); #}
-                circle.setRadius(d*1000);
+            if (circle != null) {
+                {
+                    #
+                    console.log("redraw circle");#
+                }
+                circle.setRadius(d * 1000);
             }
         });
 
         ////////////////////////// REMPLIR L'ADRESSE ET AFFICHER LE MARKER CORRESPONDANT///////////////////////////////////////////
-    //ecouteur sur le btn =>récupère l'adresse => service de géocodage
-    var geocodebtn = document.getElementById('geocode');
-        geocodebtn.addEventListener('click', function(){
+        //ecouteur sur le btn =>récupère l'adresse => service de géocodage
+        var geocodebtn = document.getElementById('geocode');
+        geocodebtn.addEventListener('click', function () {
             let adresse = document.getElementById('adresse').value;
             // console.log(adresse);
             geoCode(adresse);
         });
 
-        async function geoCode(adresse, e){
-            let url = `https://nominatim.openstreetmap.org/search/?format=json&addressdetails=1&q=${adresse}`;
-            let resp =await fetch(url);
-            let datas = await resp.json();
-            {# console.log(datas); #}
-            var lat =parseFloat(datas[0].lat).toFixed(4);
-            var lng =parseFloat(datas[0].lon).toFixed(4); // attention ac ce fournisseur la lng est une lon
-            {# console.log(lat, lng);             #}
+        async function geoCode(adresse, e) {
+                let url = `https://nominatim.openstreetmap.org/search/?format=json&addressdetails=1&q=${adresse}`;
+                let resp = await fetch(url);
+                let datas = await resp.json(); {
+                    #
+                    console.log(datas);#
+                }
+                var lat = parseFloat(datas[0].lat).toFixed(4);
+                var lng = parseFloat(datas[0].lon).toFixed(4); // attention ac ce fournisseur la lng est une lon
+                {
+                    #
+                    console.log(lat, lng);#
+                }
 
-            
-            //ajout d'un marker
-            L.marker([lat, lng]).addTo(map); ///////////////////////////////PROBLEME ANCHOR le point s'affiche que si il est dans la vue de la carte obliger de dézoomer pour le voir
-            {# map.panTo([lat, lng], 10);
-          
-            {# ANCHOR d is not defined #}
-            circle.setLatLng([lat, lng]);
-            circle.setRadius(distance.value*1000);
-            circle.setStyle({'color': '#0000FFFF'});
-        }
 
-        {# GEOLOCALISATION AU BTN #}
-        var localisation = document.getElementById('localisation');
-        localisation.addEventListener('click', function(){
-            // console.log('dis mois que ca marche..')
-            localisation.disabled = true ; //désactiver le bouton une fois cliquer pr éviter que le user click 50fois si le chargement prend du tps
-            map.on('locationfound', onLocationFound);
-            map.on('locationerror', onLocationError);
+                //ajout d'un marker
+                L.marker([lat, lng]).addTo(
+                map); ///////////////////////////////PROBLEME ANCHOR le point s'affiche que si il est dans la vue de la carte obliger de dézoomer pour le voir
+                {
+                    #
+                    map.panTo([lat, lng], 10);
 
-            map.locate({setView:true, maxZoom: 11}) //fction de leaflet qui lance la localisation et appelera nos fctions/ setView:true pr recentrer sur cette localisation
-        });
-{# ANCHOR LE popup NE S OUVRE PAS POURQUOI???????????? #}
-        function onLocationFound(e){
-            {# console.log(e); #}
-            //ANCHOR  a commenter une fois le cercle fonctionnel
-            var m = L.marker(e.latlng).addTo(map); //récupérer les données sous forme d'objet pr pouvoir les réutiliser   
-            var popUp = L.popup().setLatLng(e.latlng).setContent('Test').openOn(map);
-            m.bindPopup(popUp).openPopup();
-            circle.setLatLng([e.latlng]);
-            circle.setRadius(distance.value*1000);
-            circle.setStyle({'color': '#0000FFFF'});
-            
-        }
-        //fction indiquant erreur dans la localisation et réactivation du btn
-        function onLocationError(e){
-            localisation.disabled = false;
-            alert(e.message);
-        }
-        {# FIN GEOLOCALISATION AU BTN #}
+                    {
+                        #
+                        ANCHOR d is not defined#
+                    }
+                    circle.setLatLng([lat, lng]);
+                    circle.setRadius(distance.value * 1000);
+                    circle.setStyle({
+                        'color': '#0000FFFF'
+                    });
+                }
 
-        ///////CLICK SUR MAP///////
-        map.on('click', function(e){
-            
-            let lat = parseFloat(e.latlng.lat).toFixed(4);
-            let lng = parseFloat(e.latlng.lng).toFixed(4);
-            {# console.log(lat, lng); #}
-            
-            L.marker([lat, lng]).addTo(map); //ANCHOR  a commenter une fois la solution du cercle trouvée
-            geoDecode(lat, lng);
-        });
+                {
+                    #
+                    GEOLOCALISATION AU BTN#
+                }
+                var localisation = document.getElementById('localisation');
+                localisation.addEventListener('click', function () {
+                    // console.log('dis mois que ca marche..')
+                    localisation.disabled =
+                    true; //désactiver le bouton une fois cliquer pr éviter que le user click 50fois si le chargement prend du tps
+                    map.on('locationfound', onLocationFound);
+                    map.on('locationerror', onLocationError);
 
-        async function geoDecode(lat, lng){
-            //appel nominatim
-            let resp = await fetch (`http://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`); //précise reverse pour avoir l'inverse 
-            let datas =await resp.json();
-            {# ANCHOR LE CERCLE NE FCTIONNE PAS #}
-            {# console.log(datas);  #}
-            circle.setLatLng([lat, lng]);
-            circle.setRadius(distance.value*1000);
-            circle.setStyle({'color': '#0000FFFF'});
-            
+                    map.locate({
+                        setView: true,
+                        maxZoom: 11
+                    }) //fction de leaflet qui lance la localisation et appelera nos fctions/ setView:true pr recentrer sur cette localisation
+                }); {
+                    #
+                    ANCHOR LE popup NE S OUVRE PAS POURQUOI ? ? ? ? ? ? ? ? ? ? ? ? #
+                }
 
-        }
+                function onLocationFound(e) {
+                    {
+                        #
+                        console.log(e);#
+                    }
+                    //ANCHOR  a commenter une fois le cercle fonctionnel
+                    var m = L.marker(e.latlng).addTo(
+                    map); //récupérer les données sous forme d'objet pr pouvoir les réutiliser   
+                    var popUp = L.popup().setLatLng(e.latlng).setContent('Test').openOn(map);
+                    m.bindPopup(popUp).openPopup();
+                    circle.setLatLng([e.latlng]);
+                    circle.setRadius(distance.value * 1000);
+                    circle.setStyle({
+                        'color': '#0000FFFF'
+                    });
 
-        </script>
-    {% endblock %}
+                }
+                //fction indiquant erreur dans la localisation et réactivation du btn
+                function onLocationError(e) {
+                    localisation.disabled = false;
+                    alert(e.message);
+                } {
+                    #
+                    FIN GEOLOCALISATION AU BTN#
+                }
+
+                ///////CLICK SUR MAP///////
+                map.on('click', function (e) {
+
+                    let lat = parseFloat(e.latlng.lat).toFixed(4);
+                    let lng = parseFloat(e.latlng.lng).toFixed(4); {
+                        #
+                        console.log(lat, lng);#
+                    }
+
+                    L.marker([lat, lng]).addTo(
+                    map); //ANCHOR  a commenter une fois la solution du cercle trouvée
+                    geoDecode(lat, lng);
+                });
+
+                async function geoDecode(lat, lng) {
+                    //appel nominatim
+                    let resp = await fetch(
+                        `http://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+                        ); //précise reverse pour avoir l'inverse 
+                    let datas = await resp.json(); {
+                        #
+                        ANCHOR LE CERCLE NE FCTIONNE PAS#
+                    } {
+                        #
+                        console.log(datas);#
+                    }
+                    circle.setLatLng([lat, lng]);
+                    circle.setRadius(distance.value * 1000);
+                    circle.setStyle({
+                        'color': '#0000FFFF'
+                    });
+
+
+                }
+</script>
+{% endblock %}
 
 
 {% endblock %}
-
-                
-                
-                
-                
-              
-                
