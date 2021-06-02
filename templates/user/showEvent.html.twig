@@ -1,8 +1,19 @@
 {% extends 'base-front.html.twig' %}
 
-{% block title %}Mes event{% endblock %}
+{% block title %}Mes events{% endblock %}
 
 {% block body %}
+<div class="container">
+        <div class="row">
+            <div class="col-12 mb-5">
+                <h1>
+                    <span class="d-block titre-home col-7 text-end">Events de</span>
+                    <br>
+                    <span class="d-block titre-home col-8 text-end">{{ user.username }}</span>
+                </h1>
+            </div>
+        </div>
+    </div>
     
 <div class="d-flex f-wrap justify-content-center">
 <div class="col-lg-8">
@@ -16,11 +27,11 @@
             </li>
             <li class="nav-item">
 
-                <a class="nav-link text-dark" aria-current="true" href="{{ path('event_index') }}">Tous les event</a>
+                <a class="nav-link text-dark" aria-current="true" href="{{ path('event_index') }}">Tous les events</a>
 
             </li>
             <li class="nav-item">
-                <a class="nav-link active text-warning" href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes event</a>
+                <a class="nav-link active text-warning" href="{{ path('user_showEvent') }}" tabindex="-1" aria-disabled="true">Mes events</a>
             </li>
             </ul>
         </div>

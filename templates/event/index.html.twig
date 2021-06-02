@@ -1,14 +1,28 @@
 {% extends 'base-front.html.twig' %}
 
-{% block title %}Event index{% endblock %}
+{% block title %}Evènements{% endblock %}
 
 {% block body %}
+
      {% for message in app.flashes('notice') %} 
      <div class="d-inline-block alert alert-success text-dark fw-bold" role="alert"> {{ message }}
      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
      </div> 
     
 {% endfor %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-5">
+                <h1>
+                    <span class="d-block titre-home col-7 text-end">Tous les </span>
+                    <br>
+                    <span class="d-block titre-home col-8 text-end">events</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+>>>>>>> main
 <div class="d-flex f-wrap justify-content-center">
 <div class="col-lg-8">
     {# STRUCTURE CARD #}
@@ -189,7 +203,7 @@
             var pt = c.split("#");
 
             L.marker([pt[0], pt[1]])
-            .bindTooltip(pt[2])
+            .bindTooltip(pt[2]).openTooltip()
             .addTo(map);
         }
         

@@ -20,8 +20,9 @@ class MessagerieController extends AbstractController
      */
     public function index(MessagerieRepository $messagerieRepository): Response
     {
-        // $user = $this->getUser();
-        // $events = $user->getEvents();
+        
+        $user = $this->getUser();
+        
         // return new Response('hop message');
         return $this->render('messagerie/index.html.twig', [
             'messageries' => $messagerieRepository->findAll(),
