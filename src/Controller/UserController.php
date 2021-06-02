@@ -153,6 +153,7 @@ class UserController extends AbstractController
                     'notice',
                     'Vos informations ont été mis à jour'
                 );
+                return $this->redirectToRoute('event_index');
         }
         return $this->render('user/moncompte_edit.html.twig', [
             "form"=>$form->createView(),

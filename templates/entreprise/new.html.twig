@@ -1,107 +1,97 @@
-{% extends 'base-front.html.twig' %}
-
-{% block title %}Nouvelle Entreprise{% endblock %}
-
-{% block body %}
-
-    
-
-    {# {{ include('entreprise/_form.html.twig') }} #}
-    <div class="container">
-        <div class="row">
-            <div class="col-12 mb-5">
-                <h1>
-                    <span class="d-block titre-home col-7 text-end"> Inscription  </span>
-                    <br>
-                    <span class="d-block titre-home col-8 text-end">Entreprise</span>
-                </h1>
-            </div>
+{# {{ include('entreprise/_form.html.twig') }} #}
+<div class="container">
+    <div class="row">
+        <div class="col-12 mb-5">
+            <h1>
+                <span class="d-block titre-home col-7 text-end"> Inscription  </span>
+                <br>
+                <span class="d-block titre-home col-8 text-end">Entreprise</span>
+            </h1>
         </div>
     </div>
-    
-    <div class="container">
+</div>
 
-    
-        {# Affichage du formulaire d'ajout d'un admin entreprise #}
-            {# Le code ci dessous permet d'appliquer une mise en page custom pour le formulaire #}
+<div class="container">
 
-            {{ form_start(form) }}
-                <div class="row p-3">
-                    <div class="col-12">
-                        <div class="card shadow rounded">
-                            <div class="card-title">
-                                <h4 class="p-1 text-center">1. Créer un compte pour votre entreprise</h4>
-                                <h4 class="p-1 text-center">2. Connectez vous</h4>
-                                <h4 class="p-1 text-center">3. Créez des utilisateurs</h4>
-                                <h4 class="p-1 text-center">4. Créez et profitez des évènements de votre communauté</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex flex-wrap">
-                                    <div class="col-12 col-md-6">
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.siren)}}
-                                        </div>
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.denomination)}}
-                                            
-                                        </div>
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.admin.username)}}
-                                        </div>                   
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.admin.password)}}
-                                        </div>
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.admin.email)}}
-                                        </div>
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.admin.poste)}}
-                                        </div>
+
+    {# Affichage du formulaire d'ajout d'un admin entreprise #}
+        {# Le code ci dessous permet d'appliquer une mise en page custom pour le formulaire #}
+
+        {{ form_start(form) }}
+            <div class="row p-3">
+                <div class="col-12">
+                    <div class="card shadow rounded">
+                        <div class="card-title">
+                            <h4 class="p-1 text-center">1. Créer un compte pour votre entreprise</h4>
+                            <h4 class="p-1 text-center">2. Connectez vous</h4>
+                            <h4 class="p-1 text-center">3. Créez des utilisateurs</h4>
+                            <h4 class="p-1 text-center">4. Créez et profitez des évènements de votre communauté</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.siren)}}
                                     </div>
-                                    
-                                    <div class="col-12 col-md-6">
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.admin.nom)}}
-                                        </div>                        
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.admin.prenom)}}
-                                        </div>                        
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.admin.sexe)}}
-                                        </div>
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.admin.numero_rue)}}
-                                        </div>
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.admin.rue)}}
-                                        </div>
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.admin.code_postal)}}
-                                        </div>                   
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.admin.ville)}}
-                                        </div>
-                                        <div class="form-group p-1 m-2">
-                                            {{form_row(form.admin.pays)}}
-                                        </div>
-                                    </div> 
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.denomination)}}
+                                        
+                                    </div>
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.admin.username)}}
+                                    </div>                   
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.admin.password)}}
+                                    </div>
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.admin.email)}}
+                                    </div>
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.admin.poste)}}
+                                    </div>
                                 </div>
-                                <div class="col-12 p-3 text-center">
-                                    {{ form_end(form)}}
-                                </div>
-                                <div class="col-12 p-3">
-                                    <a class="btn btn-outline-info" href="{{ path('home_page') }}">Retour</a>
-                                </div>
+                                
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.admin.nom)}}
+                                    </div>                        
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.admin.prenom)}}
+                                    </div>                        
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.admin.sexe)}}
+                                    </div>
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.admin.numero_rue)}}
+                                    </div>
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.admin.rue)}}
+                                    </div>
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.admin.code_postal)}}
+                                    </div>                   
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.admin.ville)}}
+                                    </div>
+                                    <div class="form-group p-1 m-2">
+                                        {{form_row(form.admin.pays)}}
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="col-12 p-3 text-center">
+                                {{ form_end(form)}}
+                            </div>
+                            <div class="col-12 p-3">
+                                <a class="btn btn-outline-info" href="{{ path('home_page') }}">Retour</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                    {# {{ form_widget(form, {'show_legend':false}) }} #}
+            </div>
+                {# {{ form_widget(form, {'show_legend':false}) }} #}
 
-                {# Si on ajoute l'option render_rest à false sur le formulaire seul les champs exprimés dans form_row ou form_widget seront rendus #}
-            {# {{ form_end(form, {'render_rest':false}) }} #}
-            
+            {# Si on ajoute l'option render_rest à false sur le formulaire seul les champs exprimés dans form_row ou form_widget seront rendus #}
+        {# {{ form_end(form, {'render_rest':false}) }} #}
+        
 
-    </div>
-
-{% endblock %}
+</div>
